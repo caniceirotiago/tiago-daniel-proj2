@@ -53,6 +53,22 @@
                     <label id="label-description" for="description">Description</label>
                     <textarea class="editable-onClick" name="description" id="description" disabled maxlength="180"></textarea>
                 </div>
+                <div class="row-date-start">
+                    <label id="label-date-start" for="date-start">Start Date</label>
+                    <input class="editable-onClick" type="date" name="date-start" id="date-start" disabled></date>
+                </div>
+                <div class="row-date-end">
+                    <label id="label-date-end" for="date-end">End Date</label>
+                    <input class="editable-onClick" type="date" name="date-end" id="date-end" disabled></date>
+                </div>
+                <div class="row-priority">
+                    <label for="priority">Priority</label>
+                    <select  class="editable-onClick" name="priority" id="priority" disabled>
+                        <option value="1">Low</option>
+                        <option value="2" selected>Medium</option>
+                        <option value="3">High</option>
+                    </select>
+                </div>
                 <div class="row-submit">
                     <input id="save-task" type="submit" value="Save Task" disabled hidden>
                 </div>

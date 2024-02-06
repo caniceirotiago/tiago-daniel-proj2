@@ -43,7 +43,8 @@ function loadTaskId(){
 /**************************************************************************************************************************************************************************************/
 function editButtonActionListner(){
     const editButton = document.getElementById('edit-btn');
-    const inputs = document.querySelectorAll('#taskForm-viewer-edition input, #taskForm-viewer-edition textarea');
+    const inputs = document.querySelectorAll
+    ('.editable-onClick');
 
     editButton.addEventListener('click', function() {
         inputs.forEach(function(input) {
@@ -65,7 +66,8 @@ function submitActionListnerCreation(){
     taskForm.addEventListener('submit', function(event) {
         event.preventDefault(); // Previne o comportamento padrão de submissão do formulário ...
         saveTask();
-        const inputs = document.querySelectorAll('#taskForm-viewer-edition input, #taskForm-viewer-edition textarea');
+        const inputs = document.querySelectorAll
+        ('.editable-onClick');
         inputs.forEach(function(input) {
             input.disabled = true;
         });

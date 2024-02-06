@@ -51,6 +51,22 @@
                 <label id="label-description" for="description">Description</label>
                 <textarea name="description" id="description" placeholder="Insert Task Description" maxlength="180"></textarea>
             </div>
+            <div class="row-date-start">
+                <label id="label-date-start" for="date-start">Start Date</label>
+                <input type="date" name="date-start" id="date-start"></date>
+            </div>
+            <div class="row-date-end">
+                <label id="label-date-end" for="date-end">End Date</label>
+                <input type="date" name="date-end" id="date-end"></date>
+            </div>
+            <div class="row-priority">
+                <label for="priority">Priority</label>
+                <select name="priority" id="priority">
+                    <option value="1">Low</option>
+                    <option value="2" selected>Medium</option>
+                    <option value="3">High</option>
+                </select>
+            </div>
             <div class="row-submit">
                 <input id="save-task" type="submit" value='Save Task'>
             </div>
