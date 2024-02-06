@@ -382,7 +382,9 @@ ul {
 }
 .priority-div{
     max-width: 15px;
-    align-self: flex-end;
+    float:left; 
+    padding: 3px 8px;
+  
 }
 
 /*Especifico pagina retrospetivas*/
