@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- HTML File - contains the interactive content that is displayed -->
+<html lang="en">
+<!--------------------------  Head -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="./js/homepage.js" type="module"></script>
+    <script defer src="./js/username.js" type="module"></script>
+    <script defer src="./js/theme.js" type="module"></script>
+    <script defer src="./js/language.js" type="module"></script>
+    <title>Homepage - AntNest</title>
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+</head>
+
+<body class="theme-light">
+    <!------------------ Header ------------------------------------>
+    <header>
+        <img id="logo" src="images/logo.png" alt="IMG">
+        <!------------------ Navigation Menu ------------------------------------>
+        <div class="topnav">
+        <a id="nav-home" class="active" href="#home">Homepage</a>
+        <a id="nav-retro" href="retrospective.html">Retrospective</a>
+        <a id="nav-sett" href="settings.html">Settings</a>
+        <a id="nav-exit" href="index.html">Exit</a>
+        </div>
+         <!------------------ Username ------------------------------------>
+        <h4><span id="usernameDisplay">Username</span></h4>
+        <!------------------ Language Flags ------------------------------------>
+        <div class="top-right-flags" id="langFlag">
+            <ul>
+                <li><a id="langIndexPT">PT</a></li>
+                <li><a id="langIndexEN">EN</a></li>
+            </ul>
+        </div> 
+    </header>
+    <!------------------ Main ------------------------------------>
+    <main>
+        <div class="mainBoard-tasks-container">
+            <!------------------ Leftmost Column -------------------------------->
+            <aside class="col-leftMenu">
+                <h2 id="col-leftMenu-text">MENU</h2>
+                <h4 id="create-project">Create Project</h4>
+                <h4 id="select-project">Select Project</h4>
+                <h4 id="manage-backlog">Backlog Manager</h4>
+                <h4 id="select-sprint">Sprint Selector</h4>
+                <h4 id="project-settings">Project Settings</h4>
+            </aside>
+            <div class="right-container">
+                <!------------------ Row with statistics/ Progression Bar -------------------------------->
+                <div class="horizontal-section">
+                    <h3 id="project-name">Project: Name</h3>
+                    <h4 id="sprint-name">Sprint: Name</h4>
+                    <h4 id="sprint-progress">Sprint Progress:</h4>
+                    <div id="task-bar-chart"></div>
+                </div>
+                <!------------------ Columns TODO - Content added by .js  -------------------------------->
+                    <div class="tasks-row">
+                        <div class="col-todo">
+                            <div class="header-list">
+                                <div class="invisible-counter"></div>
+                                <h4 id="col-todo-text">TO DO</h4>
+                                <div class="count-div-circle">
+                                    <h3 id="todo-count"></h3>
+                                </div>       
+                            </div>
+                        <section class="scrolable-ul">
+                            <ul class="ul-tasks" id="todo"></ul>
+                        </section>
+                        <!------------------ Add Task Button -------------------------------->
+                        <a id="add-task-btn" class="btn-add" onclick="location.href='task.html';">Add Task</a>
+                    </div>
+                    <!------------------ Columns DOING - Content added by .js  -------------------------------->
+                    <div class="col-doing">
+                        <div class="header-list">
+                            <div class="invisible-counter"></div>
+                            <h4 id="col-doing-text">DOING</h3>
+                            <div class="count-div-circle">
+                                <h3 id="doing-count"></h3>
+                            </div>                      
+                        </div>
+                        <section class="scrolable-ul">
+                            <ul class="ul-tasks" id="doing"></ul>
+                        </section>
+                    </div>
+                    <!------------------ Columns DONE - Content added by .js  -------------------------------->
+                    <div class="col-done">
+                        <div class="header-list">
+                            <div class="invisible-counter"></div>
+                            <h4 id="col-done-text">DONE</h3>
+                            <div class="count-div-circle">
+                                <h3 id="done-count"></h3>
+                            </div>                            
+                        </div>
+                        <section class="scrolable-ul">
+                            <ul class="ul-tasks" id="done"></ul>
+                        </section>
+                    </div> 
+                </div>
+            </div> 
+        </div>
+    </main>
+    <!------------------ Footer ------------------------------------>
+    <footer>
+        <p id="footer"><span>Tiago Caniceiro & Selmo Mariano @ DEI.UC.PT</span></p>
+    </footer>
+    <!------------------ Footer /end ------------------------------------>
+</body>
+</html>
