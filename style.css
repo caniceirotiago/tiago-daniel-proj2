@@ -380,6 +380,10 @@ ul {
     width: 14px; /* Ou qualquer tamanho que se adeque ao seu design */
     height: auto;
 }
+.priority-div{
+    max-width: 15px;
+    align-self: flex-end;
+}
 
 /*Especifico pagina retrospetivas*/
 

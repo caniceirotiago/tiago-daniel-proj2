@@ -68,6 +68,11 @@ function addTaskToRightList(task) {
     itemList.appendChild(bannerDiv);
     itemList.appendChild(contentDiv);
     
+    const priorityDiv = document.createElement('div');
+    priorityDiv.textContent = 3;
+    priorityDiv.classList.add("priority-div")
+    itemList.appendChild(priorityDiv);
+
     /* Append Buttons to Task - with contextual relevance logic */
     if (task.status !== 'done') { itemList.appendChild(nextButton); } //this one is not added in right most column
     itemList.appendChild(delButton); // this one is always added
