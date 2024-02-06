@@ -104,7 +104,7 @@ footer {
     height: auto; /* Mantém a proporção da imagem */
     display: inline-flexbox; /* Isso pode ajudar a garantir que o estilo seja aplicado */
     margin-right: 20px; /* Centraliza a imagem no banner */
-    margin-lef: 20px;
+    margin-left: 20px;
 }
 
 .content {
