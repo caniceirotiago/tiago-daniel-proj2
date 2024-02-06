@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     language.underlineLangFlag();
     submitActionLisnter();
 });
+
 /**************************************************************************************************************************************************************************************/ 
 /*  TASK SUBMISSION */
 /**************************************************************************************************************************************************************************************/
@@ -26,8 +27,9 @@ function submitActionLisnter(){
         event.preventDefault(); // previne que o formulário seja enviado da forma default
         var title = document.getElementById('title').value; //obtem o titulo da task
         var description = document.getElementById('description').value; //obtem a descrição da task
+        var priority = document.getElementById('priority').value;
         if(title && description) { // se o titulo e a descrição não estiverem vazios    
-            addTask(title, description); // adiciona uma task com o titulo e a descrição
+            addTask(title, description, priority); // adiciona uma task com o titulo e a descrição
             window.location.href = 'homepage.html'; // redireciona para a página principal
         }    
     });
@@ -35,13 +37,15 @@ function submitActionLisnter(){
 /**************************************************************************************************************************************************************************************/ 
 /* TASK CREATION */
 /**************************************************************************************************************************************************************************************/
-function addTask(title, description) { // adiciona uma task com o titulo e a descrição
+function addTask(title, description, priority) { // adiciona uma task com o titulo e a descrição
     let task = { // cria um objeto task
         id: getNextTaskId(),
         title: title,
         description: description,
-        status : "todo",
+        priority: priority,
+        status: "todo",
     };
+    
     let tasks = JSON.parse(localStorage.getItem('tasks')) || []; // obtem as tasks do localStorage
     tasks.push(task); // adiciona a task ao array de tasks
     localStorage.setItem('tasks', JSON.stringify(tasks)); // guarda as tasks no localStorage

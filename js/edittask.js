@@ -7,7 +7,7 @@ import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
 
-
+let taskId = -1;
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -26,12 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 /**************************************************************************************************************************************************************************************/
 function loadTaskId(){
     const urlParams = new URLSearchParams(window.location.search);
-    const taskId = urlParams.get('taskId');
-
+    taskId = Number(urlParams.get('taskId'));
+    console.log(taskId)
     if (taskId) {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         const taskToEdit = tasks.find(task => task.id === taskId);
-
+        console.log(tasks);
+        console.log(taskToEdit);
         if (taskToEdit) {
             document.getElementById('title').value = taskToEdit.title;
             document.getElementById('description').value = taskToEdit.description;
@@ -77,9 +78,6 @@ function submitActionListnerCreation(){
 /* function saveTask() - saves the task into local storage ::: finds previous occurence, replaces it and resaves */
 /**************************************************************************************************************************************************************************************/
 function saveTask() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const taskId = urlParams.get('taskId');
-
     if (taskId) {
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         const taskToEdit = tasks.find(task => task.id === taskId);
@@ -87,6 +85,7 @@ function saveTask() {
         if (taskToEdit) {
             taskToEdit.title = document.getElementById('title').value;
             taskToEdit.description = document.getElementById('description').value;
+            taskToEdit.priority = document.getElementById('priority').value;
         }
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }

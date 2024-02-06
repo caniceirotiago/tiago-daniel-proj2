@@ -7,6 +7,8 @@ import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
 
+let tasks = [];
+
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
 /* DOMcl sets username, changes theme *** */
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* function loadTasks - LOAD ALL TASKS */
 /**************************************************************************************************************************************************************************************/
 function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];// vai buscar as tarefas gravadas anteriormente
+    tasks = JSON.parse(localStorage.getItem('tasks')) || [];// vai buscar as tarefas gravadas anteriormente
     tasks.forEach(task => {
         addTaskToRightList(task); // para cada terefa chama ométodo para a adicionar à lista correta
     });
@@ -67,20 +69,18 @@ function addTaskToRightList(task) {
     /* Append Title and Description to Task */
     itemList.appendChild(bannerDiv);
     itemList.appendChild(contentDiv);
-    
+    let priority = Number(task.priority);
     /*Eliminar em baixo quando propriedade for incluida em tarefa*/ 
-    task.priority = 1;
-    
     const priorityDiv = document.createElement('div');
-    if(task.priority === 1){
+    if(priority === 1){
         priorityDiv.textContent = "Low Priority";
         priorityDiv.classList.add("low-priority")
     }
-    else if(task.priority === 2){
+    else if(priority === 2){
         priorityDiv.textContent = "Medium Priority";
         priorityDiv.classList.add("medium-priority")
     }
-    else if(task.priority === 3){
+    else if(priority === 3){
         priorityDiv.textContent = "High Priority";
         priorityDiv.classList.add("high-priority")
     }
@@ -144,7 +144,7 @@ function createDropListnerForTasks(){
 
     column.addEventListener('drop', function(e) {
         e.preventDefault();
-        const taskId = e.dataTransfer.getData('text/plain');
+        const taskId = Number(e.dataTransfer.getData('text/plain'));
         // Lógica para mover a tarefa para a coluna atual
         moveTaskToColumnOnDragDrop(taskId, status);
     });
@@ -286,20 +286,7 @@ function moveTaskOnCLick(task, nextStatus) {
 /* function saveTasks() 
 /**************************************************************************************************************************************************************************************/
 function saveTasks() {
-    const tasks = [];
-    ['todo', 'doing', 'done'].forEach(status => {
-        document.querySelectorAll('#' + status + ' .task-item').forEach(taskElement => {
-            const taskTitle = taskElement.querySelector('h3').textContent;
-            const taskDescription = taskElement.querySelector('p').textContent;
-            const taskId = taskElement.dataset.taskId;
-            tasks.push({ 
-                id: taskId, 
-                title: taskTitle, 
-                description: taskDescription, 
-                status: status
-            });
-        });
-    });
+    
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 /**************************************************************************************************************************************************************************************/
