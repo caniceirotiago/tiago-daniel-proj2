@@ -69,7 +69,19 @@ function addTaskToRightList(task) {
     itemList.appendChild(contentDiv);
     
     const priorityDiv = document.createElement('div');
-    priorityDiv.textContent = 3;
+    if(task.priority === 1){
+        priorityDiv.textContent = "High Priority";
+        priorityDiv.classList.add("high-priority")
+    }
+    else if(task.priority === 2){
+        priorityDiv.textContent = "Medium Priority";
+        priorityDiv.classList.add("high-priority")
+    }
+    else {
+        priorityDiv.textContent = "Low Priority";
+        priorityDiv.classList.add("high-priority")
+    }
+
     priorityDiv.classList.add("priority-div")
     itemList.appendChild(priorityDiv);
 
