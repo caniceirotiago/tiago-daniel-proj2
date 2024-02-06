@@ -381,9 +381,21 @@ ul {
     height: auto;
 }
 .priority-div{
-    max-width: 15px;
+    max-width: 20px;
     float:left; 
     padding: 3px 8px;
+    font-size: 8px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.high-priority{
+    background-color: red;
+}
+.medium-priority{
+    background-color: rgb(237, 241, 7);
+}
+.low-priority{
+    background-color: rgb(51, 255, 0);
 }
 
 /*Especifico pagina retrospetivas*/

@@ -68,17 +68,20 @@ function addTaskToRightList(task) {
     itemList.appendChild(bannerDiv);
     itemList.appendChild(contentDiv);
     
+    /*Eliminar em baixo quando propriedade for incluida em tarefa*/ 
+    task.priority = 1;
+    
     const priorityDiv = document.createElement('div');
     if(task.priority === 1){
-        priorityDiv.textContent = "High Priority";
-        priorityDiv.classList.add("high-priority")
+        priorityDiv.textContent = "Low Priority";
+        priorityDiv.classList.add("low-priority")
     }
     else if(task.priority === 2){
         priorityDiv.textContent = "Medium Priority";
-        priorityDiv.classList.add("high-priority")
+        priorityDiv.classList.add("medium-priority")
     }
-    else {
-        priorityDiv.textContent = "Low Priority";
+    else if(task.priority === 3){
+        priorityDiv.textContent = "High Priority";
         priorityDiv.classList.add("high-priority")
     }
 
