@@ -6,10 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page - AntNest</title>
+    <title>Registration Page - AntNest</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="index.css">
-    <script defer src="./js/index.js" type="module"></script>
+    <script defer src="./js/registration.js" type="module"></script>
     <script defer src="./js/language.js" type="module"></script>
 </head>
 
@@ -17,8 +17,6 @@
     <!------------------ Header ------------------------------------>
     <header>
         <img id="logo" src="images/logo.png" alt="IMG">
-        <button onclick="location.href='registration.html'">Registration</button>
-
         <!------------------ Language Flags ------------------------------------>
         <div class="top-right-flags" id="langFlag">
             <ul>
@@ -29,19 +27,28 @@
     </header>
     <!------------------ Main ------------------------------------>
     <main class="main-content">
-        <!------------------ LOGIN FORM ------------------------------------>       
-        <form id="loginForm" action="homepage.html">
+        <!------------------ Registration FORM ------------------------------------>       
+        <form id="registrationForm" action="index.html">
             <div class="banner">
                 <img id="login-icon" src="images/user-login.png" alt="IMG">
-                <p id="member-login-banner">Member Login</p>
+                <p id="member-registration-banner">Member Registration</p>
             </div>
             <div class="content">
                 <label id="username-label" for="username">Username</label>
                 <input type="text" name="username" id="username" maxlength="12" placeholder="Enter your username">
-                <div id="errorLogin"></div>
                 <label id="password-label" for="password">Password</label>
                 <input type="password" name="password"  id="password" maxlength="12" placeholder="Enter your password">
-                <input type="submit" id="login" value="Login">
+                <label id="password-label2" for="password2">Repeat Password</label>
+                <input type="password" name="password2"  id="password2" maxlength="12" placeholder="Enter your password">
+                <label id="email-label" for="email">Email</label>
+                <input type="text" name="email" id="email" maxlength="35" placeholder="Enter your email">
+                <label id="first-name-label" for="first-name">First Name</label>
+                <input type="text" name="first-name" id="first-name" maxlength="35" placeholder="Enter your First Name">
+                <label id="last-name-label" for="last-name">Last Name</label>
+                <input type="text" name="last-name" id="last-name" maxlength="35" placeholder="Enter your Last Name">
+                <label id="photo-label" for="photo">Photography</label>
+                <input type="text" name="photo" id="photo" maxlength="35" placeholder="Enter your Photo URL">
+                <input type="submit" id="registration" value="Registration">
             </div>
         </form>
     </main>

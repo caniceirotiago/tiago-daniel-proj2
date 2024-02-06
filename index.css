@@ -166,3 +166,9 @@ input[type="text"]:focus, input[type="password"]:focus {
 #errorLogin {
     color: red;
 }
+
+/*Registration*/
+#registrationForm .content *{
+    padding: 4px;
+    margin: 4px;
+}
