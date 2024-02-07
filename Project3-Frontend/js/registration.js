@@ -17,8 +17,8 @@ export function isValid(){
     const password = document.getElementById('password').value;
     const password2 = document.getElementById('password2').value;
     const email = document.getElementById('email').value;
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
+    const firstName = document.getElementById('firstname').value;
+    const lastName = document.getElementById('lastname').value;
 
      // Validar username
     if (username.length < 2 || username.length > 20) {
@@ -52,8 +52,8 @@ async function addUser(form){
         'password': form.password.value,
         'phone': form.phone.value,
         'email': form.email.value,
-        'first-name': form.first-name.value,
-        'last-name': form.last-name.value,
+        'first-name': form.firstname.value,
+        'last-name': form.lastname.value,
         'photo': form.photo.value,
     };
     console.log(user);
