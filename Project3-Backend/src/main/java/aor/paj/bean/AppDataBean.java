@@ -29,4 +29,18 @@ public class AppDataBean {
         }else
             users = new ArrayList<User>();
     }
+
+    public void addUser(User a) {
+        users.add(a);
+        writeIntoJsonFile();
+    }
+    private void writeIntoJsonFile(){
+        Jsonb jsonb = JsonbBuilder.create(new
+                JsonbConfig().withFormatting(true));
+        try {
+            jsonb.toJson(users, new FileOutputStream(filename));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
