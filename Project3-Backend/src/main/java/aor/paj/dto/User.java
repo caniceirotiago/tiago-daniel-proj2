@@ -23,6 +23,7 @@ public class User {
     private String phoneNumber;
     private String photoURL;
 
+
     public User() {
         // todos os atributos são preenchidos pelo construtor a void
         this.id = UUID.randomUUID().toString();
