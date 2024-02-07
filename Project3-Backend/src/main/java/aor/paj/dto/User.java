@@ -23,7 +23,7 @@ public class User {
     private String phoneNumber;
     private String photoURL;
 
-    public User(String id, String username, String password, String phone,
+    public User(String id, String username, String password, String phoneNumber,
                 String email, String firstName, String lastName, String photoURL) {
         // todos os atributos são preenchidos pelo construtor a void
         this.id = UUID.randomUUID().toString();
@@ -32,7 +32,7 @@ public class User {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phone;
+        this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
 
     }

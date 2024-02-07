@@ -50,11 +50,11 @@ async function addUser(form){
         'id' : '0',
         'username' : form.username.value,
         'password': form.password.value,
-        'phone': form.phone.value,
+        'phoneNumber': form.phone.value,
         'email': form.email.value,
-        'first-name': form.firstname.value,
-        'last-name': form.lastname.value,
-        'photo': form.photo.value,
+        'firstName': form.firstname.value,
+        'lastName': form.lastname.value,
+        'photoURL': form.photo.value,
     };
     console.log(user);
     await fetch('http://localhost:8080/my_activities_backend/rest/user/add',
