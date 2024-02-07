@@ -62,7 +62,7 @@ async function addUser(form){
             method: 'POST',
             headers:
         {
-            'Accept': '/',
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
