@@ -18,8 +18,12 @@ public class UserBean {
     public UserBean() {
 
     }
-    public void addUser(User a) {
-        appDataBean.addUser(a);
+    public boolean userExists(String username, String email){
+        return appDataBean.confirmUserExists(username,email);
+    }
+    public void addUser(User user) {
+
+        appDataBean.addUser(user);
     }
 
 }

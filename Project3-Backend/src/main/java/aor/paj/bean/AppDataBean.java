@@ -26,10 +26,19 @@ public class AppDataBean {
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-        }else
+        }else{
             users = new ArrayList<User>();
+            tasks = new ArrayList<Task>();
+        }
     }
-
+    public boolean confirmUserExists(String username, String email){
+        for(User us : users){
+            if(us.getEmail().equals(email) || us.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
     public void addUser(User a) {
         users.add(a);
         writeIntoJsonFile();
