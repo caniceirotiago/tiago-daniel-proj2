@@ -28,10 +28,11 @@ public class UserService {
 
     // adicionar um utilizador
     @POST
+    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
         userBean.addUser(user);
-        return Response.ok(user).build();
+        return Response.status(200).entity("A new user is created").build();
     }
 
 }
