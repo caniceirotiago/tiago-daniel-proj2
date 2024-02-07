@@ -11,7 +11,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
-@ApplicationScoped
+/**
+ * Manages application data including users and tasks, utilizing a JSON file for persistence.
+ *
+ */
 public class AppDataManager {
     final String filename = "allAppData.json";
     private ArrayList<Task> tasks;
