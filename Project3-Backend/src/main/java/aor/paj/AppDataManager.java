@@ -1,4 +1,4 @@
-package aor.paj.bean;
+package aor.paj;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,11 +12,11 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 @ApplicationScoped
-public class AppDataBean {
+public class AppDataManager {
     final String filename = "allAppData.json";
     private ArrayList<Task> tasks;
     private ArrayList<User> users;
-    public AppDataBean() {
+    public AppDataManager() {
         File f = new File(filename);
         if(f.exists()){
             try {
