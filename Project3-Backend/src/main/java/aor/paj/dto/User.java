@@ -23,6 +23,9 @@ public class User {
     private String phoneNumber;
     private String photoURL;
 
+    public User() {
+    }
+
     public User(String id, String username, String password, String phoneNumber,
                 String email, String firstName, String lastName, String photoURL) {
         // todos os atributos são preenchidos pelo construtor a void
