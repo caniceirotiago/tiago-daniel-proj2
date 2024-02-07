@@ -51,9 +51,9 @@ async function addUser(form){
         'username' : form.username.value,
         'password': form.password.value,
         'phone': form.phone.value,
-        'email': form.description.value,
-        'first-name': form.firstName.value,
-        'last-name': form.lastName.value,
+        'email': form.email.value,
+        'first-name': form.first-name.value,
+        'last-name': form.last-name.value,
         'photo': form.photo.value,
     };
     console.log(user);
