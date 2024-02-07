@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Se todas as validações passaram, permite o envio do formulário
         if (isValid()) {
             addUser(registrationForm);
-            window.location.href(index.html);
+            
         }
     });
 });
