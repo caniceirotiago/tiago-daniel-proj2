@@ -35,4 +35,19 @@ public class UserService {
         return Response.status(200).entity("A new user is created").build();
     }
 
+    // obter todos os utilizadores e resposta com status 200
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> getAllUsers() {
+        return userBean.getAllUsers();
+    }
+
+    // obter um utilizador
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("id") int id) {
+        return userBean.getUser(id);
+    }
 }
