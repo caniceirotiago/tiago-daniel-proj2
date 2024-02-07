@@ -2,13 +2,13 @@ package aor.paj.dto;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
-public class Activity {
+public class Task {
     int id;
     String title;
     String description;
-    public Activity() {
+    public Task() {
     }
-    public Activity(int i, String t, String d) {
+    public Task(int i, String t, String d) {
         this.id=i;
         this.title = t;
         this.description= d;

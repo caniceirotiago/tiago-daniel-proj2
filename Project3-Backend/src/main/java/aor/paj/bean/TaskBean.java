@@ -4,53 +4,54 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
+
+import aor.paj.dto.Task;
 import jakarta.enterprise.context.ApplicationScoped;
-import aor.paj.dto.Activity;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 @ApplicationScoped
-public class ActivityBean {
+public class TaskBean {
     final String filename = "activities.json";
-    private ArrayList<Activity> activities;
-    public ActivityBean() {
+    private ArrayList<Task> tasks;
+    public TaskBean() {
         File f = new File(filename);
         if(f.exists()){
             try {
                 FileReader filereader = new FileReader(f);
-                activities = JsonbBuilder.create().fromJson(filereader, new
-                        ArrayList<Activity>() {}.getClass().getGenericSuperclass());
+                tasks = JsonbBuilder.create().fromJson(filereader, new
+                        ArrayList<Task>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }else
-            activities = new ArrayList<Activity>();
+            tasks = new ArrayList<Task>();
     }
-    public void addActivity(Activity a) {
-        activities.add(a);
+    public void addActivity(Task a) {
+        tasks.add(a);
         writeIntoJsonFile();
     }
-    public Activity getActivity(int i) {
-        for (Activity a : activities) {
+    public Task getActivity(int i) {
+        for (Task a : tasks) {
             if (a.getId() == i)
                 return a;
         }
         return null;
     }
-    public ArrayList<Activity> getActivities() {
-        return activities;
+    public ArrayList<Task> getActivities() {
+        return tasks;
     }
     public boolean remoreActivity(int id) {
-        for (Activity a : activities) {
+        for (Task a : tasks) {
             if (a.getId() == id) {
-                activities.remove(a);
+                tasks.remove(a);
                 return true;
             }
         }
         return false;
     }
-    public boolean updateActivity(int id, Activity activity) {
-        for (Activity a : activities) {
+    public boolean updateActivity(int id, Task activity) {
+        for (Task a : tasks) {
             if (a.getId() == id) {
                 a.setTitle(activity.getTitle());
                 a.setDescription(activity.getDescription());
@@ -64,7 +65,7 @@ public class ActivityBean {
         Jsonb jsonb = JsonbBuilder.create(new
                 JsonbConfig().withFormatting(true));
         try {
-            jsonb.toJson(activities, new FileOutputStream(filename));
+            jsonb.toJson(tasks, new FileOutputStream(filename));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

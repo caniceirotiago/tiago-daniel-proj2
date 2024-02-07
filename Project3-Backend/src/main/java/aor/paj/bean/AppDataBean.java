@@ -4,16 +4,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
+
+import aor.paj.dto.Task;
 import jakarta.enterprise.context.ApplicationScoped;
-import aor.paj.dto.Activity;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 @ApplicationScoped
-public class UserBean {
-    final String filename = "activities.json";
+public class AppDataBean {
+    final String filename = "allAppData.json";
+    private ArrayList<Task> tasks;
     private ArrayList<User> users;
-    public UserBean() {
+    public AppDataBean() {
         File f = new File(filename);
         if(f.exists()){
             try {

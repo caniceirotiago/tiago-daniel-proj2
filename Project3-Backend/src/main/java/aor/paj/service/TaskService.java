@@ -1,7 +1,7 @@
 package aor.paj.service;
 import java.util.List;
-import aor.paj.bean.ActivityBean;
-import aor.paj.dto.Activity;
+import aor.paj.bean.TaskBean;
+import aor.paj.dto.Task;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -15,28 +15,28 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Path;
-@Path("/activity")
-public class ActivityService {
+@Path("/task")
+public class TaskService {
     @Inject
-    ActivityBean activityBean;
+    TaskBean taskBean;
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Activity> getActivities() {
-        return activityBean.getActivities();
+    public List<Task> getActivities() {
+        return taskBean.getActivities();
     }
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addActivity(Activity a) {
-        activityBean.addActivity(a);
+    public Response addActivity(Task a) {
+        taskBean.addActivity(a);
         return Response.status(200).entity("A new activity is created").build();
     }
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActivity(@PathParam("id")int id) {
-        Activity activity = activityBean.getActivity(id);
+        Task activity = taskBean.getActivity(id);
         if (activity==null)
             return Response.status(200).entity("Activity with this idea is not found").build();
         return Response.status(200).entity(activity).build();
@@ -45,7 +45,7 @@ public class ActivityService {
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeActivity(@QueryParam("id")int id) {
-        boolean deleted = activityBean.remoreActivity(id);
+        boolean deleted = taskBean.remoreActivity(id);
         if (!deleted)
             return Response.status(200).entity("Activity with this idea is not found").build();
         return Response.status(200).entity("deleted").build();
@@ -53,8 +53,8 @@ public class ActivityService {
     @PUT
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateActivity(Activity a, @HeaderParam("id") int id) {
-        boolean updated = activityBean.updateActivity(id, a);
+    public Response updateActivity(Task a, @HeaderParam("id") int id) {
+        boolean updated = taskBean.updateActivity(id, a);
         if (!updated)
             return Response.status(200).entity("Activity with this idea is not found").build();
         return Response.status(200).entity("updated").build();
