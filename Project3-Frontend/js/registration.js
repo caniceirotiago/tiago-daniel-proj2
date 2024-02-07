@@ -70,6 +70,8 @@ async function addUser(form){
         ).then(function (response) {
         if (response.status == 200) {
             alert('user is added successfully :)');
+        } else if (response.status == 409) {
+            alert('username or email already exists :)');
         } else {
             alert('something went wrong :(');
         }
