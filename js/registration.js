@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         // Se todas as validações passaram, permite o envio do formulário
         if (isValid()) {
-            registrationForm.submit();
+            addUser(registrationForm);
             window.location.href(index.html);
         }
     });
@@ -44,4 +44,36 @@ export function isValid(){
         return false;
     }
     return true;
+}
+
+
+async function addUser(form){
+    let user = {
+        'id' : '0',
+        'username' : form.username.value,
+        'password': form.password.value,
+        'phone': form.phone.value,
+        'email': form.description.value,
+        'first-name': form.firstName.value,
+        'last-name': form.lastName.value,
+        'photo': form.photo.value,
+    };
+    console.log(user);
+    await fetch('http://localhost:8080/Project3/Project3-Backend/rest/user/add',
+        {
+            method: 'POST',
+            headers:
+        {
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+        }
+        ).then(function (response) {
+        if (response.status == 200) {
+            alert('user is added successfully :)');
+        } else {
+            alert('something went wrong :(');
+        }
+        });
 }
