@@ -23,6 +23,7 @@ function loginActionListners(){
     let form = document.getElementById('loginForm'); // obtains the loginForm
     // adds an EventListener to the form, on click, triggers the function that follows
     form.addEventListener('submit', function(event) { 
+        event.preventDefault();
         let username = document.getElementById('username').value; // obtains username inserted text
         let password = document.getElementById('password').value;
         let errorElement = document.getElementById('errorLogin'); // obtains the error element for later message insertion
