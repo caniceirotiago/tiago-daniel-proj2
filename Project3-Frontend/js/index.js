@@ -34,10 +34,8 @@ function loginActionListners(){
             event.preventDefault(); // prevents that the form be set/submitted without any fields filled out (just username for now)
             errorElement.innerText = errorMsg; // sets the error message
         } else {
-            localStorage.setItem('username', username); // saves data into localStorage
-            localStorage.setItem('password', password); // saves data into localStorage
-            
-            console.log("The user "+username+" has been added.");
+
+            loginAttempt(username,password);
             errorElement.innerText=""; // clear the error message 
         }
     });    
@@ -63,6 +61,36 @@ function isUsernameSmall(username) {
 /**************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************/
 
+
+/* Pedido de login ao backend */ 
+async function loginAttempt(username, password){
+    let user = {
+        'username' : username,
+        'password': password,
+    };
+    console.log(user);
+    await fetch('http://localhost:8080/Project3-Backend/rest/user/login',
+        {
+            method: 'POST',
+            headers:
+        {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+            credentials: 'include',
+            body: JSON.stringify(user)
+        }
+        ).then(function (response) {
+        if (response.status == 200) {
+            localStorage.setItem('username', username); // saves data into localStorage       
+            window.location.href = "homepage.html"   
+        } else if (response.status == 401) {
+            alert('Login Failed');
+        } else {
+            alert('something went wrong :(');
+        }
+        });
+}
 
 
 

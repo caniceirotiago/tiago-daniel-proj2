@@ -19,12 +19,7 @@ import jakarta.ws.rs.Path;
 public class TaskService {
     @Inject
     TaskBean taskBean;
-    @GET
-    @Path("/all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Task> getActivities() {
-        return taskBean.getActivities();
-    }
+
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
