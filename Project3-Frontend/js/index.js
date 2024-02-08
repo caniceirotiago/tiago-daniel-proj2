@@ -80,7 +80,8 @@ async function loginAttempt(username, password){
         }
         ).then(function (response) {
         if (response.status == 200) {
-            localStorage.setItem('username', username); // saves data into localStorage       
+            localStorage.setItem('username', username); // saves data into localStorage    
+            alert('Sucessfull Login');   
             window.location.href = "homepage.html"   
         } else if (response.status == 401) {
             alert('Login Failed');
