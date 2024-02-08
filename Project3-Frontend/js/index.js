@@ -65,7 +65,7 @@ function isUsernameSmall(username) {
 /* Pedido de login ao backend */ 
 async function loginAttempt(username, password){
   
-    console.log(user);
+    console.log(username);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/login',
         {
             method: 'POST',
@@ -79,16 +79,16 @@ async function loginAttempt(username, password){
             credentials: 'include',
         }
         ).then(function (response) {
-        if (response.status == 200) {
-            localStorage.setItem('username', username); // saves data into localStorage    
-            alert('Sucessfull Login');   
-            window.location.href = "homepage.html"   
-        } else if (response.status == 401) {
-            alert('Login Failed');
-        } else {
-            alert('something went wrong :(');
-        }
-        });
+            if (response.status == 200) {
+                localStorage.setItem('username', username); // saves data into localStorage    
+                alert('Sucessfull Login');   
+                window.location.href = "homepage.html"   
+            } else if (response.status == 401) {
+                alert('Login Failed');
+            } else {
+                alert('something went wrong :(');
+         }
+    });
 }
 
 
