@@ -45,6 +45,18 @@ public class UserService {
            return Response.status(401).entity("Login Failed").build();
        }
     }
+    @GET
+    @Path("/getphoto")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getActivity(@HeaderParam("username")String username) {
+        if(userSession.getCurrentUser().equals(username)){
+            String photoUrl = userBean.getPhotoURLByUsername(username);
+            System.out.println(photoUrl);
+            if(photoUrl != null) return Response.status(200).entity("{\"photoUrl\":\"" + photoUrl + "\"}").build();
+            return Response.status(404).entity("{\"error\":\"No photo found\"}").build();
+        }
+        return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
+    }
     @POST
     @Path("/logout")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -55,9 +67,7 @@ public class UserService {
             System.out.println(userSession.getCurrentUser() + " Current User");
             return Response.status(200).entity("Successful Logout").build();
         }
-        else{
-            return Response.status(401).entity("Logout Failed").build();
-        }
+        return Response.status(403).entity("Access denied").build();
     }
 
      //obter todos os utilizadores e resposta com status 200

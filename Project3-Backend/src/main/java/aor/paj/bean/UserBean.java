@@ -58,6 +58,16 @@ public class UserBean {
         }
         return false;
     }
+    public String getPhotoURLByUsername(String username){
+        for(User us : users){
+            if(us.getUsername().equals(username)){
+                System.out.println(us);
+                System.out.println(us.getPhotoURL());
+                return us.getPhotoURL();
+            }
+        }
+        return null;
+    }
     public ArrayList<User> getAllUsers() {
         return users;
     }
