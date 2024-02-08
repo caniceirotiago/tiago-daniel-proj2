@@ -27,7 +27,8 @@ async function logout(username){
             if (response.status == 200) { 
                 alert('Sucessfull Logout');
                 console.log("Logout");
-                localStorage.removeItem('username') ;  
+                localStorage.removeItem('username'); 
+                localStorage.removeItem("photoURL"); 
                 window.location.href = "index.html";  
             } else {
                 alert('something went wrong :(');

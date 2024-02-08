@@ -82,7 +82,8 @@ async function loginAttempt(username, password){
         ).then(function (response) {
             if (response.status == 200) {
                 localStorage.setItem('username', username); // saves data into localStorage    
-                alert('Sucessfull Login');   
+                alert('Sucessfull Login');
+                getPhotoURL(username)   
                 window.location.href = "homepage.html"   
             } else if (response.status == 401) {
                 alert('Login Failed');
@@ -90,6 +91,26 @@ async function loginAttempt(username, password){
                 alert('something went wrong :(');
          }
     });
+}
+
+async function getPhotoURL(username) {
+      
+    await fetch('http://localhost:8080/Project3-Backend/rest/user/getPhoto',
+    {
+        method: 'GET',
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'username' : username
+        },
+        credentials: 'include',
+      }
+    ).then(response => response.json())
+    .then(data => updatePhotoOnLocalSorage(JSON.stringify(data.photoUrl)));
+}
+
+function updatePhotoOnLocalSorage(photoURL){
+    localStorage.setItem("photoURL",photoURL);
 }
 
 
