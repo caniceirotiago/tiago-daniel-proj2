@@ -1,7 +1,6 @@
 package aor.paj.service;
 
 import aor.paj.bean.UserBean;
-import aor.paj.dto.LoginRequest;
 import aor.paj.dto.Task;
 import aor.paj.dto.User;
 import jakarta.inject.Inject;
@@ -35,18 +34,17 @@ public class UserService {
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(LoginRequest loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-        System.out.println(username + " " + password);
-        if (userBean.loginConfirmation(username, password)) {
-            userSession.setCurrentUser(username);
-            return Response.status(200).entity("Successful Login").build();
-        } else {
-            return Response.status(401).entity("Login Failed").build();
-        }
+    public Response login(@HeaderParam("username")String username, @HeaderParam("password")String password) {
+        System.out.println(username);
+        System.out.println(password);
+       if(userBean.loginConfirmation(username, password)){
+           userSession.setCurrentUser(username);
+           return Response.status(200).entity("Successful Login").build();
+       }
+       else{
+           return Response.status(401).entity("Login Failed").build();
+       }
     }
-
 
      //obter todos os utilizadores e resposta com status 200
      @GET
