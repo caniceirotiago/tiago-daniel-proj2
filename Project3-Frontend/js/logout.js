@@ -1,13 +1,14 @@
 
 const logoutbtn = document.getElementById(nav-exit);
 
-logoutbtn.addEventListener('click',function(event){
+export function clickOnLogout(){
+    logoutbtn.addEventListener('click',function(event){
     const username = localStorage.getItem('username');
     logout(username);
 })
+}
 
-
-/* Pedido de login ao backend */ 
+/* Pedido de logout ao backend */ 
 async function logout(username){
     console.log(username);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/logout',
