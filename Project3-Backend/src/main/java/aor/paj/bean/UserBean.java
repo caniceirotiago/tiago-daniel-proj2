@@ -16,7 +16,6 @@ import java.util.ArrayList;
 @ApplicationScoped
 public class UserBean {
     final String filename = "allUser.json";
-
     private ArrayList<User> users;
     public UserBean() {
         File f = new File(filename);
@@ -44,6 +43,7 @@ public class UserBean {
     public void addUser(User a) {
         users.add(a);
         writeIntoJsonFile();
+
     }
     public boolean loginConfirmation(String username, String password){
         for(User us : users){
