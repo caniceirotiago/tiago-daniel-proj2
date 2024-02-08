@@ -35,10 +35,9 @@ public class UserService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(@HeaderParam("username")String username, @HeaderParam("password")String password) {
-        System.out.println(username);
-        System.out.println(password);
        if(userBean.loginConfirmation(username, password)){
            userSession.setCurrentUser(username);
+           System.out.println(userSession.getCurrentUser() + " Current User");
            return Response.status(200).entity("Successful Login").build();
        }
        else{
