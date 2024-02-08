@@ -44,6 +44,19 @@ public class UserService {
            return Response.status(401).entity("Login Failed").build();
        }
     }
+    @POST
+    @Path("/logout")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(@HeaderParam("username")String username) {
+        if(userSession.getCurrentUser().equals(username)){
+            userSession.logout();
+            System.out.println(userSession.getCurrentUser() + " Current User");
+            return Response.status(200).entity("Successful Logout").build();
+        }
+        else{
+            return Response.status(401).entity("Logout Failed").build();
+        }
+    }
 
      //obter todos os utilizadores e resposta com status 200
      @GET
