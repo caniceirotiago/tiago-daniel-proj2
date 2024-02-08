@@ -16,7 +16,8 @@ import java.util.List;
 public class UserService {
     @Inject
     UserBean userBean;
-    UserSession userSession = new UserSession();
+    @Inject
+    UserSession userSession;
 
     // adicionar um utilizador
     @POST
@@ -47,7 +48,8 @@ public class UserService {
     @POST
     @Path("/logout")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(@HeaderParam("username")String username) {
+    public Response logout(@HeaderParam("username")String username) {
+        System.out.println(username);
         if(userSession.getCurrentUser().equals(username)){
             userSession.logout();
             System.out.println(userSession.getCurrentUser() + " Current User");

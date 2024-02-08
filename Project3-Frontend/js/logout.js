@@ -25,7 +25,8 @@ async function logout(username){
         ).then(function (response) {
             if (response.status == 200) { 
                 alert('Sucessfull Logout');   
-                window.location.href = "homepage.html"   
+                window.location.href = "homepage.html";  
+                localStorage.removeItem('username') ;
             } else {
                 alert('something went wrong :(');
          }
