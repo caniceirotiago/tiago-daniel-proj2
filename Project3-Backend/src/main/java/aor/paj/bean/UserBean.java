@@ -18,6 +18,10 @@ public class UserBean {
     final String filename = "allUser.json";
     private ArrayList<User> users;
     public UserBean() {
+        readJsonFile();
+        users.forEach(System.out::println);
+    }
+    public void readJsonFile(){
         File f = new File(filename);
         if(f.exists()){
             try {
@@ -30,6 +34,7 @@ public class UserBean {
         }else{
             users = new ArrayList<User>();
         }
+
     }
     public boolean userExists(String username, String email){
         for(User us : users){
@@ -53,11 +58,15 @@ public class UserBean {
         }
         return false;
     }
+    public ArrayList<User> getAllUsers() {
+        return users;
+    }
     private void writeIntoJsonFile(){
         Jsonb jsonb = JsonbBuilder.create(new
                 JsonbConfig().withFormatting(true));
         try {
             jsonb.toJson(users, new FileOutputStream(filename));
+            readJsonFile();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
