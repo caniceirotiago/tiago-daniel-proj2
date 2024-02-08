@@ -1,14 +1,12 @@
 
-const logoutbtn = document.getElementById(nav-exit);
 
 export function clickOnLogout(){
+    const logoutbtn = document.getElementById("nav-exit");
     logoutbtn.addEventListener('click',function(event){
-    const username = localStorage.getItem('username');
-    logout(username);
-    console.log("Logout");
-    localStorage.removeItem('username') ;  
-    window.location.href = "index.html";  
-})
+        const username = localStorage.getItem('username');
+
+        logout(username);
+    })  
 }
 
 /* Pedido de logout ao backend */ 
@@ -28,6 +26,9 @@ async function logout(username){
         ).then(function (response) {
             if (response.status == 200) { 
                 alert('Sucessfull Logout');
+                console.log("Logout");
+                localStorage.removeItem('username') ;  
+                window.location.href = "index.html";  
             } else {
                 alert('something went wrong :(');
          }
