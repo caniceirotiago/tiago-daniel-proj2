@@ -6,6 +6,7 @@
 import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
+import * as logout from "./logout.js"
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     username.setUsername(); // set username on loading
     theme.loadTheme(); // loads up the previously set theme
     language.underlineLangFlag();
+    logout.clickOnLogout();
     submitActionLisnter();
 });
 
