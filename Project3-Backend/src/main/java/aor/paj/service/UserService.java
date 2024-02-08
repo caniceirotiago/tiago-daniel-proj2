@@ -38,8 +38,7 @@ public class UserService {
     public Response login(LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
-        System.out.println(username);
-        System.out.println(password);
+        System.out.println(username + " " + password);
         if (userBean.loginConfirmation(username, password)) {
             userSession.setCurrentUser(username);
             return Response.status(200).entity("Successful Login").build();

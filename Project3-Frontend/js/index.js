@@ -66,7 +66,7 @@ function isUsernameSmall(username) {
 async function loginAttempt(username, password){
     let user = {
         'username' : username,
-        'password': password,
+        'password': password
     };
     console.log(user);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/login',
