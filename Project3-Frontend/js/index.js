@@ -64,10 +64,7 @@ function isUsernameSmall(username) {
 
 /* Pedido de login ao backend */ 
 async function loginAttempt(username, password){
-    let user = {
-        'username' : username,
-        'password': password
-    };
+  
     console.log(user);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/login',
         {
@@ -75,10 +72,11 @@ async function loginAttempt(username, password){
             headers:
         {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'username' : username,
+            'password': password
         },
             credentials: 'include',
-            body: JSON.stringify(user)
         }
         ).then(function (response) {
         if (response.status == 200) {
