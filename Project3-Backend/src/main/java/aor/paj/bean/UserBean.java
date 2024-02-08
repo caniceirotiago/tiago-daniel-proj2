@@ -45,6 +45,14 @@ public class UserBean {
         users.add(a);
         writeIntoJsonFile();
     }
+    public boolean loginConfirmation(String username, String password){
+        for(User us : users){
+            if(us.getUsername().equals(username) && us.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
+    }
     private void writeIntoJsonFile(){
         Jsonb jsonb = JsonbBuilder.create(new
                 JsonbConfig().withFormatting(true));

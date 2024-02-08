@@ -4,6 +4,7 @@ import aor.paj.bean.UserBean;
 import aor.paj.dto.User;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -29,6 +30,17 @@ public class UserService {
             return Response.status(200).entity("A new user is created").build();
         }
     }
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response login(@HeaderParam("username") String username, @HeaderParam("password") String password) {
+       if(userBean.loginConfirmation(username,password)){
+           return Response.status(200).entity("Login Successful").build();
+       }
+       else{
+           return Response.status(401).entity("Login Failed").build();
+       }
+    }
 
     // obter todos os utilizadores e resposta com status 200
 //    @GET
@@ -38,11 +50,5 @@ public class UserService {
 //        return userBean.getAllUsers();
 //    }
 
-    // obter um utilizador
-//    @GET
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public User getUser(@PathParam("id") int id) {
-//        return userBean.getUser(id);
-//    }
+
 }
