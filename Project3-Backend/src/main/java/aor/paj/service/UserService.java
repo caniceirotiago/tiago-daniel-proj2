@@ -16,6 +16,7 @@ import jakarta.ws.rs.Path;
 public class UserService {
     @Inject
     UserBean userBean;
+    UserSession userSession = new UserSession();
 
     // adicionar um utilizador
     @POST
@@ -35,7 +36,8 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(@HeaderParam("username") String username, @HeaderParam("password") String password) {
        if(userBean.loginConfirmation(username,password)){
-           return Response.status(200).entity("Login Successful").build();
+           userSession.setCurrentUser(username);
+           return Response.status(200).entity(username).build();
        }
        else{
            return Response.status(401).entity("Login Failed").build();
