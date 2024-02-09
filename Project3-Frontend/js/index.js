@@ -35,7 +35,7 @@ function loginActionListners(){
             event.preventDefault(); // prevents that the form be set/submitted without any fields filled out (just username for now)
             errorElement.innerText = errorMsg; // sets the error message
         } else {
-
+            
             loginAttempt(username,password);
             errorElement.innerText=""; // clear the error message 
         }
@@ -83,8 +83,7 @@ async function loginAttempt(username, password){
             if (response.status == 200) {
                 localStorage.setItem('username', username); // saves data into localStorage    
                 alert('Sucessfull Login');
-                getPhotoURL(username)   
-                window.location.href = "homepage.html"   
+                fetchPhotoAndRedirect(username);  
             } else if (response.status == 401) {
                 alert('Login Failed');
             } else {
@@ -93,9 +92,8 @@ async function loginAttempt(username, password){
     });
 }
 
-async function getPhotoURL(username) {
-      
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/getPhoto',
+async function fetchPhotoAndRedirect(username) {
+    await fetch('http://localhost:8080/Project3-Backend/rest/user/getphoto',
     {
         method: 'GET',
         headers: { 
@@ -106,12 +104,13 @@ async function getPhotoURL(username) {
         credentials: 'include',
       }
     ).then(response => response.json())
-    .then(data => updatePhotoOnLocalSorage(JSON.stringify(data.photoUrl)));
+    .then(function (response){
+        console.log(response)
+        localStorage.setItem("photoUrl",response.photoUrl);
+    });
+    window.location.href= "homepage.html";
 }
 
-function updatePhotoOnLocalSorage(photoURL){
-    localStorage.setItem("photoURL",photoURL);
-}
 
 
 
