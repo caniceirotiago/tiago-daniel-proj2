@@ -6,7 +6,8 @@
 import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
-import * as logout from "./logout.js"
+import * as logout from "./logout.js";
+import * as photoUser from "./UserPhoto.js";
 
 /**************************************************************************************************************************************************************************************/ 
 /* adds listener to theme && language buttons */
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     theme.loadTheme(); // loads up the previously set theme
     language.underlineLangFlag();
     logout.clickOnLogout();
+    photoUser.loadPhoto();
     accountDeletion();
 });
 

@@ -586,3 +586,25 @@ input[type="text"]:focus, input[type="password"]:focus {
     cursor: pointer;
 }
 
+/*Fotografia utilizador*/
+
+.user-photo-div{
+    background-color: #accae9;
+    width: 32px;
+    height: 32px;
+    border: 0px;
+    padding: 0px;
+    border-radius: 25px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#userPhoto{
+    max-width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+    /* Isso pode ajudar a garantir que o estilo seja aplicado */
+   
+
+}
+
