@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.UUID;
 
 @XmlRootElement
-public class User {
+public class UserWithNoPassword {
 
   //  A página de registo deve conter um formulário pedindo a seguinte informação: username,
     //password, email, primeiro nome, último nome, número de telefone, fotografia.
@@ -16,22 +16,20 @@ public class User {
 
     private String id;
     private String username;
-    private String password;
     private String email;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String photoURL;
 
-    public User() {
+    public UserWithNoPassword() {
     }
 
-    public User(String id, String username, String password, String phoneNumber,
-                String email, String firstName, String lastName, String photoURL) {
+    public UserWithNoPassword(String username, String phoneNumber,
+                              String email, String firstName, String lastName, String photoURL) {
         // todos os atributos são preenchidos pelo construtor a void
-        this.id = UUID.randomUUID().toString();
         this.username = username;
-        this.password = password;
+
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,26 +40,13 @@ public class User {
 
     // getters e setters como xmlElement
 
-    @XmlElement
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
+
     @XmlElement
     public String getUsername() {
         return username;
     }
     public void setUsername(String username) {
         this.username = username;
-    }
-    @XmlElement
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
     }
     @XmlElement
     public String getEmail() {
@@ -104,7 +89,6 @@ public class User {
         return "User{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

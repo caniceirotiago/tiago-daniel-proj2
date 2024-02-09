@@ -68,6 +68,14 @@ public class UserBean {
         }
         return null;
     }
+    public User getUserByUsername(String username){
+        for(User us : users){
+            if(us.getUsername().equals(username)){
+                return us;
+            }
+        }
+        return null;
+    }
     public ArrayList<User> getAllUsers() {
         return users;
     }
