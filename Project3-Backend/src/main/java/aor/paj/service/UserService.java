@@ -25,6 +25,9 @@ public class UserService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
+        if (!validateUserOnRegistration(user)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid Data").build();
+        }
         if(userBean.userExists(user.getUsername(),user.getEmail())){
             return Response.status(409).entity("Username or Email already Exists").build();
         }
@@ -110,6 +113,9 @@ public class UserService {
         if (!userSession.getCurrentUser().equals(username)) {
             return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
         }
+        if (!validateUserOnEdit(updatedUser)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid Data").build();
+        }
 
         boolean updateResult = userBean.updateUser(username, updatedUser);
 
@@ -120,7 +126,59 @@ public class UserService {
         }
     }
 
+    /**Validation*/
+    private boolean validateUsername(String username) {
+        return username != null && username.length() >= 2 && username.length() <= 20;
+    }
 
+    private boolean validateEmail(String email) {
+        return email != null && email.contains("@") && email.indexOf('@') < email.lastIndexOf('.');
+    }
 
+    private boolean validatePhone(String phone) {
+        if (phone == null || phone.length() < 9 || phone.length() > 20) return false;
+        if (phone.startsWith("+")) {
+            for (int i = 1; i < phone.length(); i++) {
+                if (!Character.isDigit(phone.charAt(i))) {
+                    return false;
+                }
+            }
+        } else {
+            // Verifica se todos os caracteres são dígitos
+            for (int i = 0; i < phone.length(); i++) {
+                if (!Character.isDigit(phone.charAt(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    private boolean validateName(String firstName, String lastName) {
+        if (firstName == null || lastName == null) return false;
+        return firstName.length() >= 3 && firstName.length() <= 25 &&
+                lastName.length() >= 3 && lastName.length() <= 25;
+    }
+
+    private boolean validatePhotoURL(String photoURL) {
+        return photoURL != null && photoURL.length() >= 3 && photoURL.length() <= 500;
+    }
+    private boolean validatePassword(String password) {
+        // Verifica se a senha não é nula e se tem pelo menos 6 caracteres
+        return password != null && password.length() >= 6;
+    }
+    private boolean validateUserOnRegistration(User user) {
+        return validateUsername(user.getUsername()) &&
+                validatePassword(user.getPassword()) &&
+                validateEmail(user.getEmail()) &&
+                validatePhone(user.getPhoneNumber()) &&
+                validateName(user.getFirstName(), user.getLastName()) &&
+                validatePhotoURL(user.getPhotoURL());
+    }
+    private boolean validateUserOnEdit(User user) {
+        return validateEmail(user.getEmail()) &&
+                validatePhone(user.getPhoneNumber()) &&
+                validateName(user.getFirstName(), user.getLastName()) &&
+                validatePhotoURL(user.getPhotoURL());
+    }
 }

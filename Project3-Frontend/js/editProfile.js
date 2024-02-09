@@ -1,4 +1,4 @@
-import * as validation from "./userFieldsValidation";
+import * as validation from "./userFieldsValidation.js";
 
 let userData = null;
 
