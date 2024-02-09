@@ -89,4 +89,21 @@ public class UserBean {
             throw new RuntimeException(e);
         }
     }
+    public boolean updateUser(String username, User updatedUser) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getUsername().equals(username)) {
+                user.setPhoneNumber(updatedUser.getPhoneNumber());
+                user.setEmail(updatedUser.getEmail());
+                user.setFirstName(updatedUser.getFirstName());
+                user.setLastName(updatedUser.getLastName());
+                user.setPhotoURL(updatedUser.getPhotoURL());
+                writeIntoJsonFile(); // Atualiza o arquivo JSON
+                readJsonFile();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

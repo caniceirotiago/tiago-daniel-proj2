@@ -103,5 +103,24 @@ public class UserService {
          return userBean.getAllUsers();
      }
 
-     //
+    @PATCH
+    @Path("/edituserdata")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUserData(User updatedUser, @HeaderParam("username") String username) {
+        if (!userSession.getCurrentUser().equals(username)) {
+            return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
+        }
+
+        boolean updateResult = userBean.updateUser(username, updatedUser);
+
+        if (updateResult) {
+            return Response.status(Response.Status.OK).entity("User data updated successfully").build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"User not found\"}").build();
+        }
+    }
+
+
+
+
 }
