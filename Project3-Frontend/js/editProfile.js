@@ -42,8 +42,7 @@ function completeFieldsWithData(){
     document.getElementById("username-field").value = userData.username; 
     document.getElementById("phone-field").value = userData.phoneNumber;
     document.getElementById("email-field").value = userData.email;
-    document.getElementById("password-field").value = "*********";
-    document.getElementById("password2-field").value = "*********";
+
     document.getElementById("firstname-field").value = userData.firstName;
     document.getElementById("lastname-field").value = userData.lastName;
     document.getElementById("photo-field").value = userData.photoURL;

@@ -1,3 +1,5 @@
+import * as validation from "./userFieldsValidation.js";
+
 document.addEventListener("DOMContentLoaded", function() {
     const registrationForm = document.getElementById('registrationForm');
 
@@ -7,40 +9,27 @@ document.addEventListener("DOMContentLoaded", function() {
         // Se todas as validações passaram, permite o envio do formulário
         if (isValid()) {
             addUser(registrationForm);
-            
         }
     });
 });
 
-export function isValid(){
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const password2 = document.getElementById('password2').value;
-    const email = document.getElementById('email').value;
-    const firstName = document.getElementById('firstname').value;
-    const lastName = document.getElementById('lastname').value;
-
-     // Validar username
-    if (username.length < 2 || username.length > 20) {
-        alert("Username must be between 2 and 20 characters.");
+function isValid(){
+    if (!validation.validateUsername()) {
         return false;
     }
-
-    // Validar passwords
-    if (password !== password2 || password.length < 6) {
-        alert("Passwords must match and be at least 6 characters long.");
+    if (!validation.validatePassword()) {
         return false;
     }
-
-    // Validar email de maneira simples
-    if (!email.includes('@') || !email.substring(email.indexOf('@')).includes('.')) {
-        alert("Please enter a valid email address.");
+    if (!validation.validatePhone()) {
         return false;
     }
-
-    // Validar first name e last name
-    if (firstName.length < 3 || firstName.length > 25 || lastName.length < 3 || lastName.length > 25) {
-        alert("First name and last name must be between 3 and 25 characters.");
+    if (!validation.validateEmail()) {
+        return false;
+    }
+    if (!validation.validateName()) {
+        return false;
+    }
+    if (!validation.validatephotoURL()) {
         return false;
     }
     return true;
@@ -70,6 +59,7 @@ async function addUser(form){
         ).then(function (response) {
         if (response.status == 200) {
             alert('user is added successfully :)');
+            window.location.href = "index.html";
         } else if (response.status == 409) {
             alert('username or email already exists :)');
         } else {
