@@ -36,12 +36,6 @@
             <div class="content">
                 <label id="username-label" for="username">Username</label>
                 <input type="text" name="username" id="username-field" maxlength="12" disabled>
-                <label id="old-password-label" for="old-password">Old Password</label>
-                <input type="password" name="old-password"  id="old-password-field" maxlength="12" placeholder="Enter your password">
-                <label id="password-label" for="password">Password</label>
-                <input type="password" name="password"  id="password-field" maxlength="12" placeholder="Enter new password">
-                <label id="password-label2" for="password2">Repeat Password</label>
-                <input type="password" name="password2"  id="password2-field" maxlength="12" placeholder="Repeat new password">
                 <label id="phone-label" for="phone">Phone</label>
                 <input type="text" name="phone" id="phone-field" maxlength="35" placeholder="Enter your phone">
                 <label id="email-label" for="email">Email</label>
@@ -52,7 +46,22 @@
                 <input type="text" name="last-name" id="lastname-field" maxlength="35" placeholder="Enter your Last Name">
                 <label id="photo-label" for="photo">Photography</label>
                 <input type="text" name="photo" id="photo-field" maxlength="500" placeholder="Enter your Photo URL">
-                <input type="submit" id="registration" value="Registration">
+                <input type="submit" id="registration" value="Submit">
+            </div>
+        </form>
+        <form id="editPasswordForm" action="homepage.html">
+            <div class="banner">
+                <img id="login-icon" src="images/user-login.png" alt="IMG">
+                <p id="edit-profile-banner">Edit Password</p>
+            </div>
+            <div class="content">
+                <label id="old-password-label" for="old-password">Old Password</label>
+                <input type="password" name="old-password"  id="old-password-field" maxlength="12" placeholder="Enter your password">
+                <label id="password-label" for="password">Password</label>
+                <input type="password" name="password"  id="password-field" maxlength="12" placeholder="Enter new password">
+                <label id="password-label2" for="password2">Repeat Password</label>
+                <input type="password" name="password2"  id="password2-field" maxlength="12" placeholder="Repeat new password">
+                <input type="submit" id="registration" value="Submit">
             </div>
         </form>
     </main>

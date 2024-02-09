@@ -1,24 +1,24 @@
-import * as registration from "./registration.js";
+import * as validation from "./userFieldsValidation";
 
 let userData = null;
 
 document.addEventListener("DOMContentLoaded", function() {
-    const registrationForm = document.getElementById('editProfileForm');
-    console.log(registrationForm);
-    registrationForm.addEventListener('submit', function(event) {
+    const currentUserUsername = localStorage.getItem("username");
+    fetchUserData(currentUserUsername);
+    editProfileFormListner();
+});
+
+function editProfileFormListner(){
+    const editProfileForm = document.getElementById('editProfileForm');
+    editProfileForm.addEventListener('submit', function(event) {
         // Previne o envio do formulário antes da validação
         event.preventDefault();
         // Se todas as validações passaram, permite o envio do formulário
-        if (registration.isValid()) {
-            registrationForm.submit();
-            window.location.href(index.html);
+        if (editUserisValid()) {
+            editUserData();
         }
     });
-    const currentUserUsername = localStorage.getItem("username");
-    fetchUserData(currentUserUsername);
-    
-});
-
+}
 async function fetchUserData(username) {
     await fetch('http://localhost:8080/Project3-Backend/rest/user/userinfo',
     {
@@ -42,9 +42,58 @@ function completeFieldsWithData(){
     document.getElementById("username-field").value = userData.username; 
     document.getElementById("phone-field").value = userData.phoneNumber;
     document.getElementById("email-field").value = userData.email;
-
     document.getElementById("firstname-field").value = userData.firstName;
     document.getElementById("lastname-field").value = userData.lastName;
     document.getElementById("photo-field").value = userData.photoURL;
 }
+function editUserisValid(){
+    if (!validation.validatePhone()) {
+        return false;
+    }
+    if (!validation.validateEmail()) {
+        return false;
+    }
+    if (!validation.validateName()) {
+        return false;
+    }
+    if (!validation.validatephotoURL()) {
+        return false;
+    }
+    return true;
+}
+
+/*preciso de fazer um metodo que seja patch para enviar para o backend a informação sobre a edição, 
+repara que terá todos os campos menos a password. O serviço se chamará edituserdata, e temos de enviar 
+a informação do username que está neste momento guardado no localstorage para que seja confirmado no 
+backend se o utilizador tem acesso, deverá ter as mensagens de erro adequadas*/
+async function editUserData(){
+    let user = {
+        'phoneNumber': document.getElementById("phone-field").value,
+        'email': document.getElementById("email-field").value,
+        'firstName': document.getElementById("firstname-field").value,
+        'lastName': document.getElementById("lastname-field").value,
+        'photoURL': document.getElementById("photo-field").value,
+    };
+    console.log(user);
+    await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserdata',
+        {
+            method: 'PATCH',
+            headers:
+        {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'username' : localStorage.getItem("username")
+        },
+        body: JSON.stringify(user)
+        }
+        ).then(function (response) {
+        if (response.status == 200) {
+            alert("User data updated successfully");
+            window.location.href = "userProfile.html";
+        } else {
+            alert("Error updating user data");
+        }
+    });
+}
+
 
