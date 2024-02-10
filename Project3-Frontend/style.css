@@ -255,7 +255,7 @@ h4 {
     padding: 3px;
 }
 
-#todo, #doing, #done {
+#todo #doing, #done {
     min-height: calc(100% - 45px); /* Altura mínima da ul para tornar dragable mesmo que vazio*/
 }
 
