@@ -32,27 +32,33 @@ function submitActionLisnter(){
         var title = document.getElementById('title').value; //obtem o titulo da task
         var description = document.getElementById('description').value; //obtem a descrição da task
         var priority = document.getElementById('priority').value;
+        var startDate = document.getElementById('date-start').value;
+        var endDate = document.getElementById('date-end').value;
         if(title && description) { // se o titulo e a descrição não estiverem vazios    
-            addTask(title, description, priority); // adiciona uma task com o titulo e a descrição
-            window.location.href = 'homepage.html'; // redireciona para a página principal
+            addTask(title, description, priority, startDate, endDate); // adiciona uma task com o titulo e a descrição
+            addTaskBE(title, description, priority, startDate, endDate);
+            
         }    
     });
 }
 /**************************************************************************************************************************************************************************************/ 
 /* TASK CREATION */
 /**************************************************************************************************************************************************************************************/
-function addTask(title, description, priority) { // adiciona uma task com o titulo e a descrição
+function addTask(title, description, priority, startDate, endDate) { // adiciona uma task com o titulo e a descrição
     let task = { // cria um objeto task
         id: getNextTaskId(),
         title: title,
         description: description,
         priority: priority,
         status: "todo",
+        startDate: startDate,
+        endDate: endDate
     };
     
     let tasks = JSON.parse(localStorage.getItem('tasks')) || []; // obtem as tasks do localStorage
     tasks.push(task); // adiciona a task ao array de tasks
     localStorage.setItem('tasks', JSON.stringify(tasks)); // guarda as tasks no localStorage
+    //window.location.href = 'homepage.html'; // redireciona para a página principal
 };
 /**************************************************************************************************************************************************************************************/ 
 /* function getNextTaskId() */
@@ -65,3 +71,38 @@ function getNextTaskId() {
 
 /**************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************/
+
+async function addTaskBE(title, description, priority, startDate, endDate){
+    let task = { // cria um objeto task
+        id: -1,
+        title: title,
+        description: description,
+        priority: priority,
+        status: 100,
+        startDate: startDate,
+        endDate: endDate
+    };
+    console.log(task);
+    await fetch('http://localhost:8080/Project3-Backend/rest/task/create',
+        {
+            method: 'POST',
+            headers:
+        {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'username' : localStorage.getItem("username"),
+            'password': localStorage.getItem("password"),
+        },
+        body: JSON.stringify(task)
+        }
+        ).then(function (response) {
+        if (response.status == 201) {
+            alert('task is added successfully :)');
+            window.location.href = "index.html";
+        } else if (response.status == 401) {
+            alert('username not loged in');
+        } else if (response.status == 403) {
+            alert('Acess Denied');
+        }
+        });
+}
