@@ -95,13 +95,13 @@ public class TaskService {
     // R10 - Delete task of user tasks
     //o status code será 200 (no ok), 401 (nao autenticado) e 403 (não autorizado)
     @DELETE
-    @Path("/delete")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response removeTask(@HeaderParam("username") String username, @HeaderParam("password") String password, @QueryParam("id") String id) {
+    public Response removeTask(@HeaderParam("username") String username, @HeaderParam("password") String password, @PathParam("id") String id) {
         if (username == null || password == null)
             return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
-        else if (userBean.loginConfirmation(username, password) && username.equals(taskBean.getTask(id).getUsername())) {
-            boolean deleted = taskBean.removeTask(id);
+        else if (userBean.loginConfirmation(username, password) && username.equals(taskBean.getTask(Integer.parseInt(id)).getUsername())) {
+            boolean deleted = taskBean.removeTask(Integer.parseInt(id));
             if (!deleted)
                 return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
             return Response.status(200).entity("Task deleted").build();

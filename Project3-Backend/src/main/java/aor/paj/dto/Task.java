@@ -16,7 +16,7 @@ public class Task {
     // o username associado e o ID não podem ser alterados, logo não têm setters
 
     @NotNull
-    private String id;
+    private int id;
     @NotNull
     private String title;
     @NotNull
@@ -25,7 +25,7 @@ public class Task {
     @NotNull
     private int priority;
     @NotNull
-    private String status;
+    private int status;
 
     @NotNull
     private String username;
@@ -33,8 +33,8 @@ public class Task {
 
     public Task() {
     }
-    public Task(String t, String d, int p, String s, String u) {
-        this.id= UUID.randomUUID().toString();
+    public Task(int id, String t, String d, int p, int s, String u) {
+        this.id= id;
         this.title = t;
         this.description= d;
         this.priority = p;
@@ -42,8 +42,13 @@ public class Task {
         this.username = u;
 
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @XmlElement
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -69,10 +74,10 @@ public class Task {
         this.priority = priority;
     }
     @XmlElement
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     @XmlElement
