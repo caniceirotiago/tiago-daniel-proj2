@@ -23,20 +23,48 @@ document.addEventListener('DOMContentLoaded', function() {
     photoUser.loadPhoto();
     createDropListnerForTasks();
     loadTasks();   
-    saveTasks(); //necessita de gravar  
-    updateTaskCountView();
-    clickOnTaskListner();
 });
 
 /**************************************************************************************************************************************************************************************/ 
 /* function loadTasks - LOAD ALL TASKS */
 /**************************************************************************************************************************************************************************************/
-function loadTasks() {
-    tasks = JSON.parse(localStorage.getItem('tasks')) || [];// vai buscar as tarefas gravadas anteriormente
-    tasks.forEach(task => {
-        addTaskToRightList(task); // para cada terefa chama ométodo para a adicionar à lista correta
-    });
-};
+async function loadTasks() {
+    const username = localStorage.getItem("username");
+    const password = localStorage.getItem("password");
+
+    // Verificar se o username e password estão disponíveis
+    if (!username || !password) {
+        console.log("Usuário não está logado.");
+        return; // Ou redirecionar para a página de login
+    }
+
+    try {
+        const response = await fetch('http://localhost:8080/Project3-Backend/rest/task/all', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'username': username,
+                'password': password,
+            }
+        });
+
+        if (response.ok) {
+            const tasksFromServer = await response.json(); // Assume que o backend retorna um array de tarefas
+            tasks = tasksFromServer; // Atualiza a variável tasks com os dados recebidos
+            tasks.forEach(task => {
+                addTaskToRightList(task); // Adiciona cada tarefa à lista correta na UI
+            });
+            updateTaskCountView();
+            clickOnTaskListner();
+        } else {
+            console.error("Falha ao carregar tarefas:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Erro na rede ao tentar carregar tarefas:", error);
+    }
+}
+
 /**************************************************************************************************************************************************************************************/ 
 /* function addTaskToRightList - ADD TASKS TO THE RIGHT LIST */ 
 /**************************************************************************************************************************************************************************************/
@@ -93,9 +121,9 @@ function addTaskToRightList(task) {
     itemList.appendChild(priorityDiv);
 
     /* Append Buttons to Task - with contextual relevance logic */
-    if (task.status !== 'done') { itemList.appendChild(nextButton); } //this one is not added in right most column
+    if (task.status !== 300) { itemList.appendChild(nextButton); } //this one is not added in right most column
     itemList.appendChild(delButton); // this one is always added
-    if (task.status !== 'todo') { itemList.appendChild(prevButton); } //this one is not added in left most column
+    if (task.status !== 100) { itemList.appendChild(prevButton); } //this one is not added in left most column
     
     /* Add Task to correct List */
     document.getElementById(task.status).appendChild(itemList);
@@ -213,13 +241,13 @@ function clickOnTaskListner(){
 function createNextBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus =""; // declare variable: var nextStatus is not recommended after IE6, best practice is let keyword
-        if (task.status === 'todo') {
-            nextStatus = 'doing';
-        } else if (task.status === 'doing') {
-            nextStatus = 'done';
+        if (task.status === '100') {
+            nextStatus = '200';
+        } else if (task.status === '200') {
+            nextStatus = '300';
         }
-        else if (task.status === 'done') {
-            nextStatus = 'done';
+        else if (task.status === '300') {
+            nextStatus = '300';
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -248,13 +276,13 @@ function delConfirmation(){
 function createPrevBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus ="";
-        if (task.status === 'doing') {
-            nextStatus = 'todo';
-        } else if (task.status === 'done') {
-            nextStatus = 'doing';
+        if (task.status === '200') {
+            nextStatus = '100';
+        } else if (task.status === '300') {
+            nextStatus = '200';
         }
-        else if (task.status === 'todo') {
-            nextStatus = 'todo';
+        else if (task.status === '100') {
+            nextStatus = '100';
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -297,7 +325,7 @@ function saveTasks() {
 /* function countTODOTasks() --- /*Contagem de tarefas da COLUNA TODO */
 /**************************************************************************************************************************************************************************************/
 function countTODOTasks(){
-    const taskList = document.getElementById("todo");
+    const taskList = document.getElementById("100");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };
@@ -305,7 +333,7 @@ function countTODOTasks(){
 /* function countDOINGTasks() --- /*Contagem de tarefas da COLUNA DOING */
 /**************************************************************************************************************************************************************************************/
 function countDOINGTasks(){
-    const taskList = document.getElementById("doing");
+    const taskList = document.getElementById("200");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };
@@ -313,7 +341,7 @@ function countDOINGTasks(){
 /* function countDOINGTasks() --- /*Contagem de tarefas da COLUNA DONE */
 /**************************************************************************************************************************************************************************************/
 function countDONETasks(){
-    const taskList = document.getElementById("done");
+    const taskList = document.getElementById("300");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };

@@ -79,6 +79,7 @@ async function addTaskBE(title, description, priority, startDate, endDate){
         description: description,
         priority: priority,
         status: 100,
+        username : localStorage.getItem("username"),
         startDate: startDate,
         endDate: endDate
     };

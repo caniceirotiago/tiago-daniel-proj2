@@ -52,6 +52,7 @@ public class TaskBean {
         tasks.add(a);
         // atualiza o ficheiro de tasks
         writeIntoJsonFile();
+        readJsonFile();
     }
 
     public int getLastTaskIdCreated(){
@@ -82,7 +83,7 @@ public class TaskBean {
         for(Task t : tasks){
             if(t.getUsername().equals(username)) listOfUserTasks.add(t);
         }
-        return listOfUserTasks;
+        return orderTasksByPriorityStartAndEndDate(listOfUserTasks);
     }
 
     public boolean removeTask(int id) {
@@ -98,6 +99,48 @@ public class TaskBean {
         // não encontrou a task
         return false;
     }
+    public ArrayList<Task> orderTasksByPriorityStartAndEndDate(ArrayList<Task> tasks) {
+        Task temp;
+        for (int i = 0; i < tasks.size(); i++) {
+            for (int j = i + 1; j < tasks.size(); j++) {
+                boolean toChange = false;
+
+                Task taskI = tasks.get(i);
+                Task taskJ = tasks.get(j);
+
+                // Verifica se deve trocar com base na prioridade
+                if (taskI.getPriority() < taskJ.getPriority()) {
+                    toChange = true;
+                }
+                // Se as prioridades são iguais, verifica a data de início
+                else if (taskI.getPriority() == taskJ.getPriority() &&
+                        ((taskI.getStartDate() == null && taskJ.getStartDate() != null) ||
+                                (taskI.getStartDate() != null && taskJ.getStartDate() != null &&
+                                        taskI.getStartDate().isAfter(taskJ.getStartDate())))) {
+                    toChange = true;
+                }
+                // Se as prioridades e datas de início são iguais, verifica a data de término
+                else if (taskI.getPriority() == taskJ.getPriority() &&
+                        ((taskI.getStartDate() == null && taskJ.getStartDate() == null) ||
+                                (taskI.getStartDate() != null && taskJ.getStartDate() != null &&
+                                        taskI.getStartDate().isEqual(taskJ.getStartDate()))) &&
+                        ((taskI.getEndDate() == null && taskJ.getEndDate() != null) ||
+                                (taskI.getEndDate() != null && taskJ.getEndDate() != null &&
+                                        taskI.getEndDate().isAfter(taskJ.getEndDate())))) {
+                    toChange = true;
+                }
+
+                if (toChange) {
+                    temp = tasks.get(i);
+                    tasks.set(i, tasks.get(j));
+                    tasks.set(j, temp);
+                }
+            }
+        }
+        return tasks;
+    }
+
+
 
     ////// FALTA O MÉTODO PARA O UPDATE DA TASK
 
