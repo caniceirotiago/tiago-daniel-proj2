@@ -13,7 +13,7 @@ body, html {
 }
 body.theme-light {
     --primary-color: rgb(255, 255, 255);
-    --secondary-color: rgba(31, 34, 38, 0.2);
+    --secondary-color: rgb(85, 105, 131);
     --tertiary-color: rgb(164, 164, 169);
     --quaternary-color: rgba(255, 250, 250, 0.3);
     --quinary-color: rgb(255,255,255,1);

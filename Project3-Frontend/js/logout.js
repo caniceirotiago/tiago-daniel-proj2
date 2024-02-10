@@ -8,8 +8,7 @@ export function clickOnLogout(){
         logout(username);
     })  
 }
-
-/* Pedido de logout ao backend */ 
+ 
 function logout(username){
     console.log(username);
      alert('Sucessfull Logout');
