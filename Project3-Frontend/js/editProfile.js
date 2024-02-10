@@ -4,7 +4,8 @@ let userData = null;
 
 document.addEventListener("DOMContentLoaded", function() {
     const currentUserUsername = localStorage.getItem("username");
-    fetchUserData(currentUserUsername);
+    const currentUserpassword = localStorage.getItem("password");
+    fetchUserData(currentUserUsername,currentUserpassword);
     editProfileFormListner();
 });
 
@@ -20,16 +21,18 @@ function editProfileFormListner(){
         }
     });
 }
-async function fetchUserData(username) {
+async function fetchUserData(username, password) {
     await fetch('http://localhost:8080/Project3-Backend/rest/user/userinfo',
     {
         method: 'GET',
         headers: { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'username' : username
+            'username' : username,
+            'password': password,
+            'credentials': 'include'
         },
-        credentials: 'include',
+        
       }
     ).then(response => response.json())
     .then(function (response){
@@ -83,7 +86,8 @@ async function editUserData(){
         {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'username' : localStorage.getItem("username")
+            'username' : localStorage.getItem("username"),
+            'password': localStorage.getItem("password")
         },
         body: JSON.stringify(user)
         }

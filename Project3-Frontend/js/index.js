@@ -82,8 +82,9 @@ async function loginAttempt(username, password){
         ).then(function (response) {
             if (response.status == 200) {
                 localStorage.setItem('username', username); // saves data into localStorage    
+                localStorage.setItem('password', password); // saves data into localStorage   
                 alert('Sucessfull Login');
-                fetchPhotoAndRedirect(username);  
+                fetchPhotoAndRedirect(username, password);  
             } else if (response.status == 401) {
                 alert('Login Failed');
             } else {
@@ -92,14 +93,15 @@ async function loginAttempt(username, password){
     });
 }
 
-async function fetchPhotoAndRedirect(username) {
+async function fetchPhotoAndRedirect(username, password) {
     await fetch('http://localhost:8080/Project3-Backend/rest/user/getphoto',
     {
         method: 'GET',
         headers: { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'username' : username
+            'username' : username,
+            'password': password
         },
         credentials: 'include',
       }

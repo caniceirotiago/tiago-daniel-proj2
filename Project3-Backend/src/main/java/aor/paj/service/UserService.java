@@ -17,8 +17,6 @@ import java.util.List;
 public class UserService {
     @Inject
     UserBean userBean;
-    @Inject
-    UserSession userSession;
 
     // adicionar um utilizador
     @POST
@@ -41,8 +39,6 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(@HeaderParam("username")String username, @HeaderParam("password")String password) {
        if(userBean.loginConfirmation(username, password)){
-           userSession.setCurrentUser(username);
-           System.out.println(userSession.getCurrentUser() + " Current User");
            return Response.status(200).entity("Successful Login").build();
        }
        else{
@@ -52,51 +48,40 @@ public class UserService {
     @GET
     @Path("/getphoto")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPhoto(@HeaderParam("username")String username) {
-        if(userSession.getCurrentUser().equals(username)){
+    public Response getPhoto(@HeaderParam("username")String username, @HeaderParam("password")String password) {
+        if (username == null || password == null)
+            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+        else if (userBean.loginConfirmation(username, password)) {
             String photoUrl = userBean.getPhotoURLByUsername(username);
             System.out.println(photoUrl);
             if(photoUrl != null) return Response.status(200).entity("{\"photoUrl\":\"" + photoUrl + "\"}").build();
             return Response.status(404).entity("{\"error\":\"No photo found\"}").build();
-        }
-        return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
+        } else
+            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
     }
     @GET
     @Path("/userinfo")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response userInfo(@HeaderParam("username") String username) {
-        if (userSession.getCurrentUser().equals(username)) {
+    public Response userInfo(@HeaderParam("username") String username, @HeaderParam("password")String password) {
+        if (username == null || password == null)
+            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+        else if (userBean.loginConfirmation(username, password)) {
+            // Converte User para UserWithNoPassword
             User user = userBean.getUserByUsername(username);
-            System.out.println(user);
-            if (user != null) {
-                // Converte User para UserWithNoPassword
-                UserWithNoPassword userWithoutPassword = new UserWithNoPassword(
-                        user.getUsername(),
-                        user.getPhoneNumber(),
-                        user.getEmail(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getPhotoURL());
+            UserWithNoPassword userWithoutPassword = new UserWithNoPassword(
+                    user.getUsername(),
+                    user.getPhoneNumber(),
+                    user.getEmail(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getPhotoURL());
 
-                // Retorna a entidade UserWithNoPassword em vez da entidade User completa
-                return Response.status(200).entity(userWithoutPassword).build();
-            }
-            return Response.status(404).entity("{\"error\":\"No user found\"}").build();
-        }
-        return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
+            // Retorna a entidade UserWithNoPassword em vez da entidade User completa
+            return Response.status(200).entity(userWithoutPassword).build();
+        } else
+            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
     }
-    @POST
-    @Path("/logout")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response logout(@HeaderParam("username")String username) {
-        System.out.println(username);
-        if(userSession.getCurrentUser().equals(username)){
-            userSession.logout();
-            System.out.println(userSession.getCurrentUser() + " Current User");
-            return Response.status(200).entity("Successful Logout").build();
-        }
-        return Response.status(403).entity("Access denied").build();
-    }
+
 
      //obter todos os utilizadores e resposta com status 200
      @GET
@@ -109,21 +94,18 @@ public class UserService {
     @PATCH
     @Path("/edituserdata")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editUserData(User updatedUser, @HeaderParam("username") String username) {
-        if (!userSession.getCurrentUser().equals(username)) {
-            return Response.status(403).entity("{\"error\":\"Access denied\"}").build();
-        }
+    public Response editUserData(User updatedUser, @HeaderParam("username") String username, @HeaderParam("password")String password) {
+        if (username == null || password == null)
+            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
         if (!validateUserOnEdit(updatedUser)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Invalid Data").build();
         }
-
         boolean updateResult = userBean.updateUser(username, updatedUser);
 
         if (updateResult) {
             return Response.status(Response.Status.OK).entity("User data updated successfully").build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"User not found\"}").build();
-        }
+        } else
+            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
     }
 
     /**Validation*/
