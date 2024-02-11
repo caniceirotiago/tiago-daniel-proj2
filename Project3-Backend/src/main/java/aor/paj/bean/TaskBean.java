@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.util.*;
 
 import aor.paj.dto.Task;
-import aor.paj.dto.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -143,6 +142,39 @@ public class TaskBean {
 
 
     ////// FALTA O MÉTODO PARA O UPDATE DA TASK
+
+    public void updateTask(int id, Task updatedTask) {
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                // Atualiza os campos da tarefa, exceto o ID
+                if (updatedTask.getTitle() != null && !updatedTask.getTitle().isEmpty()) {
+                    task.setTitle(updatedTask.getTitle());
+                }
+                if (updatedTask.getDescription() != null && !updatedTask.getDescription().isEmpty()) {
+                    task.setDescription(updatedTask.getDescription());
+                }
+                if (updatedTask.getPriority() != 0) { // Assume 0 como valor não válido
+                    task.setPriority(updatedTask.getPriority());
+                }
+                if (updatedTask.getStatus() != 0) { // Assume 0 como valor não válido
+                    task.setStatus(updatedTask.getStatus());
+                }
+                if (updatedTask.getStartDate() != null) {
+                    task.setStartDate(updatedTask.getStartDate());
+                }
+                if (updatedTask.getEndDate() != null) {
+                    task.setEndDate(updatedTask.getEndDate());
+                }
+                // Considere adicionar verificações para outros campos conforme necessário
+
+                // Atualiza o arquivo JSON
+                writeIntoJsonFile();
+                return;
+            }
+        }
+        // Retorna false se não encontrar a tarefa com o ID fornecido
+    }
+
 
     private void writeIntoJsonFile() {
         Jsonb jsonb = JsonbBuilder.create(new

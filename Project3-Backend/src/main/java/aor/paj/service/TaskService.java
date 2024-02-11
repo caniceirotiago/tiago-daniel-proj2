@@ -4,19 +4,12 @@ package aor.paj.service;
 import aor.paj.bean.TaskBean;
 import aor.paj.bean.UserBean;
 import aor.paj.dto.Task;
+import aor.paj.dto.TaskUpdate;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.Path;
+
 @Path("/task")
 public class TaskService {
     @Inject
@@ -46,6 +39,26 @@ public class TaskService {
     // o status code será 200 (no ok), 401 (nao autenticado) e 403 (não autorizado)
 
     @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTaskById(@PathParam("id") int id, @HeaderParam("username") String username, @HeaderParam("password") String password) {
+        if (username == null || password == null) {
+            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+        }
+        if (!userBean.loginConfirmation(username, password)) {
+            return Response.status(403).entity("{\"Error\":\"Access Denied\"}").build();
+        }
+        Task task = taskBean.getTask(id);
+        if (task == null) {
+            return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
+        }
+        if (!task.getUsername().equals(username)) {
+            return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't view tasks of other users\"}").build();
+        }
+        return Response.ok(task).build();
+    }
+
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
     public Response getAllTasksByUser(@HeaderParam("username") String username, @HeaderParam("password") String password) {
@@ -57,22 +70,36 @@ public class TaskService {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't see tasks of other users\"}").build();
 
     }
+    /**Edit*/// Garanta que este import esteja correto
 
-    // editar task - Change task of user tasks
-    @PUT
-    @Path("/edit")
+    @PATCH
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editTask(@HeaderParam("username") String username, @HeaderParam("password") String password, Task a) {
-        if (username == null || password == null)
+    public Response editTask(@PathParam("id") int id, TaskUpdate taskUpdates, @HeaderParam("username") String username, @HeaderParam("password") String password) {
+        if (username == null || password == null) {
             return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
-        else if (userBean.loginConfirmation(username, password) && username.equals(a.getUsername())) {
-            // taskBean.editTask(a);
-            // chamar get task atualizada
-            return Response.status(200).entity("Task edited").build();
-        } else
+        }
+        Task existingTask = taskBean.getTask(id);
+        if (existingTask == null) {
+            return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
+        }
+        if (!userBean.loginConfirmation(username, password) || !username.equals(existingTask.getUsername())) {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't edit tasks of other users\"}").build();
+        }
+        // Atualiza os campos da tarefa com os valores forneidos
+        if (taskUpdates.getTitle() != null) existingTask.setTitle(taskUpdates.getTitle());
+        if (taskUpdates.getDescription() != null) existingTask.setDescription(taskUpdates.getDescription());
+        if (taskUpdates.getPriority() != null) existingTask.setPriority(taskUpdates.getPriority());
+        if (taskUpdates.getStatus() != null) existingTask.setStatus(taskUpdates.getStatus());
+        // Trata a remoção ou atualização das datas
+        if (taskUpdates.isRemoveStartDate()) existingTask.setStartDate(null);
+        else if (taskUpdates.getStartDate() != null) existingTask.setStartDate(taskUpdates.getStartDate());
+        if (taskUpdates.isRemoveEndDate()) existingTask.setEndDate(null);
+        else if (taskUpdates.getEndDate() != null) existingTask.setEndDate(taskUpdates.getEndDate());
+        // Persiste as alterações
+        taskBean.updateTask(id, existingTask);
+        return Response.status(200).entity("Task updated successfully").build();
     }
-
 
     // adicionar task
     //R9 - Add task to user tasks

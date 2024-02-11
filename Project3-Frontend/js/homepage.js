@@ -9,7 +9,6 @@ import * as theme from "./theme.js";
 import * as logout from "./logout.js"
 import * as photoUser from "./UserPhoto.js"
 
-let tasks = [];
 const TODO_COLUMN = 100;
 const DOING_COLUMN = 200;
 const DONE_COLUMN = 300;
@@ -54,7 +53,7 @@ async function loadTasks() {
 
         if (response.ok) {
             const tasksFromServer = await response.json(); // Assume que o backend retorna um array de tarefas
-            tasks = tasksFromServer; // Atualiza a variável tasks com os dados recebidos
+            const tasks = tasksFromServer; // Atualiza a variável tasks com os dados recebidos
             tasks.forEach(task => {
                 addTaskToRightList(task); // Adiciona cada tarefa à lista correta na UI
             });
@@ -66,6 +65,16 @@ async function loadTasks() {
     } catch (error) {
         console.error("Erro na rede ao tentar carregar tarefas:", error);
     }
+}
+function clearTasks() {
+    // Seleciona todas as listas de tarefas
+    const taskLists = document.querySelectorAll('.ul-tasks');
+    // Para cada lista, remove todos os itens (tarefas) filhos
+    taskLists.forEach(list => {
+        while (list.firstChild) {
+            list.removeChild(list.firstChild);
+        }
+    });
 }
 
 /**************************************************************************************************************************************************************************************/ 
@@ -176,7 +185,11 @@ function createDragDropListener(itemList, task){
 };
 function createDropListnerForTasks(){
     document.querySelectorAll(".ul-tasks").forEach(column => { //faz com que as listas recebam itens
-    const status = column.id;
+    let status = column.id;
+    if(status === "TODO_COLUMN") status = 100;
+    else if(status === "DOING_COLUMN") status = 200;
+    else if(status === "DONE_COLUMN") status = 300;
+    console.log(status);
     column.addEventListener('dragover', function(e) {
         e.preventDefault(); // Permite o drop
     });
@@ -185,38 +198,11 @@ function createDropListnerForTasks(){
         e.preventDefault();
         const taskId = Number(e.dataTransfer.getData('text/plain'));
         // Lógica para mover a tarefa para a coluna atual
-        moveTaskToColumnOnDragDrop(taskId, status);
+        updateTaskStatus(taskId, status);
     });
 });
 }
-/**************************************************************************************************************************************************************************************/ 
-/* function moveTaskToColumnOnDragDrop - handles movint a task to another collumn on drag and drop*/
-/**************************************************************************************************************************************************************************************/
-function moveTaskToColumnOnDragDrop(taskId, newStatus){
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    let task = tasks.find(t => t.id === taskId);
-    if (task) {
-         // Atualizar o status da tarefa
-        task.status = newStatus;
-         // Atualizar as tarefas no armazenamento local
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-         // Mover a representação visual da tarefa para a coluna correta
-        moveTaskElementOnDropVisualy(task);
-    }
-};
-/**************************************************************************************************************************************************************************************/ 
-/* function moveTaskElementOnDropVisualy(task) ---- handles movint a task to another collumn on drag and drop visual*/
-/**************************************************************************************************************************************************************************************/
-function moveTaskElementOnDropVisualy(task) {
-    // Remover a tarefa da sua coluna atual
-    const existingElement = document.querySelector(`[data-task-id="${task.id}"]`);
-    if (existingElement) {
-        existingElement.remove();
-    }
 
-    // Adicionar a tarefa à nova coluna
-    addTaskToRightList(task);
-};
 /**************************************************************************************************************************************************************************************/ 
 /* ADD ACTION LISTENERS TO THE EACH TASK ITEM - Only on the task-item excluding buttons 
 /**************************************************************************************************************************************************************************************/
@@ -248,13 +234,13 @@ function clickOnTaskListner(){
 function createNextBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus =""; // declare variable: var nextStatus is not recommended after IE6, best practice is let keyword
-        if (task.status === 'TODO_COLUMN') {
-            nextStatus ='DOING_COLUMN';
-        } else if (task.status === 'DOING_COLUMN') {
-            nextStatus = 'DONE_COLUMN';
+        if (task.status === TODO_COLUMN) {
+            nextStatus =DOING_COLUMN;
+        } else if (task.status === DOING_COLUMN) {
+            nextStatus = DONE_COLUMN;
         }
-        else if (task.status === 'DONE_COLUMN') {
-            nextStatus = 'DONE_COLUMN';
+        else if (task.status === DONE_COLUMN) {
+            nextStatus = DONE_COLUMN;
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -283,13 +269,13 @@ function delConfirmation(){
 function createPrevBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus ="";
-        if (task.status === 'DOING_COLUMN') {
-            nextStatus = 'TODO_COLUMN';
-        } else if (task.status === 'DONE_COLUMN') {
-            nextStatus = 'DOING_COLUMN';
+        if (task.status === DOING_COLUMN) {
+            nextStatus = TODO_COLUMN;
+        } else if (task.status === DONE_COLUMN) {
+            nextStatus = DOING_COLUMN;
         }
-        else if (task.status === 'TODO_COLUMN') {
-            nextStatus = 'TODO_COLUMN';
+        else if (task.status === TODO_COLUMN) {
+            nextStatus = TODO_COLUMN;
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -297,14 +283,42 @@ function createPrevBtnListener(nextButton, task) {
 /**************************************************************************************************************************************************************************************/ 
 /* function delTask(task) - DELETES A TASK PASSED BY ARGUMENT - deletes task and saves/updatesthe display
 /**************************************************************************************************************************************************************************************/
-function delTask(task) {
-    const oldTaskElement = document.querySelector(`[data-task-id="${task.id}"]`);
-    if (oldTaskElement) {
-        oldTaskElement.remove();
+async function delTask(task) {
+    // Primeiro, tenta deletar a tarefa no backend
+    try {
+        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/delete/${task.id}`, {
+            method: 'DELETE', // Método HTTP para deleção
+            headers: {
+                // Assume que a autenticação é feita via cabeçalhos 'username' e 'password'
+                'username': localStorage.getItem("username"),
+                'password': localStorage.getItem("password"),
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Verifica se a tarefa foi deletada com sucesso no backend
+        if (response.ok) {
+            // Procura o elemento da tarefa no DOM e o remove
+            const oldTaskElement = document.querySelector(`[data-task-id="${task.id}"]`);
+            if (oldTaskElement) {
+                oldTaskElement.remove();
+            }
+            // Atualiza a lista de tarefas e a visualização
+            clearTasks(); // Limpa as tarefas da UI
+            await loadTasks(); // Recarrega as tarefas do backend ou ajuste conforme necessário
+            updateTaskCountView();
+        } else {
+            // Trata erros de resposta não-OK (ex., 401, 403, 404, etc.)
+            console.error('Failed to delete task:', response.statusText);
+            alert('Failed to delete task. Please try again.');
+        }
+    } catch (error) {
+        // Trata erros de rede ou de comunicação com o servidor
+        console.error('Network error when trying to delete task:', error);
+        alert('Network error. Please check your connection and try again.');
     }
-    saveTasks(); // Saves Tasks, thus also updating the localStorage
-    updateTaskCountView();
-};
+}
+
 /**************************************************************************************************************************************************************************************/ 
 /* function moveTaskOnCLick(task, nextStatus) - 
 /**************************************************************************************************************************************************************************************/
@@ -313,21 +327,37 @@ function moveTaskOnCLick(task, nextStatus) {
     if (oldTaskElement) {
         oldTaskElement.remove();
     }
-
-    // Cria uma nova tarefa atualizada
-    const updatedTask = {...task, status: nextStatus};
-    addTaskToRightList(updatedTask);
-
-    // Salva a tarefa
-    saveTasks();
+    updateTaskStatus(task.id, nextStatus)
 }
-/**************************************************************************************************************************************************************************************/ 
-/* function saveTasks() 
-/**************************************************************************************************************************************************************************************/
-function saveTasks() {
-    
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+async function updateTaskStatus(taskId, newStatus) {
+    const taskUpdate = { status: newStatus };
+    try {
+        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/edit/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'username': localStorage.getItem("username"),
+                'password': localStorage.getItem("password"),
+            },
+            body: JSON.stringify(taskUpdate)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update task status');
+        }
+
+        // Recarregar ou atualizar a interface do usuário conforme necessário
+        clearTasks();
+        loadTasks();
+    } catch (error) {
+        console.error('Error updating task status:', error);
+        alert('Failed to update task status. Please try again.');
+    }
 }
+
+
 /**************************************************************************************************************************************************************************************/
 /* function countTODOTasks() --- /*Contagem de tarefas da COLUNA TODO */
 /**************************************************************************************************************************************************************************************/

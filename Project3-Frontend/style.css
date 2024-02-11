@@ -255,7 +255,7 @@ h4 {
     padding: 3px;
 }
 
-#TODO_COLUMN #DOING_COLUMN, #DONE_COLUMN {
+#TODO_COLUMN, #DOING_COLUMN, #DONE_COLUMN {
     min-height: calc(100% - 45px); /* Altura mínima da ul para tornar dragable mesmo que vazio*/
 }
 
@@ -343,7 +343,7 @@ ul {
 #DOING_COLUMN .banner {
     background-color: var(--doing-color);
 }
-#TODO_COLUMN .banner {
+#DONE_COLUMN .banner {
     background-color: var(--done-color);
 }
 

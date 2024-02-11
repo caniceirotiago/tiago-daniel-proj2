@@ -35,39 +35,11 @@ function submitActionLisnter(){
         var startDate = document.getElementById('date-start').value;
         var endDate = document.getElementById('date-end').value;
         if(title && description) { // se o titulo e a descrição não estiverem vazios    
-            addTask(title, description, priority, startDate, endDate); // adiciona uma task com o titulo e a descrição
             addTaskBE(title, description, priority, startDate, endDate);
             
         }    
     });
 }
-/**************************************************************************************************************************************************************************************/ 
-/* TASK CREATION */
-/**************************************************************************************************************************************************************************************/
-function addTask(title, description, priority, startDate, endDate) { // adiciona uma task com o titulo e a descrição
-    let task = { // cria um objeto task
-        id: getNextTaskId(),
-        title: title,
-        description: description,
-        priority: priority,
-        status: "todo",
-        startDate: startDate,
-        endDate: endDate
-    };
-    
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || []; // obtem as tasks do localStorage
-    tasks.push(task); // adiciona a task ao array de tasks
-    localStorage.setItem('tasks', JSON.stringify(tasks)); // guarda as tasks no localStorage
-    //window.location.href = 'homepage.html'; // redireciona para a página principal
-};
-/**************************************************************************************************************************************************************************************/ 
-/* function getNextTaskId() */
-/**************************************************************************************************************************************************************************************/
-function getNextTaskId() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const maxId = tasks.reduce((max, task) => Math.max(max, task.id || 0), 0);
-    return maxId + 1;
-};
 
 /**************************************************************************************************************************************************************************************/
 /**************************************************************************************************************************************************************************************/
@@ -80,9 +52,13 @@ async function addTaskBE(title, description, priority, startDate, endDate){
         priority: priority,
         status: 100,
         username : localStorage.getItem("username"),
-        startDate: startDate,
-        endDate: endDate
     };
+    if (startDate) {
+        task.startDate = startDate;
+    }
+    if (endDate) {
+        task.endDate = endDate;
+    }
     console.log(task);
     await fetch('http://localhost:8080/Project3-Backend/rest/task/create',
         {
@@ -99,11 +75,11 @@ async function addTaskBE(title, description, priority, startDate, endDate){
         ).then(function (response) {
         if (response.status == 201) {
             alert('task is added successfully :)');
-            window.location.href = "index.html";
+            window.location.href = "homepage.html";
         } else if (response.status == 401) {
             alert('username not loged in');
         } else if (response.status == 403) {
             alert('Acess Denied');
-        }
-        });
+        }
+        });
 }
