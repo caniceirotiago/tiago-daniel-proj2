@@ -129,7 +129,11 @@ function addTaskToRightList(task) {
     if (task.status !== TODO_COLUMN) { itemList.appendChild(prevButton); } //this one is not added in left most column
     
     /* Add Task to correct List */
-    document.getElementById(task.status).appendChild(itemList);
+    let collumn;
+    if(task.status === 100) collumn = "TODO_COLUMN";
+    else if(task.status === 200) collumn = "DOING_COLUMN";
+    else if(task.status === 300) collumn = "DONE_COLUMN";
+    document.getElementById(collumn).appendChild(itemList);
     updateTaskCountView();
 };
 /**************************************************************************************************************************************************************************************/ 

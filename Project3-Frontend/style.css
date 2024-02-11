@@ -343,7 +343,7 @@ ul {
 #DOING_COLUMN .banner {
     background-color: var(--doing-color);
 }
-#done .banner {
+#TODO_COLUMN .banner {
     background-color: var(--done-color);
 }
 
