@@ -10,6 +10,9 @@ import * as logout from "./logout.js"
 import * as photoUser from "./UserPhoto.js"
 
 let tasks = [];
+const TODO_COLUMN = 100;
+const DOING_COLUMN = 200;
+const DONE_COLUMN = 300;
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -121,9 +124,9 @@ function addTaskToRightList(task) {
     itemList.appendChild(priorityDiv);
 
     /* Append Buttons to Task - with contextual relevance logic */
-    if (task.status !== 300) { itemList.appendChild(nextButton); } //this one is not added in right most column
+    if (task.status !== DONE_COLUMN) { itemList.appendChild(nextButton); } //this one is not added in right most column
     itemList.appendChild(delButton); // this one is always added
-    if (task.status !== 100) { itemList.appendChild(prevButton); } //this one is not added in left most column
+    if (task.status !== TODO_COLUMN) { itemList.appendChild(prevButton); } //this one is not added in left most column
     
     /* Add Task to correct List */
     document.getElementById(task.status).appendChild(itemList);
@@ -241,13 +244,13 @@ function clickOnTaskListner(){
 function createNextBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus =""; // declare variable: var nextStatus is not recommended after IE6, best practice is let keyword
-        if (task.status === '100') {
-            nextStatus = '200';
-        } else if (task.status === '200') {
-            nextStatus = '300';
+        if (task.status === 'TODO_COLUMN') {
+            nextStatus ='DOING_COLUMN';
+        } else if (task.status === 'DOING_COLUMN') {
+            nextStatus = 'DONE_COLUMN';
         }
-        else if (task.status === '300') {
-            nextStatus = '300';
+        else if (task.status === 'DONE_COLUMN') {
+            nextStatus = 'DONE_COLUMN';
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -276,13 +279,13 @@ function delConfirmation(){
 function createPrevBtnListener(nextButton, task) {
     nextButton.addEventListener('click', function() {
         let nextStatus ="";
-        if (task.status === '200') {
-            nextStatus = '100';
-        } else if (task.status === '300') {
-            nextStatus = '200';
+        if (task.status === 'DOING_COLUMN') {
+            nextStatus = 'TODO_COLUMN';
+        } else if (task.status === 'DONE_COLUMN') {
+            nextStatus = 'DOING_COLUMN';
         }
-        else if (task.status === '100') {
-            nextStatus = '100';
+        else if (task.status === 'TODO_COLUMN') {
+            nextStatus = 'TODO_COLUMN';
         }
         moveTaskOnCLick(task, nextStatus);
     });
@@ -325,7 +328,7 @@ function saveTasks() {
 /* function countTODOTasks() --- /*Contagem de tarefas da COLUNA TODO */
 /**************************************************************************************************************************************************************************************/
 function countTODOTasks(){
-    const taskList = document.getElementById("100");
+    const taskList = document.getElementById("TODO_COLUMN");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };
@@ -333,7 +336,7 @@ function countTODOTasks(){
 /* function countDOINGTasks() --- /*Contagem de tarefas da COLUNA DOING */
 /**************************************************************************************************************************************************************************************/
 function countDOINGTasks(){
-    const taskList = document.getElementById("200");
+    const taskList = document.getElementById("DOING_COLUMN");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };
@@ -341,7 +344,7 @@ function countDOINGTasks(){
 /* function countDOINGTasks() --- /*Contagem de tarefas da COLUNA DONE */
 /**************************************************************************************************************************************************************************************/
 function countDONETasks(){
-    const taskList = document.getElementById("300");
+    const taskList = document.getElementById("DONE_COLUMN");
     let nOfTasks = taskList.childElementCount;
     return nOfTasks;
 };
