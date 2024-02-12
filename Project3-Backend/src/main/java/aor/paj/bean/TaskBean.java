@@ -14,6 +14,8 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 
+
+// validar dto e bean jakarta api
 @ApplicationScoped
 public class TaskBean {
     final String filename = "allTasks.json";
