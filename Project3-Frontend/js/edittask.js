@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /**************************************************************************************************************************************************************************************/ 
 /* DISPLAY TASK PART I - Finds task by ID - EDITTASK.HTML - fetches the Task that was passed through URL, finds it in localStorage JSON, and displays it */
 /**************************************************************************************************************************************************************************************/
+
 async function loadTaskId() {
     const urlParams = new URLSearchParams(window.location.search);
     taskId = Number(urlParams.get('taskId'));
