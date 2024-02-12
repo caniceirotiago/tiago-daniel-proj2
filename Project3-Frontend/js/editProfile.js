@@ -70,6 +70,7 @@ function editUserisValid(){
 repara que terá todos os campos menos a password. O serviço se chamará edituserdata, e temos de enviar 
 a informação do username que está neste momento guardado no localstorage para que seja confirmado no 
 backend se o utilizador tem acesso, deverá ter as mensagens de erro adequadas*/
+
 async function editUserData(){
     let user = {
         'phoneNumber': document.getElementById("phone-field").value,
