@@ -1,10 +1,11 @@
 /* Estilo aplicado no index */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-image: url('images/backgroundIndexMain.jpg'); /* Substitua pelo caminho correto da imagem */
+    background-color: rgba(5, 16, 46, 0.9);
+    /*background-image: url('images/backgroundIndexMain.jpg'); 
     background-size: cover;
-    background-attachment: fixed; /* Fixa a imagem de fundo */
-    background-position: center;
+    background-attachment: fixed; 
+    background-position: center;*/
     color: #353333;
     margin: 0;
     padding: 0;

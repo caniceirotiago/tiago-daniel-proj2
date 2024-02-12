@@ -12,16 +12,16 @@ body, html {
     height: 100%; /* Define a altura para 100% */
 }
 body.theme-light {
-    --primary-color: rgb(255, 255, 255);
-    --secondary-color: rgb(105, 132, 168);
-    --tertiary-color: rgb(160, 191, 217);
-    --quaternary-color: rgba(255, 250, 250, 0.3);
+    --primary-color: #E6E1DD;
+    --secondary-color: rgb(255,255,255,0.111);
+    --tertiary-color: rgb(255,255,255,0.111);
+    --quaternary-color: #F4976C;
     --quinary-color: rgb(255,255,255,1);
     --todo-color:rgb(112, 170, 228);
-    --doing-color:rgb(251, 246, 123);
+    --doing-color:#F4976C;
     --done-color:rgb(188, 238, 172);
     --header-color:rgba(5, 16, 46, 0.9);
-    --background-color: rgb(176, 199, 216);
+    --background-color: #dcc6bc;
     --text-color:  rgb(0,0,0,1);
     --text-color2:  rgb(255,255,255,1);
 }
@@ -205,7 +205,7 @@ main {
 
 h4 {
     margin: 0;
-    padding: 5px;
+    padding: 0px;
 
 }
 .col-todo, .col-doing, .col-done,.historic-retrospectives {
@@ -260,7 +260,7 @@ h4 {
 }
 
 #add-task-btn{
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     cursor: pointer;
@@ -320,12 +320,12 @@ ul {
     text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    margin-bottom: 10px; /* Espaço entre o banner e o content */
+    margin-bottom: 0px; /* Espaço entre o banner e o content */
     display: flex; /* Alinha ícone e texto na mesma linha */
     align-items: center; /* Centraliza verticalmente */
 }
 .content {
-    padding: 4px;
+    padding: 2px;
 }
 .task-item {
     border-radius: 10px;
@@ -333,7 +333,7 @@ ul {
     background-color: var(--quinary-color); 
     padding: 0px; 
     overflow: hidden; 
-    margin: 8px auto; 
+    margin: 5px auto; 
     width: 90%; 
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
@@ -357,7 +357,7 @@ ul {
 }
 
 .task-item h3, .task-item p {
-    margin: 2px 5px; /* Espaçamento entre titulo*/
+    margin: 0px 8px; /* Espaçamento entre titulo*/
     word-wrap: break-word; /* Quebra palavras longas para não ultrapassar a largura */
 }
 
@@ -366,7 +366,7 @@ ul {
     transition: opacity 0.3s; /* Adiciona uma transição suave para a opacidade */
     float:right; 
     margin-left: 0px; 
-    padding: 3px 8px; 
+    padding: 1px 8px; 
     border-radius: 2px;
     border: none;
     background-color: var(--quinary-color);
@@ -383,7 +383,7 @@ ul {
 .priority-div{
     max-width: 20px;
     float:left; 
-    padding: 3px 8px;
+    padding: 1px 8px;
     font-size: 8px;
     border-radius: 3px;
     overflow: hidden;
