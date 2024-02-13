@@ -14,6 +14,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.JsonbException;
 
 @ApplicationScoped
 public class TaskBean {
@@ -38,7 +39,9 @@ public class TaskBean {
                 tasks = JsonbBuilder.create().fromJson(filereader, new
                         ArrayList<Task>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Json file not found " + e);
+            } catch (JsonbException e) {
+                throw new RuntimeException("Json file processing error " + e);
             }
         }else{
             tasks = new ArrayList<Task>();
