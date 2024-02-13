@@ -9,8 +9,8 @@
     <title>Registration Page - AntNest</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="index.css">
-    <script defer src="./js/editProfile.js" type="module"></script>
-    <script defer src="./js/language.js" type="module"></script>
+    <script src="./js/editProfile.js" type="module"></script>
+    <script src="./js/language.js" type="module"></script>
 </head>
 
 <body>
@@ -34,34 +34,34 @@
                 <p id="edit-profile-banner">Edit Profile</p>
             </div>
             <div class="content">
-                <label id="username-label" for="username">Username</label>
+                <label id="username-label" for="username-field">Username</label>
                 <input type="text" name="username" id="username-field" maxlength="12" disabled>
-                <label id="phone-label" for="phone">Phone</label>
+                <label id="phone-label" for="phone-field">Phone</label>
                 <input type="text" name="phone" id="phone-field" maxlength="35" placeholder="Enter your phone">
-                <label id="email-label" for="email">Email</label>
+                <label id="email-label" for="email-field">Email</label>
                 <input type="text" name="email" id="email-field" maxlength="35" placeholder="Enter your email">
-                <label id="first-name-label" for="first-name">First Name</label>
+                <label id="first-name-label" for="firstname-field">First Name</label>
                 <input type="text" name="first-name" id="firstname-field" maxlength="35" placeholder="Enter your First Name">
-                <label id="last-name-label" for="last-name">Last Name</label>
+                <label id="last-name-label" for="lastname-field">Last Name</label>
                 <input type="text" name="last-name" id="lastname-field" maxlength="35" placeholder="Enter your Last Name">
-                <label id="photo-label" for="photo">Photography</label>
+                <label id="photo-label" for="photo-field">Photography</label>
                 <input type="text" name="photo" id="photo-field" maxlength="500" placeholder="Enter your Photo URL">
-                <input type="submit" id="registration" value="Submit">
+                <input type="submit" id="edit-submit" value="Submit">
             </div>
         </form>
         <form id="editPasswordForm" action="homepage.html">
             <div class="banner">
-                <img id="login-icon" src="images/user-login.png" alt="IMG">
-                <p id="edit-profile-banner">Edit Password</p>
+                <img id="login-icon2" src="images/user-login.png" alt="IMG">
+                <p id="edit-profile-banner2">Edit Password</p>
             </div>
             <div class="content">
-                <label id="old-password-label" for="old-password">Old Password</label>
+                <label id="old-password-label" for="old-password-field">Old Password</label>
                 <input type="password" name="old-password"  id="old-password-field" maxlength="12" placeholder="Enter your password">
-                <label id="password-label" for="password">Password</label>
+                <label id="password-label" for="password-field">Password</label>
                 <input type="password" name="password"  id="password-field" maxlength="12" placeholder="Enter new password">
-                <label id="password-label2" for="password2">Repeat Password</label>
+                <label id="password-label2" for="password2-field">Repeat Password</label>
                 <input type="password" name="password2"  id="password2-field" maxlength="12" placeholder="Repeat new password">
-                <input type="submit" id="registration" value="Submit">
+                <input type="submit" id="edit-submit2" value="Submit">
             </div>
         </form>
     </main>
