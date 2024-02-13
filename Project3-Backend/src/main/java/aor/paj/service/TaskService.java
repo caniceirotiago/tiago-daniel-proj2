@@ -86,16 +86,7 @@ public class TaskService {
         if (!userBean.loginConfirmation(username, password) || !username.equals(existingTask.getUsername())) {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't edit tasks of other users\"}").build();
         }
-        // Atualiza os campos da tarefa com os valores forneidos
-        if (taskUpdates.getTitle() != null) existingTask.setTitle(taskUpdates.getTitle());
-        if (taskUpdates.getDescription() != null) existingTask.setDescription(taskUpdates.getDescription());
-        if (taskUpdates.getPriority() != null) existingTask.setPriority(taskUpdates.getPriority());
-        if (taskUpdates.getStatus() != null) existingTask.setStatus(taskUpdates.getStatus());
-        // Trata a remoção ou atualização das datas
-        if (taskUpdates.isRemoveStartDate()) existingTask.setStartDate(null);
-        else if (taskUpdates.getStartDate() != null) existingTask.setStartDate(taskUpdates.getStartDate());
-        if (taskUpdates.isRemoveEndDate()) existingTask.setEndDate(null);
-        else if (taskUpdates.getEndDate() != null) existingTask.setEndDate(taskUpdates.getEndDate());
+
         // Persiste as alterações
         taskBean.updateTask(id, taskUpdates);
         return Response.status(200).entity("Task updated successfully").build();

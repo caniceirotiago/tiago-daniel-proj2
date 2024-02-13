@@ -152,10 +152,10 @@ public class TaskBean {
                 if (taskUpdate.getDescription() != null && !taskUpdate.getDescription().isEmpty()) {
                     task.setDescription(taskUpdate.getDescription());
                 }
-                if (taskUpdate.getPriority() != 0) { // Assume 0 como valor não válido
+                if (taskUpdate.getPriority() != null) { // Assume 0 como valor não válido
                     task.setPriority(taskUpdate.getPriority());
                 }
-                if (taskUpdate.getStatus() != 0) { // Assume 0 como valor não válido
+                if (taskUpdate.getStatus() != null) { // Assume 0 como valor não válido
                     task.setStatus(taskUpdate.getStatus());
                 }
                 if (taskUpdate.getStartDate() != null) {
