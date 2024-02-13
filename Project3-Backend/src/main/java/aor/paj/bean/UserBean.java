@@ -1,6 +1,7 @@
 package aor.paj.bean;
 
 import aor.paj.dto.User;
+import aor.paj.dto.UserWithNoPassword;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -75,6 +76,11 @@ public class UserBean {
             }
         }
         return null;
+    }
+    public UserWithNoPassword convertUserToUserWithNoPassword(User user){
+        return new UserWithNoPassword(user.getUsername(),
+                user.getEmail(), user.getFirstName(), user.getLastName(),
+                user.getPhoneNumber(), user.getPhotoURL());
     }
     public ArrayList<User> getAllUsers() {
         return users;

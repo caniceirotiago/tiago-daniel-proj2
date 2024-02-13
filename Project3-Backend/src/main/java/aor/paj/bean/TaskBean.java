@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.util.*;
 
 import aor.paj.dto.Task;
+import aor.paj.dto.TaskUpdate;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -141,31 +142,29 @@ public class TaskBean {
 
     ////// FALTA O MÉTODO PARA O UPDATE DA TASK
 
-    public void updateTask(int id, Task updatedTask) {
+    public void updateTask(int id, TaskUpdate taskUpdate) {
         for (Task task : tasks) {
             if (task.getId() == id) {
                 // Atualiza os campos da tarefa, exceto o ID
-                if (updatedTask.getTitle() != null && !updatedTask.getTitle().isEmpty()) {
-                    task.setTitle(updatedTask.getTitle());
+                if (taskUpdate.getTitle() != null && !taskUpdate.getTitle().isEmpty()) {
+                    task.setTitle(taskUpdate.getTitle());
                 }
-                if (updatedTask.getDescription() != null && !updatedTask.getDescription().isEmpty()) {
-                    task.setDescription(updatedTask.getDescription());
+                if (taskUpdate.getDescription() != null && !taskUpdate.getDescription().isEmpty()) {
+                    task.setDescription(taskUpdate.getDescription());
                 }
-                if (updatedTask.getPriority() != 0) { // Assume 0 como valor não válido
-                    task.setPriority(updatedTask.getPriority());
+                if (taskUpdate.getPriority() != 0) { // Assume 0 como valor não válido
+                    task.setPriority(taskUpdate.getPriority());
                 }
-                if (updatedTask.getStatus() != 0) { // Assume 0 como valor não válido
-                    task.setStatus(updatedTask.getStatus());
+                if (taskUpdate.getStatus() != 0) { // Assume 0 como valor não válido
+                    task.setStatus(taskUpdate.getStatus());
                 }
-                if (updatedTask.getStartDate() != null) {
-                    task.setStartDate(updatedTask.getStartDate());
+                if (taskUpdate.getStartDate() != null) {
+                    task.setStartDate(taskUpdate.getStartDate());
                 }
-                if (updatedTask.getEndDate() != null) {
-                    task.setEndDate(updatedTask.getEndDate());
+                if (taskUpdate.getEndDate() != null) {
+                    task.setEndDate(taskUpdate.getEndDate());
                 }
-                // Considere adicionar verificações para outros campos conforme necessário
 
-                // Atualiza o arquivo JSON
                 writeIntoJsonFile();
                 return;
             }

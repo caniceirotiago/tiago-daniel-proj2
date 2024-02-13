@@ -97,7 +97,7 @@ public class TaskService {
         if (taskUpdates.isRemoveEndDate()) existingTask.setEndDate(null);
         else if (taskUpdates.getEndDate() != null) existingTask.setEndDate(taskUpdates.getEndDate());
         // Persiste as alterações
-        taskBean.updateTask(id, existingTask);
+        taskBean.updateTask(id, taskUpdates);
         return Response.status(200).entity("Task updated successfully").build();
     }
 
