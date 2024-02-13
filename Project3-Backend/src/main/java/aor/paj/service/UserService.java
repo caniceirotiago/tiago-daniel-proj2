@@ -31,7 +31,7 @@ public class UserService {
         }
         else{
             userBean.addUser(user);
-            return Response.status(200).entity("A new user is created").build();
+            return Response.status(200).entity("A new user was created").build();
         }
     }
     @POST
@@ -118,23 +118,14 @@ public class UserService {
     }
 
     private boolean validatePhone(String phone) {
-        if (phone == null || phone.length() < 9 || phone.length() > 20) return false;
-        if (phone.startsWith("+")) {
-            for (int i = 1; i < phone.length(); i++) {
-                if (!Character.isDigit(phone.charAt(i))) {
-                    return false;
-                }
-            }
-        } else {
-            // Verifica se todos os caracteres são dígitos
-            for (int i = 0; i < phone.length(); i++) {
-                if (!Character.isDigit(phone.charAt(i))) {
-                    return false;
-                }
-            }
-        }
+        if (phone == null) return false;
+        // Verifica o comprimento do número de telefone limpo.
+        if (phone.length() < 9 || phone.length() > 20) return false;
+        // Se passou por todas as verificações, o número é válido.
         return true;
     }
+
+
 
     private boolean validateName(String firstName, String lastName) {
         if (firstName == null || lastName == null) return false;
