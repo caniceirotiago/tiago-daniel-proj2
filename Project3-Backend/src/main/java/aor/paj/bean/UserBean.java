@@ -84,7 +84,6 @@ public class UserBean {
                 JsonbConfig().withFormatting(true));
         try {
             jsonb.toJson(users, new FileOutputStream(filename));
-            readJsonFile();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -99,7 +98,6 @@ public class UserBean {
                 user.setLastName(updatedUser.getLastName());
                 user.setPhotoURL(updatedUser.getPhotoURL());
                 writeIntoJsonFile(); // Atualiza o arquivo JSON
-                readJsonFile();
                 return true;
             }
         }

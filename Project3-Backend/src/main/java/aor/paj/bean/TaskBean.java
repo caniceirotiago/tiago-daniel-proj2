@@ -51,7 +51,6 @@ public class TaskBean {
         tasks.add(a);
         // atualiza o ficheiro de tasks
         writeIntoJsonFile();
-        readJsonFile();
     }
 
     public int getLastTaskIdCreated(){
@@ -91,7 +90,6 @@ public class TaskBean {
                 tasks.remove(a);
                 // atualiza o ficheiro de tasks
                 writeIntoJsonFile();
-                readJsonFile();
                 return true;
             }
         }
