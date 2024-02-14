@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -35,27 +36,26 @@ public class Task {
 
     public Task() {
     }
-    public Task(int id, String t, String d, int p, int s, String u, LocalDate startDate, LocalDate endDate) {
-        this.id= id;
-        this.title = t;
-        this.description= d;
-        this.priority = p;
-        this.status = s;
-        this.username = u;
-
-    }
 
     public LocalDate getEndDate() {
         return endDate;
     }
     public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+        try{
+            this.endDate = endDate;
+        }catch (DateTimeParseException e){
+            this.endDate = null;
+        }
     }
     public LocalDate getStartDate() {
         return startDate;
     }
     public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+        try{
+            this.startDate = startDate;
+        }catch (DateTimeParseException e){
+            this.startDate = null;
+        }
     }
 
     public void setId(int id) {

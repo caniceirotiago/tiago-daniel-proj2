@@ -3,6 +3,7 @@ package aor.paj.service;
 import aor.paj.bean.UserBean;
 import aor.paj.dto.Task;
 import aor.paj.dto.User;
+import aor.paj.dto.UserNewPassword;
 import aor.paj.dto.UserWithNoPassword;
 import aor.paj.service.validator.UserValidator;
 import jakarta.inject.Inject;
@@ -176,6 +177,36 @@ public class UserService {
                     .build();
         }
         boolean updateResult = userBean.updateUser(username, updatedUser);
+        if (updateResult) {
+            return Response.status(200)
+                    .entity("User data updated successfully")
+                    .build();
+        } else {
+            return Response.status(500)
+                    .entity("An error occurred while updating user data")
+                    .build();
+        }
+    }
+    @POST
+    @Path("/edituserpassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUserPassword(UserNewPassword updatedPassword, @HeaderParam("username") String username, @HeaderParam("password")String password) {
+        if (username == null || password == null) {
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
+        }
+        if (!userBean.loginConfirmation(username, password) && !userBean.loginConfirmation(username, updatedPassword.getPassword())) {
+            return Response.status(401)
+                    .entity("Login Failed or Passwords do not match")
+                    .build();
+        }
+        if (!userValidator.validatePassword(updatedPassword.getNewPassword())) {
+            return Response.status(400)
+                    .entity("Invalid Data")
+                    .build();
+        }
+        boolean updateResult = userBean.updatePassWord(username, updatedPassword.getNewPassword());
         if (updateResult) {
             return Response.status(200)
                     .entity("User data updated successfully")

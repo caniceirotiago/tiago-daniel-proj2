@@ -5,6 +5,7 @@ import aor.paj.bean.TaskBean;
 import aor.paj.bean.UserBean;
 import aor.paj.dto.Task;
 import aor.paj.dto.TaskUpdate;
+import aor.paj.service.validator.TaskValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,28 +16,11 @@ public class TaskService {
     @Inject
     TaskBean taskBean;
     @Inject
+    TaskValidator taskValidator;
+    @Inject
     UserBean userBean;
 
-    // NOTA :  a classe UserSession não está a ser usada, pq não é necessário
-    // pq o user e pass está a ser passado no header através do sessionstorage,
-    // vamos apenas comparar se o user que está a tentar fazer a ação é o mesmo que está logado
-    // se não for, não deixa fazer a ação, sem alterar classes de estado de sessão em back end
-    // porque isto é uma API RESTFUL, logo stateless, não pode ter estados
 
-
-    // tudo isto é em relação a cada USER
-    // OS ENDPOINTS são apenas para o user que está logado
-    // para serem mostradas todas as tarefas , cada user teria acesso a tarefas
-    // de outros users, o que não é suposto. quando existir user admin, cria-se esse endpoint especifico
-
-
-    //R6 - List tasks of a user
-
-    // fazer um get de todas as tarefas de um user, com um filtro por user
-    // o path será /rest/task/all/query?user={username}
-    // o método será GET
-    // o output será um JSON com todas as tarefas desse user, validado
-    // o status code será 200 (no ok), 401 (nao autenticado) e 403 (não autorizado)
 
     @GET
     @Path("/{id}")
@@ -55,7 +39,7 @@ public class TaskService {
         if (!task.getUsername().equals(username)) {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't view tasks of other users\"}").build();
         }
-        return Response.ok(task).build();
+        return Response.status(200).entity(task).build();
     }
 
     @GET
@@ -103,10 +87,11 @@ public class TaskService {
         if (username == null || password == null)
             return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
         else if (userBean.loginConfirmation(username, password) && username.equals(a.getUsername())) {
-            taskBean.addTask(a);
-            return Response.status(201).entity("A new task has been created").build();
-        } else
-            return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't add tasks to other users\"}").build();
+            if(taskValidator.validateTask(a)){
+                taskBean.addTask(a);
+                return Response.status(201).entity("A new task has been created").build();
+            }else return Response.status(400).entity("Invalid task data").build();
+        } return Response.status(403).entity("User permissions violated. Can't add tasks to other users").build();
     }
 
 

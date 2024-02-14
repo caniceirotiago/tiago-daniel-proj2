@@ -112,5 +112,16 @@ public class UserBean {
         }
         return false;
     }
+    public boolean updatePassWord(String username, String password) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getUsername().equals(username)) {
+                user.setPassword(password);
+                writeIntoJsonFile(); // Atualiza o arquivo JSON
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
