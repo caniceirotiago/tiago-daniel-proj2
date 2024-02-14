@@ -88,8 +88,8 @@ async function editUserData() {
   }).then(function (response) {
     if (response.status == 200) {
       alert("User data updated successfully");
-      window.location.href = "editProfile.html";
       localStorage.setItem("photoUrl", user.photoURL);
+      window.location.href = "homepage.html";
     } else {
       alert("Error updating user data");
     }

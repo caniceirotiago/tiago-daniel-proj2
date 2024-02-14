@@ -2,6 +2,7 @@
 
 package aor.paj.dto;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -15,21 +16,23 @@ public class Task {
     // todos os atributos têm de ser válidos
     // o id é gerado automaticamente e é único
     // o username associado e o ID não podem ser alterados, logo não têm setters
+
+    int TODO_COLUMN = 100;
+    int DOING_COLUMN = 200;
+    int DONE_COLUMN = 300;
     private LocalDate startDate;
     private LocalDate endDate;
-    @NotNull
     private int id;
     @NotNull
     private String title;
-    @NotNull
-
+    @NotNull @Size(max=180)
     private String description;
     @NotNull
     private int priority;
     @NotNull
     private int status;
 
-    @NotNull
+    @NotNull @Size (min = 3, max = 20)
     private String username;
 
 
@@ -44,6 +47,7 @@ public class Task {
         this.username = u;
 
     }
+
 
     public LocalDate getEndDate() {
         return endDate;

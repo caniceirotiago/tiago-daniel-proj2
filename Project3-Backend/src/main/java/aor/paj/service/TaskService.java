@@ -17,27 +17,15 @@ public class TaskService {
     @Inject
     UserBean userBean;
 
-    // NOTA :  a classe UserSession não está a ser usada, pq não é necessário
-    // pq o user e pass está a ser passado no header através do sessionstorage,
-    // vamos apenas comparar se o user que está a tentar fazer a ação é o mesmo que está logado
-    // se não for, não deixa fazer a ação, sem alterar classes de estado de sessão em back end
-    // porque isto é uma API RESTFUL, logo stateless, não pode ter estados
-
-
+    // NOTAS
     // tudo isto é em relação a cada USER
     // OS ENDPOINTS são apenas para o user que está logado
     // para serem mostradas todas as tarefas , cada user teria acesso a tarefas
     // de outros users, o que não é suposto. quando existir user admin, cria-se esse endpoint especifico
 
 
-    //R6 - List tasks of a user
 
-    // fazer um get de todas as tarefas de um user, com um filtro por user
-    // o path será /rest/task/all/query?user={username}
-    // o método será GET
-    // o output será um JSON com todas as tarefas desse user, validado
-    // o status code será 200 (no ok), 401 (nao autenticado) e 403 (não autorizado)
-
+    //R.EXTRA - Get task by id
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +45,14 @@ public class TaskService {
         }
         return Response.ok(task).build();
     }
+
+
+    //R6 - List tasks of a user
+
+    // o output será um JSON com todas as tarefas desse user, validado
+    // o status code será 200 (no ok), 404 (task não encontrada), 401 (nao autenticado) e 403 (não autorizado)
+
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -112,6 +108,10 @@ public class TaskService {
         if (username == null || password == null)
             return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
         else if (userBean.loginConfirmation(username, password) && username.equals(a.getUsername())) {
+            // if / else para validar os campos da task
+            if(taskValidation(a)){
+                return Response.status(400).entity("{\"Error\":\"Invalid task\"}").build();}
+
             taskBean.addTask(a);
             return Response.status(201).entity("A new task has been created").build();
         } else
@@ -135,4 +135,22 @@ public class TaskService {
         } else
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't delete tasks of other users\"}").build();
     }
+    /**Validation of tasks @Backend**/
+    //validação dos campos da task, caso verifique, invalida a task
+    private boolean taskValidation(Task a) {
+
+        // verifica se o titulo, descrição e prioridade são válidos
+        //title não pode ser null, description não pode ser null, prioridade tem de ser entre 1 e 3 e status tem de ser 100
+        // title nao pode ter mais de 20 caracteres e description nao pode ter mais de 180
+
+
+        return a.getTitle() == null || a.getTitle().length() > 20 || a.getDescription().length() > 180 ||  a.getDescription() == null || !(a.getPriority() >= 1 && a.getPriority() <= 3)
+                || a.getStatus() != 100;
+    }
+
+
+
+
 }
+
+
