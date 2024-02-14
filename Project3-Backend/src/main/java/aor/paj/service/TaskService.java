@@ -53,7 +53,6 @@ public class TaskService {
     // o status code será 200 (no ok), 404 (task não encontrada), 401 (nao autenticado) e 403 (não autorizado)
 
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
@@ -66,7 +65,6 @@ public class TaskService {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't see tasks of other users\"}").build();
 
     }
-    /**Edit*/// Garanta que este import esteja correto
 
     @PATCH
     @Path("/edit/{id}")
@@ -75,6 +73,8 @@ public class TaskService {
         if (username == null || password == null) {
             return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
         }
+
+
         Task existingTask = taskBean.getTask(id);
         if (existingTask == null) {
             return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
@@ -82,7 +82,7 @@ public class TaskService {
         if (!userBean.loginConfirmation(username, password) || !username.equals(existingTask.getUsername())) {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't edit tasks of other users\"}").build();
         }
-        // Atualiza os campos da tarefa com os valores forneidos
+        // Atualiza os campos da tarefa com os valores fornecidos
         if (taskUpdates.getTitle() != null) existingTask.setTitle(taskUpdates.getTitle());
         if (taskUpdates.getDescription() != null) existingTask.setDescription(taskUpdates.getDescription());
         if (taskUpdates.getPriority() != null) existingTask.setPriority(taskUpdates.getPriority());
@@ -92,6 +92,11 @@ public class TaskService {
         else if (taskUpdates.getStartDate() != null) existingTask.setStartDate(taskUpdates.getStartDate());
         if (taskUpdates.isRemoveEndDate()) existingTask.setEndDate(null);
         else if (taskUpdates.getEndDate() != null) existingTask.setEndDate(taskUpdates.getEndDate());
+
+
+        // como foi criada uma cópia, verifica se os campos são válidos
+        if(taskValidation(existingTask)){
+            return Response.status(400).entity("{\"Error\":\"Invalid task fields\"}").build();}
         // Persiste as alterações
         taskBean.updateTask(id, existingTask);
         return Response.status(200).entity("Task updated successfully").build();
@@ -110,7 +115,7 @@ public class TaskService {
         else if (userBean.loginConfirmation(username, password) && username.equals(a.getUsername())) {
             // if / else para validar os campos da task
             if(taskValidation(a)){
-                return Response.status(400).entity("{\"Error\":\"Invalid task\"}").build();}
+                return Response.status(400).entity("{\"Error\":\"Invalid task fields\"}").build();}
 
             taskBean.addTask(a);
             return Response.status(201).entity("A new task has been created").build();
@@ -136,7 +141,9 @@ public class TaskService {
             return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't delete tasks of other users\"}").build();
     }
     /**Validation of tasks @Backend**/
-    //validação dos campos da task, caso verifique, invalida a task
+
+
+    //validação dos campos da task, caso true se verifique, invalida a criação/ediçao da task
     private boolean taskValidation(Task a) {
 
         // verifica se o titulo, descrição e prioridade são válidos
@@ -145,7 +152,7 @@ public class TaskService {
 
 
         return a.getTitle() == null || a.getTitle().length() > 20 || a.getDescription().length() > 180 ||  a.getDescription() == null || !(a.getPriority() >= 1 && a.getPriority() <= 3)
-                || a.getStatus() != 100;
+                || a.getStatus() != 100 || a.getStartDate().isAfter(a.getEndDate());
     }
 
 
