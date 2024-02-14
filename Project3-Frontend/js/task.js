@@ -38,7 +38,7 @@ function submitActionLisnter() {
     var endDate = document.getElementById("date-end").value;
 
     // verificar se a data de inicio é anterior à data de fim
-    if (startDate && endDate) {
+    if (startDate != null && endDate != null) {
       if (startDate > endDate) {
         alert("Start date must be before or equal end date");
         // interrompe a função para o utilizador corrigir o erro
@@ -76,12 +76,7 @@ async function addTaskBE(title, description, priority, startDate, endDate) {
     status: 100,
     username: localStorage.getItem("username"),
   };
-  if (startDate) {
-    task.startDate = startDate;
-  }
-  if (endDate) {
-    task.endDate = endDate;
-  }
+
   console.log(task);
   await fetch("http://localhost:8080/Project3-Backend/rest/task/create", {
     method: "POST",

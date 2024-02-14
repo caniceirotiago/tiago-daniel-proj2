@@ -96,6 +96,8 @@ public class TaskBean {
         return orderTasksByPriorityStartAndEndDate(listOfUserTasks);
     }
 
+    // para remover uma task
+    // R10 - Delete task of user tasks
 
     public boolean removeTask(int id) {
         for (Task a : tasks) {

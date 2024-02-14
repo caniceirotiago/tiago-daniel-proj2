@@ -95,12 +95,14 @@ public class TaskService {
 
 
         // como foi criada uma cópia, verifica se os campos são válidos
-        if(taskValidation(existingTask)){
+        if(taskValidationEdit(existingTask)){
             return Response.status(400).entity("{\"Error\":\"Invalid task fields\"}").build();}
         // Persiste as alterações
         taskBean.updateTask(id, existingTask);
         return Response.status(200).entity("Task updated successfully").build();
     }
+
+
 
     // adicionar task
     //R9 - Add task to user tasks
@@ -143,7 +145,7 @@ public class TaskService {
     /**Validation of tasks @Backend**/
 
 
-    //validação dos campos da task, caso true se verifique, invalida a criação/ediçao da task
+    //validação dos campos da task, caso true se verifique, invalida a criação da task
     private boolean taskValidation(Task a) {
 
         // verifica se o titulo, descrição e prioridade são válidos
@@ -152,10 +154,15 @@ public class TaskService {
 
 
         return a.getTitle() == null || a.getTitle().length() > 20 || a.getDescription().length() > 180 ||  a.getDescription() == null || !(a.getPriority() >= 1 && a.getPriority() <= 3)
-                || a.getStatus() != 100 || a.getStartDate().isAfter(a.getEndDate());
+                || a.getStatus() != 100 ||     (!(a.getStartDate()==null)&&!(a.getEndDate()==null)&&(a.getStartDate().isAfter(a.getEndDate())));
     }
 
-
+    // é igual à validação da criação mas com outra caracteristica. quando é criada o status (coluna onde pertence) é obrigatoriamente
+    // 100, mas quando é editada pode estar noutras, pelo que temos de considerar válidos todos os status permitidos)
+    private boolean taskValidationEdit(Task existingTask) {
+        return existingTask.getTitle() == null || existingTask.getTitle().length() > 20 || existingTask.getDescription().length() > 180 ||  existingTask.getDescription() == null || !(existingTask.getPriority() >= 1 && existingTask.getPriority() <= 3)
+                || (existingTask.getStatus() != 100 && existingTask.getStatus() != 200 && existingTask.getStatus() != 300 ) ||     (!(existingTask.getStartDate()==null)&&!(existingTask.getEndDate()==null)&&(existingTask.getStartDate().isAfter(existingTask.getEndDate())));
+    }
 
 
 }
