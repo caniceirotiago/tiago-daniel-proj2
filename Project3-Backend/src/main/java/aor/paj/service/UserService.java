@@ -196,7 +196,7 @@ public class UserService {
                     .entity("User not logged in")
                     .build();
         }
-        if (!userBean.loginConfirmation(username, password) && !userBean.loginConfirmation(username, updatedPassword.getPassword())) {
+        if (!userBean.loginConfirmation(username, password) || !userBean.loginConfirmation(username, updatedPassword.getPassword())) {
             return Response.status(401)
                     .entity("Login Failed or Passwords do not match")
                     .build();
@@ -206,14 +206,19 @@ public class UserService {
                     .entity("Invalid Data")
                     .build();
         }
+        if (updatedPassword.getNewPassword().equals(password)) {
+            return Response.status(400)
+                    .entity("Invalid Data: New password must be different from the old password")
+                    .build();
+        }
         boolean updateResult = userBean.updatePassWord(username, updatedPassword.getNewPassword());
         if (updateResult) {
             return Response.status(200)
-                    .entity("User data updated successfully")
+                    .entity("User password updated successfully")
                     .build();
         } else {
             return Response.status(500)
-                    .entity("An error occurred while updating user data")
+                    .entity("An error occurred while updating user password")
                     .build();
         }
     }
