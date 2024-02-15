@@ -47,11 +47,11 @@ public class TaskService {
     @Path("/all")
     public Response getAllTasksByUser(@HeaderParam("username") String username, @HeaderParam("password") String password) {
         if (username == null || password == null)
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+            return Response.status(401).entity("User not logged in").build();
         else if (userBean.loginConfirmation(username, password)) {
             return Response.ok(taskBean.getAllTasksByUser(username)).build();
         } else
-            return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't see tasks of other users\"}").build();
+            return Response.status(403).entity("User permissions violated. Can't see tasks of other users").build();
 
     }
     /**Edit*/// Garanta que este import esteja correto
@@ -61,14 +61,14 @@ public class TaskService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editTask(@PathParam("id") int id, TaskUpdate taskUpdates, @HeaderParam("username") String username, @HeaderParam("password") String password) {
         if (username == null || password == null) {
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+            return Response.status(401).entity("User not logged in").build();
         }
         Task existingTask = taskBean.getTask(id);
         if (existingTask == null) {
-            return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
+            return Response.status(404).entity("Task not found").build();
         }
         if (!userBean.loginConfirmation(username, password) || !username.equals(existingTask.getUsername())) {
-            return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't edit tasks of other users\"}").build();
+            return Response.status(403).entity("User permissions violated. Can't edit tasks of other users").build();
         }
 
         // Persiste as alterações
@@ -102,13 +102,25 @@ public class TaskService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeTask(@HeaderParam("username") String username, @HeaderParam("password") String password, @PathParam("id") String id) {
         if (username == null || password == null)
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
-        else if (userBean.loginConfirmation(username, password) && username.equals(taskBean.getTask(Integer.parseInt(id)).getUsername())) {
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
+        else if (userBean.loginConfirmation(username, password)) {
+            if (taskBean.getTask(Integer.parseInt(id)) == null)
+                return Response.status(404)
+                        .entity("Task not found")
+                        .build();
+            else if(!username.equals(taskBean.getTask(Integer.parseInt(id)).getUsername())){
+                return Response.status(403)
+                        .entity("User permissions violated. Can't delete tasks of other users")
+                        .build();
+            }
             boolean deleted = taskBean.removeTask(Integer.parseInt(id));
-            if (!deleted)
-                return Response.status(404).entity("{\"Error\":\"Task not found\"}").build();
-            return Response.status(200).entity("Task deleted").build();
-        } else
-            return Response.status(403).entity("{\"Error\":\"User permissions violated. Can't delete tasks of other users\"}").build();
+            if (deleted) return Response.status(200)
+                    .entity("Task deleted")
+                    .build();
+        } return Response.status(403)
+                .entity("User permissions violated. Can't delete tasks of other users")
+                .build();
     }
 }

@@ -217,4 +217,18 @@ public class UserService {
                     .build();
         }
     }
+    /**
+     * This endpoint simulates the action of logging out a user. Since this example does not
+     * manage user sessions or authentication tokens explicitly, the endpoint simply returns
+     * a response indicating that the user has been logged out successfully.
+     *
+    @POST
+    @Path("/logout")
+    public Response logout(@HeaderParam("username") String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return Response.status(422).entity("Missing username").build();
+        }
+        return Response.status(200).entity("User logged out successfully").build();
+    }
+    */
 }
