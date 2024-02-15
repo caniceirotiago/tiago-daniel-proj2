@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     language.underlineLangFlag();
     theme.loadTheme();
     loginActionListners();
+    localStorage.clear();
 });
 /**************************************************************************************************************************************************************************************/ 
 /* FORM FOR LOGIN LISTENER */ // index.html // <form id="loginForm" action="homepage.html">
