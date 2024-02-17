@@ -10,6 +10,8 @@ import * as logout from "./logout.js"
 import { loadPhoto } from "./UserPhoto.js";
 import * as validation from "./taskFieldsValidation.js";
 
+const TODO_COLUMN = 100;
+
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
 /* DOMcl sets username, changes theme *** */
@@ -65,7 +67,7 @@ async function addTaskBE(title, description, priority, startDate, endDate){
         title: title,
         description: description,
         priority: priority,
-        status: 100,
+        status: TODO_COLUMN,
         username : localStorage.getItem("username"),
     };
     if (startDate) {

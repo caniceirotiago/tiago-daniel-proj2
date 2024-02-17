@@ -1,12 +1,13 @@
 package aor.paj.dto;
 
+
 import java.time.LocalDate;
 
 public class TaskUpdate {
     private String title;
     private String description;
     private Integer priority;
-    private Integer status;
+    private int status;
     private LocalDate startDate;
     private boolean removeStartDate = false;
     private LocalDate endDate;
@@ -37,11 +38,11 @@ public class TaskUpdate {
         this.priority = priority;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

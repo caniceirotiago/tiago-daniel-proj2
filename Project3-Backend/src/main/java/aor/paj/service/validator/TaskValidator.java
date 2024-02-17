@@ -1,6 +1,7 @@
 package aor.paj.service.validator;
 
 import aor.paj.dto.Task;
+
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.LocalDate;
@@ -21,8 +22,9 @@ public class TaskValidator {
         return taskPriority >= 0 && taskPriority <= 400;
     }
     public boolean validateTaskStatus(int taskStatus) {
-        return  taskStatus >= 0 && taskStatus <= 400;
+        return  taskStatus == 100 || taskStatus == 200 || taskStatus == 300;
     }
+    // If you want to add more statues tha validation should be updated
     public boolean isStartDateAfterEndDate(Task task) {
         if(task.getStartDate() == null || task.getEndDate() == null) return true;
         return task.getStartDate().isBefore(task.getEndDate());

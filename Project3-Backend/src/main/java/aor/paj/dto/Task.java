@@ -1,14 +1,13 @@
 /**Código Daniel*/
 
 package aor.paj.dto;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.UUID;
 
 @XmlRootElement
 public class Task {
@@ -89,7 +88,7 @@ public class Task {
         this.priority = priority;
     }
     @XmlElement
-    public int getStatus() {
+    public @NotNull int getStatus() {
         return status;
     }
     public void setStatus(int status) {

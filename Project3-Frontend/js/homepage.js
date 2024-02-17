@@ -139,9 +139,9 @@ function addTaskToRightList(task) {
     
     /* Add Task to correct List */
     let collumn;
-    if(task.status === 100) collumn = "TODO_COLUMN";
-    else if(task.status === 200) collumn = "DOING_COLUMN";
-    else if(task.status === 300) collumn = "DONE_COLUMN";
+    if(task.status === TODO_COLUMN) collumn = "TODO_COLUMN";
+    else if(task.status === DOING_COLUMN) collumn = "DOING_COLUMN";
+    else if(task.status === DONE_COLUMN) collumn = "DONE_COLUMN";
     document.getElementById(collumn).appendChild(itemList);
     updateTaskCountView();
 };
@@ -186,9 +186,9 @@ function createDragDropListener(itemList, task){
 function createDropListnerForTasks(){
     document.querySelectorAll(".ul-tasks").forEach(column => { //faz com que as listas recebam itens
     let status = column.id;
-    if(status === "TODO_COLUMN") status = 100;
-    else if(status === "DOING_COLUMN") status = 200;
-    else if(status === "DONE_COLUMN") status = 300;
+    if(status === "TODO_COLUMN") status = TODO_COLUMN;
+    else if(status === "DOING_COLUMN") status = DOING_COLUMN;
+    else if(status === "DONE_COLUMN") status = DONE_COLUMN;
     console.log(status);
     column.addEventListener('dragover', function(e) {
         e.preventDefault(); // Permite o drop

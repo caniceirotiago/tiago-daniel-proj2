@@ -1,5 +1,5 @@
 import * as validation from "./userFieldsValidation.js";
-import * as index from "./index.js";
+import * as fetchPhotoNameAndRedirect from "./fetchPhotoAndName.js";
 
 let userData = null;
 
@@ -108,9 +108,9 @@ async function editUserData(){
     }
     ).then(function (response) {
     if (response.status == 200) {
-        index.fetchPhotoNameAndRedirect(localStorage.getItem("username"), localStorage.getItem("password"));
+        fetchPhotoNameAndRedirect.fetchPhotoNameAndRedirect(localStorage.getItem("username"),localStorage.getItem("password"));
         alert("User data updated successfully");
-        window.location.href = "homepage.html";
+        window.location.href = "editProfile.html";
     } else {
         alert("Error updating user data");
     }

@@ -5,6 +5,7 @@
 
 import * as language from "./language.js";
 import * as theme from "./theme.js";
+import * as fetchPhotoNameAndRedirect from "./fetchPhotoAndName.js";
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -85,7 +86,7 @@ async function loginAttempt(username, password){
                 localStorage.setItem('username', username); // saves data into localStorage    
                 localStorage.setItem('password', password); // saves data into localStorage   
                 alert('Sucessfull Login');
-                fetchPhotoNameAndRedirect(username, password);  
+                fetchPhotoNameAndRedirect.fetchPhotoNameAndRedirect(username, password);  
             } else if (response.status == 401) {
                 alert('Login Failed');
             } else {
@@ -94,26 +95,7 @@ async function loginAttempt(username, password){
     });
 }
 
-export async function fetchPhotoNameAndRedirect(username, password) {
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/getphotoandname',
-    {
-        method: 'GET',
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'username' : username,
-            'password': password
-        },
-        credentials: 'include',
-      }
-    ).then(response => response.json())
-    .then(function (response){
-        console.log(response)
-        localStorage.setItem("photoUrl",response.photoUrl);
-        localStorage.setItem("name", response.name); 
-    });
-    window.location.href= "homepage.html";
-}
+
 
 
 
