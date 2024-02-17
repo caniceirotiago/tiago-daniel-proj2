@@ -1,4 +1,5 @@
 import * as validation from "./userFieldsValidation.js";
+import * as index from "./index.js";
 
 let userData = null;
 
@@ -107,8 +108,9 @@ async function editUserData(){
     }
     ).then(function (response) {
     if (response.status == 200) {
+        index.fetchPhotoNameAndRedirect(localStorage.getItem("username"), localStorage.getItem("password"));
         alert("User data updated successfully");
-        window.location.href = "editProfile.html";
+        window.location.href = "homepage.html";
     } else {
         alert("Error updating user data");
     }

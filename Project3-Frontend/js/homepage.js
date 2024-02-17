@@ -6,8 +6,8 @@
 import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
-import * as logout from "./logout.js"
-import * as photoUser from "./UserPhoto.js"
+import * as logout from "./logout.js";
+import * as photoUser from "./UserPhoto.js";
 
 const TODO_COLUMN = 100;
 const DOING_COLUMN = 200;

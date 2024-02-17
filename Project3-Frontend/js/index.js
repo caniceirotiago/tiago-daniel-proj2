@@ -94,7 +94,7 @@ async function loginAttempt(username, password){
     });
 }
 
-async function fetchPhotoNameAndRedirect(username, password) {
+export async function fetchPhotoNameAndRedirect(username, password) {
     await fetch('http://localhost:8080/Project3-Backend/rest/user/getphotoandname',
     {
         method: 'GET',
