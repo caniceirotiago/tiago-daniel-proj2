@@ -55,8 +55,8 @@ function isUsernameInvalid(username) {
 /* FUNCTION isUsernameSmall(username) - checks if username is under 6 letters
 /**************************************************************************************************************************************************************************************/
 function isUsernameSmall(username) {
-    if (username.length<6) {
-        console.log("username is smoll");
+    if (username.length<3) {
+        console.log("username is small");
         return true;
     }
     return false;

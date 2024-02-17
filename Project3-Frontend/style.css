@@ -32,9 +32,9 @@ body.theme-dark {
     --tertiary-color: rgba(255, 255, 255, 0.2);
     --quaternary-color: rgba(0, 5, 5, 0.3);
     --quinary-color: rgba(255, 255, 255, 0.075);
-    --todo-color:rgb(236, 154, 82);
-    --doing-color:rgb(173, 171, 57);
-    --done-color:rgba(155, 233, 154, 0.66);
+    --todo-color:rgba(96, 59,44, 1);
+    --doing-color:rgba(40,69,108, 1);
+    --done-color:rgba(43, 89, 63, 1);
     --header-color:rgba(77, 78, 81, 0.9);
     --background-color: rgb(0, 0, 0);
     --form-background:rgb(118, 115, 115);
@@ -365,20 +365,30 @@ ul {
 }
 #TODO_COLUMN .banner {
     background-color: var(--todo-color);
+    opacity: 0.8;
 }
 #DOING_COLUMN .banner {
     background-color: var(--doing-color);
+    opacity: 0.8;
 }
 #DONE_COLUMN .banner {
     background-color: var(--done-color);
+    opacity: 0.8;
 }
+
+#TODO_COLUMN .task-item:hover .banner,
+#DOING_COLUMN .task-item:hover .banner,
+#DONE_COLUMN .task-item:hover .banner {
+    opacity: 1; /* Aumenta a opacidade para 1 no hover */
+}
+
 
 .task-item:hover {
     cursor: pointer;
     transform: translate(-2px, -2px); /* Move o elemento 5px para a direita e 5px para cima */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Adiciona uma sombra para efeito de elevação*/
 }
-.task-item:hover button {
+.task-item:hover button, .task-item:hover .banner{
     opacity: 1; /* Torna o botão totalmente opaco quando o mouse sobre o task-item */
 }
 
