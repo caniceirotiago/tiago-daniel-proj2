@@ -12,6 +12,9 @@ import * as photoUser from "./UserPhoto.js";
 const TODO_COLUMN = 100;
 const DOING_COLUMN = 200;
 const DONE_COLUMN = 300;
+const priority_low = 1;
+const priority_medium = 2;
+const priority_high = 3;
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -116,15 +119,15 @@ function addTaskToRightList(task) {
     let priority = Number(task.priority);
     /*Eliminar em baixo quando propriedade for incluida em tarefa*/ 
     const priorityDiv = document.createElement('div');
-    if(priority === 1){
+    if(priority === priority_low){
 
         priorityDiv.classList.add("low-priority")
     }
-    else if(priority === 2){
+    else if(priority === priority_medium){
 
         priorityDiv.classList.add("medium-priority")
     }
-    else if(priority === 3){
+    else if(priority === priority_high){
      
         priorityDiv.classList.add("high-priority")
     }
