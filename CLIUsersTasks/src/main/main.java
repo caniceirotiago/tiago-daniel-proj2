@@ -14,7 +14,7 @@ public class main {
                         int numberOfUsers = Integer.parseInt(args[1]);
                         userClient.addUserRandomly(numberOfUsers);
                     } else {
-                        System.out.println("Uso: add_users <numero_de_usuarios>");
+                        System.out.println("Uso: add_users <numero_de_utilizadores>");
                     }
                     break;
                 case "add_tasks":

@@ -20,9 +20,11 @@ export function validateDescription() {
 export function validateStartDateBeforeEndDate() {
     const startDate = document.getElementById('date-start').value;
     const endDate = document.getElementById('date-end').value;
-    if (startDate > endDate) {
-        alert("Start date must be before end date.");
-        return false;
+    if((!startDate === null && !endDate === null)) {
+        if (startDate > endDate) {
+                alert("Start date must be before end date.");
+                return false;
+        }
     }
     return true;
         

@@ -31,6 +31,7 @@ public class UserClient {
 
             for (User user : users) {
                 addUserToSystem(user);
+                System.out.println();
             }
         } else {
             System.out.println("Erro ao encontrar utilizadores aleatórios: " + response.getStatus());
@@ -52,10 +53,8 @@ public class UserClient {
             String password = loginObject.get("password").getAsString();
             String phoneNumber = jsonUser.get("phone").getAsString();
             String photoURL = jsonUser.getAsJsonObject("picture").get("large").getAsString();
-            // Gerando um username a partir do email ou nome (ajuste conforme necessário)
             String username = email.substring(0, email.indexOf('@'));
 
-            // Criação do objeto User com todos os campos necessários
             User user = new User(username, password, email, firstName, lastName, phoneNumber, photoURL);
             users.add(user);
         }

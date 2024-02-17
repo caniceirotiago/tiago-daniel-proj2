@@ -37,7 +37,7 @@ public class TaskClient {
                 Task task = convertJsonToTask(tasksJson, username);
                 addTaskToSystem(username, password, task);
             } else {
-                System.out.println("Erro ao encontrar tarefas aleatórios: " + response.getStatus());
+                System.out.println("Erro ao encontrar tarefas aleatórias: " + response.getStatus());
             }
         }
     }
@@ -68,7 +68,7 @@ public class TaskClient {
 
     private void addTaskToSystem(String username, String password, Task task) {
         WebTarget target = client.target(taskBaseUrl).path("/create");
-        System.out.println("Adicionando tarefa ao sistema: " + gson.toJson(task));
+        System.out.println("Tentativa de adicionar tarefa ao sistema: " + gson.toJson(task));
 
         Response response = target.request(MediaType.APPLICATION_JSON)
                 .header("username", username)
