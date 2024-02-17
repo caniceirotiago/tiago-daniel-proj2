@@ -70,9 +70,27 @@ public class UserValidator {
                 validatePhotoURL(user.getPhotoURL());
     }
     public boolean validateUserOnEdit(User user) {
-        return validateEmail(user.getEmail()) &&
-                validatePhone(user.getPhoneNumber()) &&
-                validateName(user.getFirstName(), user.getLastName()) &&
-                validatePhotoURL(user.getPhotoURL());
+        boolean isValid = true;
+        if(user.getPhoneNumber() != null){
+            if(!validatePhone(user.getPhoneNumber())){
+                isValid = false;
+            }
+        }
+        if(user.getFirstName() != null && user.getLastName() != null){
+            if(!validateName(user.getFirstName(), user.getLastName())){
+                isValid = false;
+            }
+        }
+        if(user.getPhotoURL() != null){
+            if(!validatePhotoURL(user.getPhotoURL())){
+                isValid = false;
+            }
+        }
+        if(user.getEmail() != null){
+            if(!validateEmail(user.getEmail())){
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 }

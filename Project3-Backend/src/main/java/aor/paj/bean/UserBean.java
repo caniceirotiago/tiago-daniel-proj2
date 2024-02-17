@@ -113,11 +113,11 @@ public class UserBean {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             if (user.getUsername().equals(username)) {
-                user.setPhoneNumber(updatedUser.getPhoneNumber());
-                user.setEmail(updatedUser.getEmail());
-                user.setFirstName(updatedUser.getFirstName());
-                user.setLastName(updatedUser.getLastName());
-                user.setPhotoURL(updatedUser.getPhotoURL());
+                if(updatedUser.getPhoneNumber() != null)user.setPhoneNumber(updatedUser.getPhoneNumber());
+                if(updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
+                if(updatedUser.getFirstName() != null) user.setFirstName(updatedUser.getFirstName());
+                if(updatedUser.getLastName() != null) user.setLastName(updatedUser.getLastName());
+                if(updatedUser.getPhotoURL() != null) user.setPhotoURL(updatedUser.getPhotoURL());
                 writeIntoJsonFile(); // Atualiza o arquivo JSON
                 return true;
             }

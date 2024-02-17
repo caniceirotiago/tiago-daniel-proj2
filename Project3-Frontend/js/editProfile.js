@@ -57,25 +57,36 @@ async function fetchUserData(username, password) {
 }
 function completeFieldsWithData(){
     document.getElementById("username-field").value = userData.username; 
-    document.getElementById("phone-field").value = userData.phoneNumber;
-    document.getElementById("email-field").value = userData.email;
-    document.getElementById("firstname-field").value = userData.firstName;
-    document.getElementById("lastname-field").value = userData.lastName;
-    document.getElementById("photo-field").value = userData.photoURL;
+    document.getElementById("phone-field").placeholder = userData.phoneNumber;
+    document.getElementById("email-field").placeholder = userData.email;
+    document.getElementById("firstname-field").placeholder = userData.firstName;
+    document.getElementById("lastname-field").placeholder = userData.lastName;
+    document.getElementById("photo-field").placeholder = userData.photoURL;
 }
 function editUserisValid(){
-    if (!validation.validatePhone()) {
+    if(document.getElementById("phone-field") !== null && document.getElementById("phone-field").value !== ""){
+        if (!validation.validatePhone()) {
         return false;
+        }
     }
-    if (!validation.validateEmail()) {
+    if(document.getElementById("email-field") !== null && document.getElementById("email-field").value !== ""){
+       if (!validation.validateEmail()) {
         return false;
+        } 
     }
-    if (!validation.validateName()) {
+    if(document.getElementById("firstname-field") !== null && document.getElementById("firstname-field").value !== ""
+     && document.getElementById("lastname-field") !== null && document.getElementById("lastname-field").value !== ""){
+       if (!validation.validateName()) {
         return false;
+        }
     }
-    if (!validation.validatephotoURL()) {
-        return false;
+    if(document.getElementById("photo-field") !== null && document.getElementById("photo-field").value !== ""){
+        if (!validation.validatephotoURL()) {
+        return false; 
+        }
     }
+   
+    
     return true;
 }
 function passwordIsValid(){
@@ -86,13 +97,22 @@ function passwordIsValid(){
 }
 
 async function editUserData(){
-    let user = {
-        'phoneNumber': document.getElementById("phone-field").value,
-        'email': document.getElementById("email-field").value,
-        'firstName': document.getElementById("firstname-field").value,
-        'lastName': document.getElementById("lastname-field").value,
-        'photoURL': document.getElementById("photo-field").value,
-    };
+    let user = {};
+    if(document.getElementById("phone-field").value !== "" && document.getElementById("phone-field").value !== null){
+        user.phoneNumber = document.getElementById("phone-field").value;
+    }
+    if(document.getElementById("email-field").value !== "" && document.getElementById("email-field").value !== null){
+        user.email = document.getElementById("email-field").value;
+    }
+    if(document.getElementById("firstname-field").value !== "" && document.getElementById("firstname-field").value !== null){
+        user.firstName = document.getElementById("firstname-field").value;
+    }
+    if(document.getElementById("lastname-field").value !== "" && document.getElementById("lastname-field").value !== null){
+        user.lastName = document.getElementById("lastname-field").value;
+    }
+    if(document.getElementById("photo-field").value !== "" && document.getElementById("photo-field").value !== null){
+        user.photoURL = document.getElementById("photo-field").value;
+    }
     console.log(user);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserdata',
     {

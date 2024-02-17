@@ -164,6 +164,7 @@ public class UserService {
     @Path("/edituserdata")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editUserData(User updatedUser, @HeaderParam("username") String username, @HeaderParam("password")String password) {
+        System.out.println( "updated user " + updatedUser);
         if (username == null || password == null) {
             return Response.status(401)
                     .entity("User not logged in")
