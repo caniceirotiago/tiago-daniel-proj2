@@ -37,6 +37,7 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
         if (!userValidator.validateUserOnRegistration(user)) {
+            System.out.println("Invalid Data");
             return Response.status(422).entity("Invalid Data").build();
         }
         if(userBean.userExists(user.getUsername(),user.getEmail())){
