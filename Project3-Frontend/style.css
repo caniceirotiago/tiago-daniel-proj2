@@ -22,6 +22,7 @@ body.theme-light {
     --done-color:rgb(188, 238, 172);
     --header-color:rgba(5, 16, 46, 0.9);
     --background-color: #dcc6bc;
+    --form-background:#dcc6bc;
     --text-color:  rgb(0,0,0,1);
     --text-color2:  rgb(255,255,255,1);
 }
@@ -36,6 +37,7 @@ body.theme-dark {
     --done-color:rgba(155, 233, 154, 0.66);
     --header-color:rgba(77, 78, 81, 0.9);
     --background-color: rgb(0, 0, 0);
+    --form-background:rgb(118, 115, 115);
     --text-color:  rgb(246, 242, 242);
     --text-color2:  rgb(255, 252, 252);
 }
@@ -54,6 +56,13 @@ header {
     top: 0;
     z-index: 2;
 }
+header #right-aligned {
+      display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    margin-left: auto;
+}
+
 header h1{
     margin: 0px;
     padding: 0px 0;
@@ -91,6 +100,23 @@ header h1{
     font-size: 20px;
     align-content: center;
     justify-content: center;
+    text-decoration: none;
+}
+a h4 span#usernameDisplay {
+    padding: 0px 15px;
+    font-size: 20px;
+    align-content: center;
+    justify-content: center;
+    /* Não é necessário definir text-decoration aqui, pois é para o span */
+}
+
+a, a:visited, a:hover, a:active {
+    text-decoration: none; /* Remove a decoração do texto para todos os estados do link */
+    color: inherit; /* Faz o link herdar a cor do texto do elemento pai, opcional */
+}
+
+#userPhotolink{
+    margin: 0px 15px;
 }
 
 /*Barra de navegação*/
@@ -381,21 +407,32 @@ ul {
     height: auto;
 }
 .priority-div{
-    max-width: 20px;
+    max-width: 15px;
+    min-width: 8px;
+    max-height: 15px;
+    min-height: 8px;
     float:left; 
-    padding: 1px 8px;
+    padding: 1px 1px;
+    margin: 4px 5px 0px 5px;
     font-size: 8px;
-    border-radius: 3px;
+    border-radius: 10px;
     overflow: hidden;
+    
 }
 .high-priority{
     background-color: red;
+    opacity: 0.5;
 }
 .medium-priority{
     background-color: rgb(237, 241, 7);
+    opacity: 0.8;
 }
 .low-priority{
     background-color: rgb(51, 255, 0);
+    opacity: 0.5;
+}
+.task-item:hover .high-priority,.task-item:hover .medium-priority,.task-item:hover .low-priority {
+    opacity: 1;
 }
 
 /*Especifico pagina retrospetivas*/
@@ -423,7 +460,7 @@ ul {
 form {
     display: flex;
     flex-direction: column;
-    background-color: var(--tertiary-color); /* Transparência */
+    background-color: var(--form-background); /* Transparência */
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -491,8 +528,12 @@ input[type="submit"] {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-
+#save-task {
+    margin: 5px 0px;
+}
+#cancel-edit {
+    margin: 5px 0px;
+}
 input[type="submit"]:hover {
     background-color: #d7e2ef;
 }
@@ -504,6 +545,7 @@ button#cancel-edit {
     
 }
 #edit-btn{
+    background-color: var(--form-background);
     border: none;
 }
 #edit-icon{

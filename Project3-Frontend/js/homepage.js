@@ -117,15 +117,15 @@ function addTaskToRightList(task) {
     /*Eliminar em baixo quando propriedade for incluida em tarefa*/ 
     const priorityDiv = document.createElement('div');
     if(priority === 1){
-        priorityDiv.textContent = "Low Priority";
+
         priorityDiv.classList.add("low-priority")
     }
     else if(priority === 2){
-        priorityDiv.textContent = "Medium Priority";
+
         priorityDiv.classList.add("medium-priority")
     }
     else if(priority === 3){
-        priorityDiv.textContent = "High Priority";
+     
         priorityDiv.classList.add("high-priority")
     }
 

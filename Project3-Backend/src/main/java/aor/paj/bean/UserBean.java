@@ -72,6 +72,14 @@ public class UserBean {
         }
         return null;
     }
+    public String getFirstNameByUsername(String username){
+        for(User us : users){
+            if(us.getUsername().equals(username)){
+                return us.getFirstName();
+            }
+        }
+        return null;
+    }
     public User getUserByUsername(String username){
         for(User us : users){
             if(us.getUsername().equals(username)){
@@ -82,9 +90,13 @@ public class UserBean {
     }
     public UserWithNoPassword convertUserToUserWithNoPassword(User user){
         return new UserWithNoPassword(user.getUsername(),
-                user.getEmail(), user.getFirstName(), user.getLastName(),
-                user.getPhoneNumber(), user.getPhotoURL());
+                user.getPhoneNumber(), // Corrigido: phoneNumber antes de email
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhotoURL());
     }
+
     public ArrayList<User> getAllUsers() {
         return users;
     }

@@ -151,7 +151,7 @@ export let languageContent = {
         // edittask.html
         "task-viewer":"Task Viewer",
        
-        "add-task":"Edit Task",
+        "add-task":"Add Task",
         "label-title":"Title",
         "label-description":"Description",
         "save-task":"Save Task",
@@ -212,7 +212,7 @@ export let languageContent = {
         // edittask.html
         "task-viewer":"Visualizador de Tarefas",
        
-        "add-task":"Editar Tarefa",
+        "add-task":"Adicionar Tarefa",
         "label-title":"Título",
         "label-description":"Descrição",
         "save-task":"Salvar Tarefa",

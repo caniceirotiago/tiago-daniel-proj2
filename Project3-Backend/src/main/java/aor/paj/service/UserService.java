@@ -76,15 +76,15 @@ public class UserService {
        }
     }
     /**
-     * Retrieves the photo URL associated with the provided username.
+     * Retrieves the photo URL and the first name associated with the provided username.
      * If the username and password are not provided in the request headers, returns a status code 401 (Unauthorized)
      * with the error message "User not logged in".
      * If the provided credentials are invalid, returns a status code 403 (Forbidden) with the error message "Access denied".
-     * If the photo URL is found for the given username, returns a status code 200 (OK) with the photo URL in JSON format.
-     * If no photo URL is found for the given username, returns a status code 404 (Not Found) with the error message "No photo found".
-     * */
+     * If the photo URL and first name are found for the given username, returns a status code 200 (OK) with the photo URL and first name in JSON format.
+     * If no photo URL or first name is found for the given username, returns a status code 404 (Not Found) with the error message "No photo or name found".
+     */
     @GET
-    @Path("/getphoto")
+    @Path("/getphotoandname")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPhoto(@HeaderParam("username")String username, @HeaderParam("password")String password) {
         if (username == null || password == null)
@@ -93,9 +93,10 @@ public class UserService {
                     .build();
         else if (userBean.loginConfirmation(username, password)) {
             String photoUrl = userBean.getPhotoURLByUsername(username);
+            String name = userBean.getFirstNameByUsername(username);
             if(photoUrl != null) return Response
                     .status(200)
-                    .entity("{\"photoUrl\":\"" + photoUrl + "\"}").build();
+                    .entity("{\"photoUrl\":\"" + photoUrl + "\", \"name\":\"" + name + "\"}").build();
             return Response.status(404)
                     .entity("No photo found")
                     .build();
@@ -125,6 +126,7 @@ public class UserService {
             User user = userBean.getUserByUsername(username);
             UserWithNoPassword userWithoutPassword = userBean.convertUserToUserWithNoPassword(user);
             // Retorna a entidade UserWithNoPassword em vez da entidade User completa
+            System.out.println(userWithoutPassword);
             return Response.status(200)
                     .entity(userWithoutPassword)
                     .build();
