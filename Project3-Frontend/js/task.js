@@ -8,6 +8,7 @@ import * as username from "./username.js";
 import * as theme from "./theme.js";
 import * as logout from "./logout.js"
 import { loadPhoto } from "./UserPhoto.js";
+import * as validation from "./taskFieldsValidation.js";
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -34,11 +35,25 @@ function submitActionLisnter(){
         var priority = document.getElementById('priority').value;
         var startDate = document.getElementById('date-start').value;
         var endDate = document.getElementById('date-end').value;
-        if(title && description) { // se o titulo e a descrição não estiverem vazios    
-            addTaskBE(title, description, priority, startDate, endDate);
-            
-        }    
+        if(isValid()){
+            addTaskBE(title, description, priority, startDate, endDate); 
+        } 
     });
+}
+function isValid(){
+    if (!validation.validateTitle()) {
+        return false;
+    }
+    if (!validation.validateDescription()) {
+        return false;
+    }
+    if (!validation.validateStartDateBeforeEndDate()) {
+        return false;
+    }
+    if (!validation.validatePriority()) {
+        return false;
+    }
+    return true;
 }
 
 /**************************************************************************************************************************************************************************************/

@@ -3,6 +3,7 @@ package aor.paj.service;
 import aor.paj.bean.UserBean;
 import aor.paj.dto.Task;
 import aor.paj.dto.User;
+import aor.paj.dto.UserNewPassword;
 import aor.paj.dto.UserWithNoPassword;
 import aor.paj.service.validator.UserValidator;
 import jakarta.inject.Inject;
@@ -186,4 +187,53 @@ public class UserService {
                     .build();
         }
     }
+    @POST
+    @Path("/edituserpassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUserPassword(UserNewPassword updatedPassword, @HeaderParam("username") String username, @HeaderParam("password")String password) {
+        if (username == null || password == null) {
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
+        }
+        if (!userBean.loginConfirmation(username, password) || !userBean.loginConfirmation(username, updatedPassword.getPassword())) {
+            return Response.status(401)
+                    .entity("Login Failed or Passwords do not match")
+                    .build();
+        }
+        if (!userValidator.validatePassword(updatedPassword.getNewPassword())) {
+            return Response.status(400)
+                    .entity("Invalid Data")
+                    .build();
+        }
+        if (updatedPassword.getNewPassword().equals(password)) {
+            return Response.status(400)
+                    .entity("Invalid Data: New password must be different from the old password")
+                    .build();
+        }
+        boolean updateResult = userBean.updatePassWord(username, updatedPassword.getNewPassword());
+        if (updateResult) {
+            return Response.status(200)
+                    .entity("User password updated successfully")
+                    .build();
+        } else {
+            return Response.status(500)
+                    .entity("An error occurred while updating user password")
+                    .build();
+        }
+    }
+    /**
+     * This endpoint simulates the action of logging out a user. Since this example does not
+     * manage user sessions or authentication tokens explicitly, the endpoint simply returns
+     * a response indicating that the user has been logged out successfully.
+     *
+    @POST
+    @Path("/logout")
+    public Response logout(@HeaderParam("username") String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return Response.status(422).entity("Missing username").build();
+        }
+        return Response.status(200).entity("User logged out successfully").build();
+    }
+    */
 }

@@ -14,6 +14,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.JsonbException;
 
 @ApplicationScoped
 public class TaskBean {
@@ -38,7 +39,9 @@ public class TaskBean {
                 tasks = JsonbBuilder.create().fromJson(filereader, new
                         ArrayList<Task>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Json file not found " + e);
+            } catch (JsonbException e) {
+                throw new RuntimeException("Json file processing error " + e);
             }
         }else{
             tasks = new ArrayList<Task>();
@@ -152,10 +155,10 @@ public class TaskBean {
                 if (taskUpdate.getDescription() != null && !taskUpdate.getDescription().isEmpty()) {
                     task.setDescription(taskUpdate.getDescription());
                 }
-                if (taskUpdate.getPriority() != 0) { // Assume 0 como valor não válido
+                if (taskUpdate.getPriority() != null) { // Assume 0 como valor não válido
                     task.setPriority(taskUpdate.getPriority());
                 }
-                if (taskUpdate.getStatus() != 0) { // Assume 0 como valor não válido
+                if (taskUpdate.getStatus() != null) { // Assume 0 como valor não válido
                     task.setStatus(taskUpdate.getStatus());
                 }
                 if (taskUpdate.getStartDate() != null) {

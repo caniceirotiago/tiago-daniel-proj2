@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script defer src="./js/homepage.js" type="module"></script>
-    <script defer src="./js/username.js" type="module"></script>
-    <script defer src="./js/theme.js" type="module"></script>
-    <script defer src="./js/language.js" type="module"></script>
+    <script src="./js/homepage.js" type="module"></script>
+    <script src="./js/username.js" type="module"></script>
+    <script src="./js/theme.js" type="module"></script>
+    <script src="./js/language.js" type="module"></script>
     <title>Homepage - AntNest</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
 </head>
@@ -67,9 +67,9 @@
                                     <h3 id="todo-count"></h3>
                                 </div>       
                             </div>
-                        <section class="scrolable-ul">
+                        <div class="scrolable-ul">
                             <ul class="ul-tasks" id="TODO_COLUMN"></ul>
-                        </section>
+                        </div>
                         <!------------------ Add Task Button -------------------------------->
                         <a id="add-task-btn" class="btn-add" onclick="location.href='task.html';">Add Task</a>
                     </div>
@@ -77,27 +77,27 @@
                     <div class="col-doing">
                         <div class="header-list">
                             <div class="invisible-counter"></div>
-                            <h4 id="col-doing-text">DOING</h3>
+                            <h4 id="col-doing-text">DOING</h4>
                             <div class="count-div-circle">
                                 <h3 id="doing-count"></h3>
                             </div>                      
                         </div>
-                        <section class="scrolable-ul">
+                        <div class="scrolable-ul">
                             <ul class="ul-tasks" id="DOING_COLUMN"></ul>
-                        </section>
+                        </div>
                     </div>
                     <!------------------ Columns DONE - Content added by .js  -------------------------------->
                     <div class="col-done">
                         <div class="header-list">
                             <div class="invisible-counter"></div>
-                            <h4 id="col-done-text">DONE</h3>
+                            <h4 id="col-done-text">DONE</h4>
                             <div class="count-div-circle">
                                 <h3 id="done-count"></h3>
                             </div>                            
                         </div>
-                        <section class="scrolable-ul">
+                        <div class="scrolable-ul">
                             <ul class="ul-tasks" id="DONE_COLUMN"></ul>
-                        </section>
+                        </div>
                     </div> 
                 </div>
             </div> 

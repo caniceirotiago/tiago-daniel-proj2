@@ -97,13 +97,13 @@ footer {
 #login-icon {
     max-width: 25px; /* Ajuste o tamanho da imagem conforme necessário */
     height: auto; /* Mantém a proporção da imagem */
-    display: inline-flexbox; /* Isso pode ajudar a garantir que o estilo seja aplicado */
+    display: FLEX; /* Isso pode ajudar a garantir que o estilo seja aplicado */
     margin-right: 20px; /* Centraliza a imagem no banner */
 }
 #logo {
     max-width: 88px; /* Ajuste o tamanho da imagem conforme necessário */
     height: auto; /* Mantém a proporção da imagem */
-    display: inline-flexbox; /* Isso pode ajudar a garantir que o estilo seja aplicado */
+    display: flex; /* Isso pode ajudar a garantir que o estilo seja aplicado */
     margin-right: 20px; /* Centraliza a imagem no banner */
     margin-left: 20px;
 }

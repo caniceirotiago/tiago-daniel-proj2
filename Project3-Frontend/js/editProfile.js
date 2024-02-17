@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const currentUserpassword = localStorage.getItem("password");
     fetchUserData(currentUserUsername,currentUserpassword);
     editProfileFormListner();
+    editPasswordFormListner();
 });
 
 function editProfileFormListner(){
@@ -18,6 +19,17 @@ function editProfileFormListner(){
         if (editUserisValid()) {
             editUserData();
 
+        }
+    });
+}
+function editPasswordFormListner(){
+    const editPasswordForm = document.getElementById('editPasswordForm');
+    editPasswordForm.addEventListener('submit', function(event) {
+        // Previne o envio do formulário antes da validação
+        event.preventDefault();
+        // Se todas as validações passaram, permite o envio do formulário
+        if (passwordIsValid()) {
+            editPassword();
         }
     });
 }
@@ -65,11 +77,12 @@ function editUserisValid(){
     }
     return true;
 }
-
-/*preciso de fazer um metodo que seja patch para enviar para o backend a informação sobre a edição, 
-repara que terá todos os campos menos a password. O serviço se chamará edituserdata, e temos de enviar 
-a informação do username que está neste momento guardado no localstorage para que seja confirmado no 
-backend se o utilizador tem acesso, deverá ter as mensagens de erro adequadas*/
+function passwordIsValid(){
+    if (!validation.validatePassword()) {
+        return false;
+    }
+    return true;
+}
 
 async function editUserData(){
     let user = {
@@ -81,8 +94,34 @@ async function editUserData(){
     };
     console.log(user);
     await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserdata',
+    {
+        method: 'PATCH',
+        headers:
+    {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'username' : localStorage.getItem("username"),
+        'password': localStorage.getItem("password")
+    },
+    body: JSON.stringify(user)
+    }
+    ).then(function (response) {
+    if (response.status == 200) {
+        alert("User data updated successfully");
+        window.location.href = "editProfile.html";
+    } else {
+        alert("Error updating user data");
+    }
+});
+}
+async function editPassword(){
+    let userNewPassword = {
+        'password': document.getElementById("old-password-field").value,
+        'newPassword': document.getElementById("password-field").value
+    };
+        await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserpassword',
         {
-            method: 'PATCH',
+            method: 'POST',
             headers:
         {
             'Accept': 'application/json',
@@ -90,16 +129,17 @@ async function editUserData(){
             'username' : localStorage.getItem("username"),
             'password': localStorage.getItem("password")
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(userNewPassword)
         }
         ).then(function (response) {
         if (response.status == 200) {
-            alert("User data updated successfully");
-            window.location.href = "editProfile.html";
+            alert("User password updated successfully");
+            window.location.href = "index.html";
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
+            loocalStorage.removeItem("imageUrl");
         } else {
-            alert("Error updating user data");
+            alert("Error updating user password");
         }
     });
 }
-
-

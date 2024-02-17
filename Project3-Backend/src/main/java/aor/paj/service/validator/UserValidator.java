@@ -38,9 +38,6 @@ public class UserValidator {
         // Se passou por todas as verificações, o número é válido.
         return true;
     }
-
-
-
     private boolean validateName(String firstName, String lastName) {
         if (firstName == null || lastName == null) return false;
         return firstName.length() >= 3 && firstName.length() <= 25 &&
@@ -50,7 +47,7 @@ public class UserValidator {
     private boolean validatePhotoURL(String photoURL) {
         return photoURL != null && photoURL.length() >= 3 && photoURL.length() <= 500;
     }
-    private boolean validatePassword(String password) {
+    public boolean validatePassword(String password) {
         // Verifica se a senha não é nula e se tem pelo menos 6 caracteres
         return password != null && password.length() >= 6;
     }

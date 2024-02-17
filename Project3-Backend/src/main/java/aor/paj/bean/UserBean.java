@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.JsonbException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +31,9 @@ public class UserBean {
                 users = JsonbBuilder.create().fromJson(filereader, new
                         ArrayList<User>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Json file not found " + e);
+            } catch (JsonbException e) {
+                throw new RuntimeException("Json file processing error " + e);
             }
         }else{
             users = new ArrayList<User>();
@@ -103,6 +106,17 @@ public class UserBean {
                 user.setFirstName(updatedUser.getFirstName());
                 user.setLastName(updatedUser.getLastName());
                 user.setPhotoURL(updatedUser.getPhotoURL());
+                writeIntoJsonFile(); // Atualiza o arquivo JSON
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean updatePassWord(String username, String password) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getUsername().equals(username)) {
+                user.setPassword(password);
                 writeIntoJsonFile(); // Atualiza o arquivo JSON
                 return true;
             }

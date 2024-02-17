@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script defer src="./js/retrospective.js" type="module"></script>
-    <script defer src="./js/username.js" type="module"></script>
-    <script defer src="./js/theme.js" type="module"></script>
-    <script defer src="./js/language.js" type="module"></script>
+    <script src="./js/retrospective.js" type="module"></script>
+    <script src="./js/username.js" type="module"></script>
+    <script src="./js/theme.js" type="module"></script>
+    <script src="./js/language.js" type="module"></script>
     <title>Retrospective - AntNest</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
 </head>
@@ -21,7 +21,7 @@
         <!------------------ Navigation Menu ------------------------------------>
         <div class="topnav">
         <a id="nav-home"  href="homepage.html">Homepage</a>
-        <a id="nav-retro"class="active" href="retrospective.html">Retrospective</a>
+        <a id="nav-retro" class="active" href="retrospective.html">Retrospective</a>
         <a id="nav-sett" href="settings.html">Settings</a>
         <a id="nav-exit">Exit</a>
         </div>
@@ -42,9 +42,9 @@
         <!------------------ Retrospectives display ------------------------------------>
         <div  class="historic-retrospectives">
             <h2 id="hist-retro">Historic Retrospectives</h2><br>
-            <section class="scrolable-ul">
+            <div class="scrolable-ul">
                 <ul id="historic-retrospectives-list"></ul>
-            </section>
+            </div>
         </div>
         <div class="mainRetrospectivesForm">
             <!--------------- Add New Retrospective FORM ---------------------------->
@@ -57,11 +57,11 @@
                 <input type="date" name="date" id="date">
             </div>
             <div class="row-present-members">
-                <label id="label-pres-retro" for="present-members">Present Members</label>
+                <label id="label-pres-retro" for="pres-TA-retro">Present Members</label>
                 <textarea id="pres-TA-retro" type="textarea" name="present-members" placeholder="Insert Present Members" maxlength="400"></textarea>
             </div>
             <div class="row-comments">
-                <label id="label-comment-retro" for="comments">Comments</label>
+                <label id="label-comment-retro" for="comment-retro">Comments</label>
                 <textarea id="comment-retro" type="textarea" name="comments" placeholder="Insert positive aspects, chalanges and suggestions for improvement" maxlength="1000"></textarea>
             </div>
             <div class="row-submit">

@@ -8,6 +8,7 @@ import * as username from "./username.js";
 import * as theme from "./theme.js";
 import * as logout from "./logout.js"
 import * as photoUser from "./UserPhoto.js"
+import * as validation from "./taskFieldsValidation.js"
 
 let taskId = -1;
 
@@ -98,13 +99,31 @@ function submitActionListnerCreation(){
 
     taskForm.addEventListener('submit', function(event) {
         event.preventDefault(); // Previne o comportamento padrão de submissão do formulário ...
-        editTaskBE();
+        if(isValid()){
+            editTaskBE();
+            const savebtn = document.getElementById("save-task");
+            savebtn.hidden = true;
+        }    
     });
 }
 /**************************************************************************************************************************************************************************************/ 
 /* function saveTask() - saves the task into backend ::: finds previous occurence, replaces it and resaves */
 /**************************************************************************************************************************************************************************************/
-
+function isValid(){
+    if (!validation.validateTitle()) {
+        return false;
+    }
+    if (!validation.validateDescription()) {
+        return false;
+    }
+    if (!validation.validateStartDateBeforeEndDate()) {
+        return false;
+    }
+    if (!validation.validatePriority()) {
+        return false;
+    }
+    return true;
+}
 async function editTaskBE() {
     let taskUpdates = { 
         title: document.getElementById('title').value,
@@ -148,10 +167,3 @@ async function editTaskBE() {
         alert('Network error or server is down. Please try again later.');
     }
 }
-
-
-
-
-
-
-
