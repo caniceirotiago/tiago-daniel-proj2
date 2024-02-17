@@ -2,9 +2,11 @@
 export function clickOnLogout(){
     const logoutbtn = document.getElementById("nav-exit");
     logoutbtn.addEventListener('click',function(event){
-        const username = localStorage.getItem('username');
-
-        logout(username);
+        const confirmLogout = confirm("Are you sure you want to Logout?");
+        if (confirmLogout) {
+            const username = localStorage.getItem('username');
+            logout(username);
+        }
     })  
 }
 
