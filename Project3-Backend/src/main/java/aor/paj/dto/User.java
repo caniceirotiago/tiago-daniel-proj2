@@ -4,16 +4,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.UUID;
 
+/**
+ * User is a DTO representing a user within the system. It has essential user information including identification,
+ * authentication, contact details, and a photo URL. It is designed to fully represent a
+ * user entity in various operations such as registration, profile
+ * management, and authentication processes.
+ */
+
 @XmlRootElement
 public class User {
-
-  //  A página de registo deve conter um formulário pedindo a seguinte informação: username,
-    //password, email, primeiro nome, último nome, número de telefone, fotografia.
-    //O username e o email devem ser únicos.
-    //O número de telefone deve ser válido.
-    //A fotografia deve ser um url de imagem.
-    //O username, o email e o número de telefone são obrigatórios.
-
     private String id;
     private String username;
     private String password;

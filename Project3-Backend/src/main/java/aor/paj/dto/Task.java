@@ -1,20 +1,21 @@
-/**Código Daniel*/
-
 package aor.paj.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+/**
+ * Task is a core entity representing a task in the system, including details such as title, description, priority,
+ * status, and associated username. It also includes start and end dates, with logic to handle date parsing exceptions.
+ * The class is designed with data validation annotations to ensure that essential fields are not null. The username and
+ * ID are immutable post-creation, reflecting task ownership and identity.
+ */
 
 @XmlRootElement
 public class Task {
 
-    // todos os atributos têm de ser válidos
-    // o id é gerado automaticamente e é único
-    // o username associado e o ID não podem ser alterados, logo não têm setters
     private LocalDate startDate;
     private LocalDate endDate;
     @NotNull
@@ -31,7 +32,6 @@ public class Task {
 
     @NotNull
     private String username;
-
 
     public Task() {
     }

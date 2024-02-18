@@ -1,10 +1,13 @@
 package aor.paj.service.validator;
 
 import aor.paj.dto.Task;
-
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.time.LocalDate;
+/**
+ * TaskValidator is responsible for ensuring task data integrity through various validation methods. It checks
+ * task titles, descriptions, priorities, status, and date ranges for adherence to business rules. This class
+ * is essential for maintaining consistent and valid task data throughout the application lifecycle.
+ */
 
 @ApplicationScoped
 public class TaskValidator {

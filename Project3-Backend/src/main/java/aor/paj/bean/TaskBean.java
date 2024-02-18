@@ -1,5 +1,3 @@
-/**Código Daniel*/
-
 package aor.paj.bean;
 
 import java.io.File;
@@ -16,17 +14,19 @@ import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.JsonbException;
 
+/**
+ * TaskBean is an application-scoped bean that manages task operations, including reading from and writing to a JSON file,
+ * 'allTasks.json'. It supports creating, retrieving, updating, and deleting tasks, as well as retrieving all tasks for a
+ * specific user. The bean sorts tasks based on priority, start date, and end date for user-specific queries. It utilizes
+ * Jsonb for JSON processing, ensuring tasks are persistently stored and managed efficiently. This bean plays a crucial
+ * role in task management within the application, providing a centralized point for task data manipulation and retrieval.
+ */
+
 @ApplicationScoped
 public class TaskBean {
     final String filename = "allTasks.json";
 
-    // guarda todas as tasks
     private ArrayList<Task> tasks;
-    // estabelece relação entre utilizador e quais as suas tasks
-    // chave: username, valor: lista de tasks
-    // implementado como um HashMap para possibilitar no futuro ter mais do que uma tasks por utilizador
-    // o hashmap não precisa de ser guardado em ficheiro, pq é reconstruido a partir da lista de tasks
-
 
     public TaskBean() {
         readJsonFile();
@@ -51,9 +51,7 @@ public class TaskBean {
     public void addTask(Task a) {
         int tempId = getLastTaskIdCreated();
         a.setId(tempId);
-        // adiciona a task à lista de tasks
         tasks.add(a);
-        // atualiza o ficheiro de tasks
         writeIntoJsonFile();
     }
 
@@ -77,9 +75,6 @@ public class TaskBean {
         return tasks;
     }
 
-    // getter do hashmap
-
-    // obter lista de tarefas por user
     public ArrayList<Task> getAllTasksByUser(String username) {
         ArrayList<Task> listOfUserTasks = new ArrayList<>();
         for(Task t : tasks){
@@ -87,17 +82,14 @@ public class TaskBean {
         }
         return orderTasksByPriorityStartAndEndDate(listOfUserTasks);
     }
-
     public boolean removeTask(int id) {
         for (Task a : tasks) {
             if (a.getId() == id) {
                 tasks.remove(a);
-                // atualiza o ficheiro de tasks
                 writeIntoJsonFile();
                 return true;
             }
         }
-        // não encontrou a task
         return false;
     }
     public ArrayList<Task> orderTasksByPriorityStartAndEndDate(ArrayList<Task> tasks) {
@@ -108,19 +100,15 @@ public class TaskBean {
 
                 Task taskI = tasks.get(i);
                 Task taskJ = tasks.get(j);
-
-                // Verifica se deve trocar com base na prioridade
                 if (taskI.getPriority() < taskJ.getPriority()) {
                     toChange = true;
                 }
-                // Se as prioridades são iguais, verifica a data de início
                 else if (taskI.getPriority() == taskJ.getPriority() &&
                         ((taskI.getStartDate() == null && taskJ.getStartDate() != null) ||
                                 (taskI.getStartDate() != null && taskJ.getStartDate() != null &&
                                         taskI.getStartDate().isAfter(taskJ.getStartDate())))) {
                     toChange = true;
                 }
-                // Se as prioridades e datas de início são iguais, verifica a data de término
                 else if (taskI.getPriority() == taskJ.getPriority() &&
                         ((taskI.getStartDate() == null && taskJ.getStartDate() == null) ||
                                 (taskI.getStartDate() != null && taskJ.getStartDate() != null &&
@@ -130,7 +118,6 @@ public class TaskBean {
                                         taskI.getEndDate().isAfter(taskJ.getEndDate())))) {
                     toChange = true;
                 }
-
                 if (toChange) {
                     temp = tasks.get(i);
                     tasks.set(i, tasks.get(j));
@@ -140,10 +127,6 @@ public class TaskBean {
         }
         return tasks;
     }
-
-
-
-    ////// FALTA O MÉTODO PARA O UPDATE DA TASK
 
     public void updateTask(int id, TaskUpdate taskUpdate) {
         for (Task task : tasks) {
@@ -172,9 +155,7 @@ public class TaskBean {
                 return;
             }
         }
-        // Retorna false se não encontrar a tarefa com o ID fornecido
     }
-
 
     private void writeIntoJsonFile() {
         Jsonb jsonb = JsonbBuilder.create(new

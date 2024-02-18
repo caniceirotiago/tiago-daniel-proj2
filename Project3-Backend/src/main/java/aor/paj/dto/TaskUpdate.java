@@ -1,7 +1,13 @@
 package aor.paj.dto;
 
-
 import java.time.LocalDate;
+
+/**
+ * TaskUpdate is a DTO (Data Transfer Object) designed for encapsulating modifications to an existing task. It includes
+ * fields for updating the task's title, description, priority, status, and dates. Additional boolean fields are provided
+ * to explicitly handle the removal of start and end dates, accommodating scenarios where dates might be unset. This class
+ * supports the partial update of task properties, allowing users to modify only the attributes they need to change.
+ */
 
 public class TaskUpdate {
     private String title;

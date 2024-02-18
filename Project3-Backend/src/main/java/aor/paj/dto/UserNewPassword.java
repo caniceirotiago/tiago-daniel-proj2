@@ -1,15 +1,16 @@
 package aor.paj.dto;
+/**
+ * UserNewPassword is a simple DTO class used to encapsulate a user's current password along
+ * with their desired new password. This class is primarily utilized during password change operations to securely
+ * transmit both the old and new passwords from the client to the server, ensuring that password update requests
+ * are both authenticated and authorized.
+ */
 
 public class UserNewPassword {
     private String password;
     private String newPassword;
 
     public UserNewPassword() {
-    }
-
-    public UserNewPassword(String password, String newPassword) {
-        this.password = password;
-        this.newPassword = newPassword;
     }
 
     public void setPassword(String password) {

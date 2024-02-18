@@ -1,19 +1,13 @@
-/**Código Daniel*/
-
 package aor.paj.service.validator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.util.*;
-
-import aor.paj.dto.Task;
 import aor.paj.dto.User;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
+
+/**
+ * UserValidator provides a series of validation methods for user-related data, ensuring each piece of information
+ * meets specific criteria before proceeding with user registration or updates. It validates usernames, emails,
+ * phone numbers, names, photo URLs, and passwords for both new registrations and user profile edits.
+ */
 
 @ApplicationScoped
 public class UserValidator {

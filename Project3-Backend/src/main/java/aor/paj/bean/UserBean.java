@@ -14,6 +14,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+/**
+ * UserBean is a managed bean responsible for managing user data within the application. It provides functionality
+ * to read and write user information from and to a JSON file, 'allUser.json'. This bean supports operations such as
+ * user registration, login verification, retrieving user information by username, and converting User objects to
+ * UserWithNoPassword objects for security purposes. It also includes methods to check user existence, update user
+ * information, and manage user passwords. UserBean ensures that user data is persistently stored and accessible
+ * throughout the application lifecycle.
+ */
 
 @ApplicationScoped
 public class UserBean {

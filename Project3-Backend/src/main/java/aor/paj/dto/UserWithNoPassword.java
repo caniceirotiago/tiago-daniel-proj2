@@ -2,18 +2,16 @@ package aor.paj.dto;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import java.util.UUID;
+/**
+ * UserWithNoPassword is a DTO designed for safely transferring user data without exposing
+ * sensitive information such as passwords. It includes user identification and contact information. This class is particularly
+ * useful in scenarios where user details need to be sent over the network or displayed in
+ * client applications without compromising security by including password data.
+ */
+
 
 @XmlRootElement
 public class UserWithNoPassword {
-
-  //  A página de registo deve conter um formulário pedindo a seguinte informação: username,
-    //password, email, primeiro nome, último nome, número de telefone, fotografia.
-    //O username e o email devem ser únicos.
-    //O número de telefone deve ser válido.
-    //A fotografia deve ser um url de imagem.
-    //O username, o email e o número de telefone são obrigatórios.
-
     private String id;
     private String username;
     private String email;
@@ -37,10 +35,6 @@ public class UserWithNoPassword {
         this.photoURL = photoURL;
 
     }
-
-    // getters e setters como xmlElement
-
-
     @XmlElement
     public String getUsername() {
         return username;
