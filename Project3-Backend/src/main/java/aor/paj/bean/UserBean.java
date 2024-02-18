@@ -1,10 +1,12 @@
 package aor.paj.bean;
 
 import aor.paj.dto.User;
+import aor.paj.dto.UserWithNoPassword;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.JsonbException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +31,9 @@ public class UserBean {
                 users = JsonbBuilder.create().fromJson(filereader, new
                         ArrayList<User>() {}.getClass().getGenericSuperclass());
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Json file not found " + e);
+            } catch (JsonbException e) {
+                throw new RuntimeException("Json file processing error " + e);
             }
         }else{
             users = new ArrayList<User>();
@@ -68,6 +72,14 @@ public class UserBean {
         }
         return null;
     }
+    public String getFirstNameByUsername(String username){
+        for(User us : users){
+            if(us.getUsername().equals(username)){
+                return us.getFirstName();
+            }
+        }
+        return null;
+    }
     public User getUserByUsername(String username){
         for(User us : users){
             if(us.getUsername().equals(username)){
@@ -76,6 +88,15 @@ public class UserBean {
         }
         return null;
     }
+    public UserWithNoPassword convertUserToUserWithNoPassword(User user){
+        return new UserWithNoPassword(user.getUsername(),
+                user.getPhoneNumber(), // Corrigido: phoneNumber antes de email
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPhotoURL());
+    }
+
     public ArrayList<User> getAllUsers() {
         return users;
     }
@@ -84,7 +105,6 @@ public class UserBean {
                 JsonbConfig().withFormatting(true));
         try {
             jsonb.toJson(users, new FileOutputStream(filename));
-            readJsonFile();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -93,13 +113,23 @@ public class UserBean {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             if (user.getUsername().equals(username)) {
-                user.setPhoneNumber(updatedUser.getPhoneNumber());
-                user.setEmail(updatedUser.getEmail());
-                user.setFirstName(updatedUser.getFirstName());
-                user.setLastName(updatedUser.getLastName());
-                user.setPhotoURL(updatedUser.getPhotoURL());
+                if(updatedUser.getPhoneNumber() != null)user.setPhoneNumber(updatedUser.getPhoneNumber());
+                if(updatedUser.getEmail() != null) user.setEmail(updatedUser.getEmail());
+                if(updatedUser.getFirstName() != null) user.setFirstName(updatedUser.getFirstName());
+                if(updatedUser.getLastName() != null) user.setLastName(updatedUser.getLastName());
+                if(updatedUser.getPhotoURL() != null) user.setPhotoURL(updatedUser.getPhotoURL());
                 writeIntoJsonFile(); // Atualiza o arquivo JSON
-                readJsonFile();
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean updatePassWord(String username, String password) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.getUsername().equals(username)) {
+                user.setPassword(password);
+                writeIntoJsonFile(); // Atualiza o arquivo JSON
                 return true;
             }
         }

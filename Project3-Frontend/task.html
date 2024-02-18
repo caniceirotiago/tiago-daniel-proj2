@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script defer src="./js/task.js" type="module"></script>
-    <script defer src="./js/username.js" type="module"></script>
-    <script defer src="./js/theme.js" type="module"></script>
-    <script defer src="./js/language.js" type="module"></script>
+    <script src="./js/task.js" type="module"></script>
+    <script src="./js/username.js" type="module"></script>
+    <script src="./js/theme.js" type="module"></script>
+    <script src="./js/language.js" type="module"></script>
     <title>New Task - AntNest</title>
     <link rel="icon" href="images/favicon.png" type="image/x-icon">
 </head>
@@ -17,7 +17,8 @@
 <body>
     <!------------------ Header ------------------------------------>
     <header>
-        <img id="logo" src="images/logo.png" alt="IMG">
+        <a href="homepage.html"><img id="logo" src="images/logo.png" alt="IMG"></a>
+
         <!------------------ Navigation Menu ------------------------------------>
         <div class="topnav">
         <a id="nav-home" href="homepage.html">Homepage</a>
@@ -25,10 +26,12 @@
         <a id="nav-sett" href="settings.html">Settings</a>
         <a id="nav-exit">Exit</a>
         </div>
-        <!------------------ Username ------------------------------------> 
-        <h4><span id="usernameDisplay"></span></h4>
-         <!------------------ Photo ------------------------------------>
-         <a href="editProfile.html"><div class="user-photo-div"><img id="userPhoto" src="images/user.png" alt=""></div></a>
+        <!------------------ Username ------------------------------------>
+        <div id="right-aligned">
+            <a href="editProfile.html"><h4><span id="usernameDisplay">Username</span></h4></a>
+        </div>
+        <!------------------ Photo ------------------------------------>
+        <a id="userPhotolink" href="editProfile.html"><div class="user-photo-div"><img id="userPhoto" src="images/user.png" alt=""></div></a>
         <!------------------ Language Flags ------------------------------------> 
         <div class="top-right-flags" id="langFlag">
             <ul>
@@ -47,7 +50,7 @@
             </div>
             <div class="row-title">
                 <label id="label-title" for="title">Title </label>
-                <input type="text" name="title" id="title" placeholder="Insert Title" maxlength="20">
+                <input type="text" name="title" id="title" placeholder="Insert Title" minlength="3" maxlength="20">
             </div>
             <div class="row-description">
                 <label id="label-description" for="description">Description</label>
@@ -55,11 +58,11 @@
             </div>
             <div class="row-date-start">
                 <label id="label-date-start" for="date-start">Start Date</label>
-                <input type="date" name="date-start" id="date-start"></date>
+                <input type="date" name="date-start" id="date-start">
             </div>
             <div class="row-date-end">
                 <label id="label-date-end" for="date-end">End Date</label>
-                <input type="date" name="date-end" id="date-end"></date>
+                <input type="date" name="date-end" id="date-end">
             </div>
             <div class="row-priority">
                 <label for="priority">Priority</label>
@@ -73,7 +76,7 @@
                 <input id="save-task" type="submit" value='Save Task'>
             </div>
             <div class="row-cancel">
-                <button id="cancel-edit" type="button" onclick="location.href='homepage.html';">Cancel</button>
+                <button id="cancel-" type="button" onclick="location.href='homepage.html';">Cancel</button>
             </div>
             </form>
         </div>

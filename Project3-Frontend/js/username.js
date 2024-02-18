@@ -1,13 +1,17 @@
 /**************************************************************************************************************************************************************************************/ 
 /* SET USERNAME INTO HEADER  */
 /**************************************************************************************************************************************************************************************/ 
+/**
+ * Sets the username display based on the stored username in local storage.
+ * If a username is stored, it will be displayed. Otherwise, a default name will be displayed.
+ */
 export function setUsername(){
-        let storedUsername = localStorage.getItem('username');
+        let storedUsername = localStorage.getItem('name');
         if (storedUsername) {
             document.getElementById('usernameDisplay').textContent = storedUsername;
         }
         else { // default (should never ever happen)
-            document.getElementById('usernameDisplay').textContent = "Username";
+            document.getElementById('usernameDisplay').textContent = "Name";
         }
 };
 

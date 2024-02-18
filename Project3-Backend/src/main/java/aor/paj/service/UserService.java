@@ -3,7 +3,9 @@ package aor.paj.service;
 import aor.paj.bean.UserBean;
 import aor.paj.dto.Task;
 import aor.paj.dto.User;
+import aor.paj.dto.UserNewPassword;
 import aor.paj.dto.UserWithNoPassword;
+import aor.paj.service.validator.UserValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -17,150 +19,225 @@ import java.util.List;
 public class UserService {
     @Inject
     UserBean userBean;
+    @Inject
+    UserValidator userValidator;
 
-    // adicionar um utilizador
+    /**
+     * This endpoint is responsible for adding a new user to the system. It accepts JSON-formatted requests
+     * containing user data and processes the request accordingly.
+     * If the provided user data fails validation, it returns a status code of 400 (Bad Request) with the message
+     * "Invalid Data".
+     * If a user with the same username or email already exists in the system, it returns a status code of 409
+     * (Conflict) with the message "Username or Email already Exists".
+     * If the user is successfully added to the system, it returns a status code of 200 (OK) with the message
+     * "A new user was created".
+     */
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-        if (!validateUserOnRegistration(user)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid Data").build();
+        if (!userValidator.validateUserOnRegistration(user)) {
+            System.out.println("Invalid Data");
+            return Response.status(422).entity("Invalid Data").build();
         }
         if(userBean.userExists(user.getUsername(),user.getEmail())){
             return Response.status(409).entity("Username or Email already Exists").build();
         }
         else{
             userBean.addUser(user);
-            return Response.status(200).entity("A new user is created").build();
+            return Response.status(200).entity("A new user was created").build();
         }
     }
+    /**
+     * This endpoint is responsible for user authentication. It accepts JSON-formatted requests containing
+     * user credentials (username and password) as headers. It returns appropriate responses indicating the
+     * success or failure of the login attempt.
+     * Successful login returns a status code of 200, failed login returns 401, and missing username or password
+     * returns 422.
+     */
+
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(@HeaderParam("username")String username, @HeaderParam("password")String password) {
+        if (username == null || password == null) {
+            return Response.status(422)
+                    .entity("Missing username or password")
+                    .build();
+        }
        if(userBean.loginConfirmation(username, password)){
-           return Response.status(200).entity("Successful Login").build();
+           return Response.status(200)
+                   .entity("Successful Login")
+                   .build();
        }
        else{
-           return Response.status(401).entity("Login Failed").build();
+           return Response.status(401)
+                   .entity("Login Failed")
+                   .build();
        }
     }
+    /**
+     * Retrieves the photo URL and the first name associated with the provided username.
+     * If the username and password are not provided in the request headers, returns a status code 401 (Unauthorized)
+     * with the error message "User not logged in".
+     * If the provided credentials are invalid, returns a status code 403 (Forbidden) with the error message "Access denied".
+     * If the photo URL and first name are found for the given username, returns a status code 200 (OK) with the photo URL and first name in JSON format.
+     * If no photo URL or first name is found for the given username, returns a status code 404 (Not Found) with the error message "No photo or name found".
+     */
     @GET
-    @Path("/getphoto")
+    @Path("/getphotoandname")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPhoto(@HeaderParam("username")String username, @HeaderParam("password")String password) {
         if (username == null || password == null)
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
         else if (userBean.loginConfirmation(username, password)) {
             String photoUrl = userBean.getPhotoURLByUsername(username);
-            System.out.println(photoUrl);
-            if(photoUrl != null) return Response.status(200).entity("{\"photoUrl\":\"" + photoUrl + "\"}").build();
-            return Response.status(404).entity("{\"error\":\"No photo found\"}").build();
+            String name = userBean.getFirstNameByUsername(username);
+            if(photoUrl != null) return Response
+                    .status(200)
+                    .entity("{\"photoUrl\":\"" + photoUrl + "\", \"name\":\"" + name + "\"}").build();
+            return Response.status(404)
+                    .entity("No photo found")
+                    .build();
         } else
-            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
+            return Response.status(403)
+                    .entity("Access denied")
+                    .build();
     }
+    /**
+     * Retrieves user information for the given username.
+     * If the username or password is missing in the request headers, returns a status code 401 (Unauthorized)
+     * with the error message "User not logged in".
+     * If the provided credentials are invalid, returns a status code 403 (Forbidden) with the error message "Access denied".
+     * If the user information is successfully retrieved, returns a status code 200 (OK) with the user information
+     * (without the password) in JSON format.
+     */
     @GET
     @Path("/userinfo")
     @Produces(MediaType.APPLICATION_JSON)
     public Response userInfo(@HeaderParam("username") String username, @HeaderParam("password")String password) {
         if (username == null || password == null)
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
         else if (userBean.loginConfirmation(username, password)) {
             // Converte User para UserWithNoPassword
             User user = userBean.getUserByUsername(username);
-            UserWithNoPassword userWithoutPassword = new UserWithNoPassword(
-                    user.getUsername(),
-                    user.getPhoneNumber(),
-                    user.getEmail(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getPhotoURL());
-
+            UserWithNoPassword userWithoutPassword = userBean.convertUserToUserWithNoPassword(user);
             // Retorna a entidade UserWithNoPassword em vez da entidade User completa
-            return Response.status(200).entity(userWithoutPassword).build();
+            System.out.println(userWithoutPassword);
+            return Response.status(200)
+                    .entity(userWithoutPassword)
+                    .build();
         } else
-            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
+            return Response.status(403)
+                    .entity("Access denied")
+                    .build();
     }
-
-
-     //obter todos os utilizadores e resposta com status 200
+    /**
+     * Retrieves a list of all users only to the admin(for now hardcoded).
+     */
      @GET
      @Path("/all")
      @Produces(MediaType.APPLICATION_JSON)
-     public List<User> getAllUsers() {
-         return userBean.getAllUsers();
+     public Response getAllUsers(@HeaderParam("username") String username, @HeaderParam("password")String password) {
+         if (username == null || password == null)
+             return Response.status(401)
+                     .entity("User not logged in")
+                     .build();
+         else if (username .equals("admin") && password.equals("admin")) {
+             return Response.status(200)
+                     .entity(userBean.getAllUsers())
+                     .build();
+         } else {
+            return Response.status(403)
+                    .entity("Access denied")
+                    .build();
+            }
      }
-
+    /**
+     * Edits the user data for the authenticated user.
+     */
     @PATCH
     @Path("/edituserdata")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response editUserData(User updatedUser, @HeaderParam("username") String username, @HeaderParam("password")String password) {
-        if (username == null || password == null)
-            return Response.status(401).entity("{\"Error\":\"User not logged in\"}").build();
-        if (!validateUserOnEdit(updatedUser)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid Data").build();
+        System.out.println( "updated user " + updatedUser);
+        if (username == null || password == null) {
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
+        }
+        if (!userBean.loginConfirmation(username, password)) {
+            return Response.status(401)
+                    .entity("Login Failed")
+                    .build();
+        }
+        if (!userValidator.validateUserOnEdit(updatedUser)) {
+            return Response.status(400)
+                    .entity("Invalid Data")
+                    .build();
         }
         boolean updateResult = userBean.updateUser(username, updatedUser);
-
         if (updateResult) {
-            return Response.status(Response.Status.OK).entity("User data updated successfully").build();
-        } else
-            return Response.status(403).entity("{\"Error\":\"Access denied\"}").build();
-    }
-
-    /**Validation*/
-    private boolean validateUsername(String username) {
-        return username != null && username.length() >= 2 && username.length() <= 20;
-    }
-
-    private boolean validateEmail(String email) {
-        return email != null && email.contains("@") && email.indexOf('@') < email.lastIndexOf('.');
-    }
-
-    private boolean validatePhone(String phone) {
-        if (phone == null || phone.length() < 9 || phone.length() > 20) return false;
-        if (phone.startsWith("+")) {
-            for (int i = 1; i < phone.length(); i++) {
-                if (!Character.isDigit(phone.charAt(i))) {
-                    return false;
-                }
-            }
+            return Response.status(200)
+                    .entity("User data updated successfully")
+                    .build();
         } else {
-            // Verifica se todos os caracteres são dígitos
-            for (int i = 0; i < phone.length(); i++) {
-                if (!Character.isDigit(phone.charAt(i))) {
-                    return false;
-                }
-            }
+            return Response.status(500)
+                    .entity("An error occurred while updating user data")
+                    .build();
         }
-        return true;
     }
-
-    private boolean validateName(String firstName, String lastName) {
-        if (firstName == null || lastName == null) return false;
-        return firstName.length() >= 3 && firstName.length() <= 25 &&
-                lastName.length() >= 3 && lastName.length() <= 25;
+    @POST
+    @Path("/edituserpassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUserPassword(UserNewPassword updatedPassword, @HeaderParam("username") String username, @HeaderParam("password")String password) {
+        if (username == null || password == null) {
+            return Response.status(401)
+                    .entity("User not logged in")
+                    .build();
+        }
+        if (!userBean.loginConfirmation(username, password) || !userBean.loginConfirmation(username, updatedPassword.getPassword())) {
+            return Response.status(401)
+                    .entity("Login Failed or Passwords do not match")
+                    .build();
+        }
+        if (!userValidator.validatePassword(updatedPassword.getNewPassword())) {
+            return Response.status(400)
+                    .entity("Invalid Data")
+                    .build();
+        }
+        if (updatedPassword.getNewPassword().equals(password)) {
+            return Response.status(400)
+                    .entity("Invalid Data: New password must be different from the old password")
+                    .build();
+        }
+        boolean updateResult = userBean.updatePassWord(username, updatedPassword.getNewPassword());
+        if (updateResult) {
+            return Response.status(200)
+                    .entity("User password updated successfully")
+                    .build();
+        } else {
+            return Response.status(500)
+                    .entity("An error occurred while updating user password")
+                    .build();
+        }
     }
-
-    private boolean validatePhotoURL(String photoURL) {
-        return photoURL != null && photoURL.length() >= 3 && photoURL.length() <= 500;
+    /**
+     * This endpoint simulates the action of logging out a user. Since this example does not
+     * manage user sessions or authentication tokens explicitly, the endpoint simply returns
+     * a response indicating that the user has been logged out successfully.
+     *
+    @POST
+    @Path("/logout")
+    public Response logout(@HeaderParam("username") String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return Response.status(422).entity("Missing username").build();
+        }
+        return Response.status(200).entity("User logged out successfully").build();
     }
-    private boolean validatePassword(String password) {
-        // Verifica se a senha não é nula e se tem pelo menos 6 caracteres
-        return password != null && password.length() >= 6;
-    }
-    private boolean validateUserOnRegistration(User user) {
-        return validateUsername(user.getUsername()) &&
-                validatePassword(user.getPassword()) &&
-                validateEmail(user.getEmail()) &&
-                validatePhone(user.getPhoneNumber()) &&
-                validateName(user.getFirstName(), user.getLastName()) &&
-                validatePhotoURL(user.getPhotoURL());
-    }
-    private boolean validateUserOnEdit(User user) {
-        return validateEmail(user.getEmail()) &&
-                validatePhone(user.getPhoneNumber()) &&
-                validateName(user.getFirstName(), user.getLastName()) &&
-                validatePhotoURL(user.getPhotoURL());
-    }
+    */
 }

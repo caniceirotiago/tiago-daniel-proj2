@@ -22,6 +22,7 @@ body.theme-light {
     --done-color:rgb(188, 238, 172);
     --header-color:rgba(5, 16, 46, 0.9);
     --background-color: #dcc6bc;
+    --form-background:#dcc6bc;
     --text-color:  rgb(0,0,0,1);
     --text-color2:  rgb(255,255,255,1);
 }
@@ -31,11 +32,12 @@ body.theme-dark {
     --tertiary-color: rgba(255, 255, 255, 0.2);
     --quaternary-color: rgba(0, 5, 5, 0.3);
     --quinary-color: rgba(255, 255, 255, 0.075);
-    --todo-color:rgb(236, 154, 82);
-    --doing-color:rgb(173, 171, 57);
-    --done-color:rgba(155, 233, 154, 0.66);
+    --todo-color:rgba(96, 59,44, 1);
+    --doing-color:rgba(40,69,108, 1);
+    --done-color:rgba(43, 89, 63, 1);
     --header-color:rgba(77, 78, 81, 0.9);
     --background-color: rgb(0, 0, 0);
+    --form-background:rgb(118, 115, 115);
     --text-color:  rgb(246, 242, 242);
     --text-color2:  rgb(255, 252, 252);
 }
@@ -54,6 +56,13 @@ header {
     top: 0;
     z-index: 2;
 }
+header #right-aligned {
+      display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    margin-left: auto;
+}
+
 header h1{
     margin: 0px;
     padding: 0px 0;
@@ -62,7 +71,7 @@ header h1{
 #logo {
     max-width: 88px; /* Ajuste o tamanho da imagem conforme necessário */
     height: auto; /* Mantém a proporção da imagem */
-    display: inline-flexbox; /* Isso pode ajudar a garantir que o estilo seja aplicado */
+    display: flex; /* Isso pode ajudar a garantir que o estilo seja aplicado */
     margin-right: 20px; /* Centraliza a imagem no banner */
     margin-left: 20px;
 }
@@ -91,6 +100,23 @@ header h1{
     font-size: 20px;
     align-content: center;
     justify-content: center;
+    text-decoration: none;
+}
+a h4 span#usernameDisplay {
+    padding: 0px 15px;
+    font-size: 20px;
+    align-content: center;
+    justify-content: center;
+    /* Não é necessário definir text-decoration aqui, pois é para o span */
+}
+
+a, a:visited, a:hover, a:active {
+    text-decoration: none; /* Remove a decoração do texto para todos os estados do link */
+    color: inherit; /* Faz o link herdar a cor do texto do elemento pai, opcional */
+}
+
+#userPhotolink{
+    margin: 0px 15px;
 }
 
 /*Barra de navegação*/
@@ -339,20 +365,30 @@ ul {
 }
 #TODO_COLUMN .banner {
     background-color: var(--todo-color);
+    opacity: 0.8;
 }
 #DOING_COLUMN .banner {
     background-color: var(--doing-color);
+    opacity: 0.8;
 }
 #DONE_COLUMN .banner {
     background-color: var(--done-color);
+    opacity: 0.8;
 }
+
+#TODO_COLUMN .task-item:hover .banner,
+#DOING_COLUMN .task-item:hover .banner,
+#DONE_COLUMN .task-item:hover .banner {
+    opacity: 1; /* Aumenta a opacidade para 1 no hover */
+}
+
 
 .task-item:hover {
     cursor: pointer;
     transform: translate(-2px, -2px); /* Move o elemento 5px para a direita e 5px para cima */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Adiciona uma sombra para efeito de elevação*/
 }
-.task-item:hover button {
+.task-item:hover button, .task-item:hover .banner{
     opacity: 1; /* Torna o botão totalmente opaco quando o mouse sobre o task-item */
 }
 
@@ -381,21 +417,32 @@ ul {
     height: auto;
 }
 .priority-div{
-    max-width: 20px;
+    max-width: 15px;
+    min-width: 8px;
+    max-height: 15px;
+    min-height: 8px;
     float:left; 
-    padding: 1px 8px;
+    padding: 1px 1px;
+    margin: 4px 5px 0px 5px;
     font-size: 8px;
-    border-radius: 3px;
+    border-radius: 10px;
     overflow: hidden;
+    
 }
 .high-priority{
     background-color: red;
+    opacity: 0.5;
 }
 .medium-priority{
     background-color: rgb(237, 241, 7);
+    opacity: 0.8;
 }
 .low-priority{
     background-color: rgb(51, 255, 0);
+    opacity: 0.5;
+}
+.task-item:hover .high-priority,.task-item:hover .medium-priority,.task-item:hover .low-priority {
+    opacity: 1;
 }
 
 /*Especifico pagina retrospetivas*/
@@ -423,7 +470,7 @@ ul {
 form {
     display: flex;
     flex-direction: column;
-    background-color: var(--tertiary-color); /* Transparência */
+    background-color: var(--form-background); /* Transparência */
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -491,8 +538,12 @@ input[type="submit"] {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-
+#save-task {
+    margin: 5px 0px;
+}
+#cancel-edit {
+    margin: 5px 0px;
+}
 input[type="submit"]:hover {
     background-color: #d7e2ef;
 }
@@ -504,8 +555,8 @@ button#cancel-edit {
     
 }
 #edit-btn{
+    background-color: var(--form-background);
     border: none;
-    background-color: none;
 }
 #edit-icon{
     cursor: pointer;
@@ -571,7 +622,6 @@ input[type="text"]:focus, input[type="password"]:focus {
     display: flex;
     align-items:center;
     align-items: center;
-    justify-content:baseline;
 }
 .mainBoard-settings{
     display: flex;

@@ -2,8 +2,8 @@
 export function validateUsername() {
          // Validar username
     const username = document.getElementById('username-field').value;
-    if (username.length < 2 || username.length > 20) {
-        alert("Username must be between 2 and 20 characters.");
+    if (username.length < 2 || username.length > 25) {
+        alert("Username must be between 2 and 25 characters.");
         return false;
     }
     return true;
@@ -12,8 +12,8 @@ export function validatePassword() {
     const password = document.getElementById('password-field').value;
     const password2 = document.getElementById('password2-field').value;    
         // Validar passwords
-    if (password !== password2 || password.length < 6) {
-        alert("Passwords must match and be at least 6 characters long.");
+    if (password !== password2 || password.length < 4) {
+        alert("Passwords must match and be at least 4 characters long.");
         return false;
     }
     return true;
@@ -21,8 +21,8 @@ export function validatePassword() {
 export function validatePhone() {
     const phone = document.getElementById('phone-field').value;
     // Verifica o comprimento do número de telefone
-    if (phone.length < 9 || phone.length > 20) {
-        alert("Phone number must be between 9 and 20 characters.");
+    if (phone.length < 7 || phone.length > 20) {
+        alert("Phone number must be between 7 and 20 characters.");
         return false;
     }
     // Verifica se o primeiro caractere é "+" e o resto são dígitos
@@ -63,8 +63,8 @@ export function validateName() {
     const firstName = document.getElementById('firstname-field').value;
     const lastName = document.getElementById('lastname-field').value;
     // Validar first name e last name
-    if (firstName.length < 3 || firstName.length > 25 || lastName.length < 3 || lastName.length > 25) {
-        alert("First name and last name must be between 3 and 25 characters.");
+    if (firstName.length < 1 || firstName.length > 25 || lastName.length < 1 || lastName.length > 25) {
+        alert("First name and last name must be between 1 and 25 characters.");
         return false;
     }
     return true;

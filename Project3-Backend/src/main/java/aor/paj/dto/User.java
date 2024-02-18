@@ -26,10 +26,9 @@ public class User {
     public User() {
     }
 
-    public User(String id, String username, String password, String phoneNumber,
+    public User(String username, String password, String phoneNumber,
                 String email, String firstName, String lastName, String photoURL) {
         // todos os atributos são preenchidos pelo construtor a void
-        this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.email = email;

@@ -6,12 +6,15 @@
 import * as language from "./language.js";
 import * as username from "./username.js";
 import * as theme from "./theme.js";
-import * as logout from "./logout.js"
-import * as photoUser from "./UserPhoto.js"
+import * as logout from "./logout.js";
+import * as photoUser from "./UserPhoto.js";
 
 const TODO_COLUMN = 100;
 const DOING_COLUMN = 200;
 const DONE_COLUMN = 300;
+const priority_low = 1;
+const priority_medium = 2;
+const priority_high = 3;
 
 language.listenerLanguageBtns(); // adds listener to the language buttons
 /**************************************************************************************************************************************************************************************/ 
@@ -116,16 +119,16 @@ function addTaskToRightList(task) {
     let priority = Number(task.priority);
     /*Eliminar em baixo quando propriedade for incluida em tarefa*/ 
     const priorityDiv = document.createElement('div');
-    if(priority === 1){
-        priorityDiv.textContent = "Low Priority";
+    if(priority === priority_low){
+
         priorityDiv.classList.add("low-priority")
     }
-    else if(priority === 2){
-        priorityDiv.textContent = "Medium Priority";
+    else if(priority === priority_medium){
+
         priorityDiv.classList.add("medium-priority")
     }
-    else if(priority === 3){
-        priorityDiv.textContent = "High Priority";
+    else if(priority === priority_high){
+     
         priorityDiv.classList.add("high-priority")
     }
 
@@ -139,9 +142,9 @@ function addTaskToRightList(task) {
     
     /* Add Task to correct List */
     let collumn;
-    if(task.status === 100) collumn = "TODO_COLUMN";
-    else if(task.status === 200) collumn = "DOING_COLUMN";
-    else if(task.status === 300) collumn = "DONE_COLUMN";
+    if(task.status === TODO_COLUMN) collumn = "TODO_COLUMN";
+    else if(task.status === DOING_COLUMN) collumn = "DOING_COLUMN";
+    else if(task.status === DONE_COLUMN) collumn = "DONE_COLUMN";
     document.getElementById(collumn).appendChild(itemList);
     updateTaskCountView();
 };
@@ -186,9 +189,9 @@ function createDragDropListener(itemList, task){
 function createDropListnerForTasks(){
     document.querySelectorAll(".ul-tasks").forEach(column => { //faz com que as listas recebam itens
     let status = column.id;
-    if(status === "TODO_COLUMN") status = 100;
-    else if(status === "DOING_COLUMN") status = 200;
-    else if(status === "DONE_COLUMN") status = 300;
+    if(status === "TODO_COLUMN") status = TODO_COLUMN;
+    else if(status === "DOING_COLUMN") status = DOING_COLUMN;
+    else if(status === "DONE_COLUMN") status = DONE_COLUMN;
     console.log(status);
     column.addEventListener('dragover', function(e) {
         e.preventDefault(); // Permite o drop
