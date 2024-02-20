@@ -77,7 +77,7 @@ async function addTaskBE(title, description, priority, startDate, endDate){
         task.endDate = endDate;
     }
     console.log(task);
-    await fetch('http://localhost:8080/Project3-Backend/rest/task/create',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/task/create',
         {
             method: 'POST',
             headers:

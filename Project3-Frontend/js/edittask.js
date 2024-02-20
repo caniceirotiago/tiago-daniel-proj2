@@ -43,7 +43,7 @@ async function loadTaskId() {
     const password = localStorage.getItem("password");
     
     try {
-        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/${taskId}`, {
+        const response = await fetch(`http://localhost:8080/tiago-daniel-proj2/rest/task/${taskId}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -139,7 +139,7 @@ async function editTaskBE() {
     else taskUpdates.removeEndDate = true;
 
     try {
-        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/edit/${taskId}`, {
+        const response = await fetch(`http://localhost:8080/tiago-daniel-proj2/rest/task/edit/${taskId}`, {
             method: 'PATCH', // Usando PATCH para edição parcial
             headers: {
                 'Accept': 'application/json',

@@ -44,7 +44,7 @@ async function loadTasks() {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/Project3-Backend/rest/task/all', {
+        const response = await fetch('http://localhost:8080/tiago-daniel-proj2/rest/task/all', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -289,7 +289,7 @@ function createPrevBtnListener(nextButton, task) {
 async function delTask(task) {
     // Primeiro, tenta deletar a tarefa no backend
     try {
-        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/delete/${task.id}`, {
+        const response = await fetch(`http://localhost:8080/tiago-daniel-proj2/rest/task/delete/${task.id}`, {
             method: 'DELETE', // Método HTTP para deleção
             headers: {
                 // Assume que a autenticação é feita via cabeçalhos 'username' e 'password'
@@ -336,7 +336,7 @@ function moveTaskOnCLick(task, nextStatus) {
 async function updateTaskStatus(taskId, newStatus) {
     const taskUpdate = { status: newStatus };
     try {
-        const response = await fetch(`http://localhost:8080/Project3-Backend/rest/task/edit/${taskId}`, {
+        const response = await fetch(`http://localhost:8080/tiago-daniel-proj2/rest/task/edit/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Accept': 'application/json',

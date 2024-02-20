@@ -35,7 +35,7 @@ function editPasswordFormListner(){
     });
 }
 async function fetchUserData(username, password) {
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/userinfo',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/userinfo',
     {
         method: 'GET',
         headers: { 
@@ -114,7 +114,7 @@ async function editUserData(){
         user.photoURL = document.getElementById("photo-field").value;
     }
     console.log(user);
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserdata',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/edituserdata',
     {
         method: 'PATCH',
         headers:
@@ -141,7 +141,7 @@ async function editPassword(){
         'password': document.getElementById("old-password-field").value,
         'newPassword': document.getElementById("password-field").value
     };
-        await fetch('http://localhost:8080/Project3-Backend/rest/user/edituserpassword',
+        await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/edituserpassword',
         {
             method: 'POST',
             headers:

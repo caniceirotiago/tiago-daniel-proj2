@@ -46,7 +46,7 @@ async function addUser(form){
         'photoURL': form.photo.value,
     };
     console.log(user);
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/add',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/add',
         {
             method: 'POST',
             headers:

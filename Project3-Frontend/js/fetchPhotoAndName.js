@@ -1,5 +1,5 @@
 export async function fetchPhotoNameAndRedirect(username, password) {
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/getphotoandname',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/getphotoandname',
     {
         method: 'GET',
         headers: { 

@@ -69,7 +69,7 @@ function isUsernameSmall(username) {
 async function loginAttempt(username, password){
   
     console.log(username);
-    await fetch('http://localhost:8080/Project3-Backend/rest/user/login',
+    await fetch('http://localhost:8080/tiago-daniel-proj2/rest/user/login',
         {
             method: 'POST',
             headers:
