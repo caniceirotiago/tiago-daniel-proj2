@@ -1,7 +1,7 @@
 public class main {
     public static void main(String[] args) {
-        String userBaseUrl = "http://localhost:8080/Project3-Backend/rest/user/add";
-        String taskBaseUrl = "http://localhost:8080/Project3-Backend/rest/task";
+        String userBaseUrl = "http://localhost:8080/tiago-daniel-proj2/rest/user/add";
+        String taskBaseUrl = "http://localhost:8080/tiago-daniel-proj2/rest/task";
 
         UserClient userClient = new UserClient(userBaseUrl);
         TaskClient taskClient = new TaskClient(taskBaseUrl);
